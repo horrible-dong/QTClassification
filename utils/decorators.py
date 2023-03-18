@@ -12,7 +12,7 @@ def getattr_case_insensitive(func):
             for a in dir(obj):
                 if a.lower() == name.lower():
                     return ori_getattr(obj, a, default)
-            raise AttributeError(f"module '{obj.__name__}' has no attribute '{name}'")
+            raise AttributeError
 
         __builtin__.getattr = getattr
         ret = func(*args, **kwargs)

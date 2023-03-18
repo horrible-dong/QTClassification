@@ -70,7 +70,7 @@ def get_args_parser():
     parser.add_argument('--evaluator', default='default', type=str, help='evaluator name')
 
     # loading weights
-    parser.add_argument('--pretrain', type=str, default='')
+    parser.add_argument('--no_pretrain', action='store_true')
     parser.add_argument('--resume', type=str, default='')
     parser.add_argument('--load_pos', type=str)
     parser.add_argument('--freeze_bn', action='store_true')
@@ -110,10 +110,6 @@ def main(args):
     print('\n' + str(args) + '\n')
     n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print(f'number of params: {n_parameters}' + '\n')
-
-    if args.pretrain:
-        checkpoint = torch.load(args.pretrain, map_location='cpu')
-        checkpoint_loader(model_without_ddp, checkpoint, delete_keys=())
 
     # ** optimizer & scheduler **
     param_dicts = [
