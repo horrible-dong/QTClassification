@@ -1,3 +1,5 @@
+# Copyright (c) QIU, Tian. All rights reserved.
+
 from .default import DefaultEvaluator
 from .metric_logger import MetricLogger
 

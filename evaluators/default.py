@@ -1,3 +1,5 @@
+# Copyright (c) QIU, Tian. All rights reserved.
+
 import itertools
 
 from sklearn import metrics as sklearn_metrics
