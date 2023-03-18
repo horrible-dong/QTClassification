@@ -8,7 +8,7 @@ from .cifar import CIFAR10, CIFAR100
 from .mnist import MNIST
 
 
-def build_dataset(args, mode, download=False):
+def build_dataset(args, mode, download=True):
     """
     mode: 'train', 'val', 'test' or others
     """

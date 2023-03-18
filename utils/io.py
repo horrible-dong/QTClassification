@@ -99,7 +99,7 @@ def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=Fal
 
     if verbose:
         from termcolor import cprint
-        cprint(str(info) + '\n', 'red')
+        cprint(str(info), 'red')
         # cprint(f"_IncompatibleValueShape({incompatible_value_shape})", 'red')
 
 

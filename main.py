@@ -44,13 +44,14 @@ def get_args_parser():
     parser.add_argument('--find_unused_params', action='store_true')
     parser.add_argument('--world_size', default=1, type=int, help='number of distributed processes')
     parser.add_argument('--dist_url', default='env://', help='url used to set up distributed training')
+    parser.add_argument('--local_rank', type=int, default=-1)
 
     # dataset
     parser.add_argument('--data_root', type=str, default='./data')
     parser.add_argument('--dataset', type=str, default='cifar10')
 
     # model
-    parser.add_argument('--model', default='vit-b16-224', type=str, help='model name')
+    parser.add_argument('--model', default='resnet50', type=str, help='model name')
 
     # criterion
     parser.add_argument('--criterion', default='default', type=str, help='criterion name')
@@ -73,7 +74,6 @@ def get_args_parser():
     parser.add_argument('--no_pretrain', action='store_true')
     parser.add_argument('--resume', type=str, default='')
     parser.add_argument('--load_pos', type=str)
-    parser.add_argument('--freeze_bn', action='store_true')
 
     # saving weights
     parser.add_argument('--output_dir', type=str, default='./runs/__tmp__')
@@ -93,12 +93,13 @@ def main(args):
     if args.num_workers is None:
         args.num_workers = min([os.cpu_count(), args.batch_size if args.batch_size > 1 else 0, 8])
     output_dir = Path(args.output_dir)
+    print()
 
     # ** model **
     model = build_model(args)
     model.to(device)
 
-    if args.sync_bn and not args.freeze_bn:
+    if args.distributed and args.sync_bn:
         model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
 
     model_without_ddp = model
@@ -204,6 +205,8 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('QTClassification', parents=[get_args_parser()])
     args = parser.parse_args()
+    if args.data_root:
+        makedirs(args.data_root, exist_ok=True)
     if args.output_dir:
         makedirs(args.output_dir, exist_ok=True)
     main(args)

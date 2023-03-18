@@ -14,6 +14,7 @@ import torch
 from PIL import Image
 from torchvision.datasets.utils import download_and_extract_archive, check_integrity
 
+from utils.decorators import main_process_only
 from ._base_ import BaseDataset
 
 __all__ = ['MNIST']
@@ -148,11 +149,13 @@ class MNIST(BaseDataset):
 
     @property
     def raw_folder(self) -> str:
-        return os.path.join(self.root, self.__class__.__name__, "raw")
+        # return os.path.join(self.root, self.__class__.__name__, "raw")
+        return os.path.join(self.root, "raw")
 
     @property
     def processed_folder(self) -> str:
-        return os.path.join(self.root, self.__class__.__name__, "processed")
+        # return os.path.join(self.root, self.__class__.__name__, "processed")
+        return os.path.join(self.root, "processed")
 
     @property
     def class_to_idx(self) -> Dict[str, int]:
@@ -164,6 +167,7 @@ class MNIST(BaseDataset):
             for url, _ in self.resources
         )
 
+    @main_process_only
     def download(self) -> None:
         """Download the MNIST data if it doesn't exist already."""
 

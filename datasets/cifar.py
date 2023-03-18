@@ -9,6 +9,7 @@ import torch
 from PIL import Image
 from torchvision.datasets.utils import download_and_extract_archive, check_integrity
 
+from utils.decorators import main_process_only
 from ._base_ import BaseDataset
 
 __all__ = ["CIFAR10", "CIFAR100"]
@@ -70,12 +71,6 @@ class CIFAR10(BaseDataset):
 
         self._load_meta()
 
-        # qt
-        # self.targets = np.array(self.targets)
-        # indices = np.where(self.targets == 7)
-        # self.data = self.data[indices]
-        # self.targets = self.targets[indices]
-
     def _load_meta(self):
         path = os.path.join(self.root, self.base_folder, self.meta["filename"])
         if not check_integrity(path, self.meta["md5"]):
@@ -113,6 +108,7 @@ class CIFAR10(BaseDataset):
                 return False
         return True
 
+    @main_process_only
     def download(self):
         if self._check_integrity():
             print("Files already downloaded and verified")

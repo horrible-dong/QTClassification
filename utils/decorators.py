@@ -1,6 +1,7 @@
 # Copyright (c) QIU, Tian. All rights reserved.
+import torch.distributed as dist
 
-from utils.misc import is_main_process
+from utils.misc import is_main_process, is_dist_avail_and_initialized
 
 
 def getattr_case_insensitive(func):
@@ -23,10 +24,14 @@ def getattr_case_insensitive(func):
     return wrapper
 
 
-def main_process(func):
+def main_process_only(func):
     def wrapper(*args, **kwargs):
         if is_main_process():
             ret = func(*args, **kwargs)
+            if is_dist_avail_and_initialized():
+                dist.barrier()
             return ret
+        else:
+            dist.barrier()
 
     return wrapper
