@@ -34,7 +34,7 @@ class DefaultEvaluator:
         return sklearn_metrics.f1_score(targets, outputs, average='macro') * 100
 
     def summarize(self):
-        print('\nClassification Metrics:')
+        print('Classification Metrics:')
         for metric in self.metrics:
             print("{}: {:.2f}".format(metric, getattr(self, f'metric_{metric}')(self.outputs, self.targets)), end='   ')
         print('\n')

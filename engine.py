@@ -16,7 +16,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
                     device: torch.device, epoch: int, max_norm: float = 0):
     model.train()
     criterion.train()
-    metric_logger = MetricLogger(delimiter="  ")
+    metric_logger = MetricLogger(delimiter='  ')
     metric_logger.add_meter('lr', SmoothedValue(window_size=1, fmt='{value:.6f}'))
     metric_logger.add_meter('class_error', SmoothedValue(window_size=1, fmt='{value:.2f}'))
     header = 'Epoch: [{}]'.format(epoch)
@@ -39,7 +39,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
         loss_value = losses_reduced_scaled.item()
 
         if not math.isfinite(loss_value):
-            print("Loss is {}, stopping training".format(loss_value))
+            print('Loss is {}, stopping training'.format(loss_value))
             print(loss_dict_reduced)
             sys.exit(1)
 
@@ -47,10 +47,10 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
 
         metric_logger.update(loss=loss_value, **loss_dict_reduced_scaled, **loss_dict_reduced_unscaled)
         metric_logger.update(class_error=loss_dict_reduced['class_error'])
-        metric_logger.update(lr=optimizer.param_groups[0]["lr"])
+        metric_logger.update(lr=optimizer.param_groups[0]['lr'])
 
     metric_logger.synchronize_between_processes()
-    print("Averaged stats:", metric_logger)
+    print('Averaged stats:', metric_logger)
 
     stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}
 
@@ -58,11 +58,11 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
 
 
 @torch.no_grad()
-def evaluate(model, data_loader, criterion, device, args, **kwargs):
+def evaluate(model, data_loader, criterion, device, args):
     model.eval()
     criterion.eval()
 
-    metric_logger = MetricLogger(delimiter="  ")
+    metric_logger = MetricLogger(delimiter='  ')
     metric_logger.add_meter('class_error', SmoothedValue(window_size=1, fmt='{value:.2f}'))
     header = 'Test:'
 
@@ -88,7 +88,7 @@ def evaluate(model, data_loader, criterion, device, args, **kwargs):
         evaluator.update(outputs, targets)
 
     metric_logger.synchronize_between_processes()
-    print("Averaged stats:", metric_logger)
+    print('Averaged stats:', metric_logger)
 
     evaluator.synchronize_between_processes()
     evaluator.summarize()

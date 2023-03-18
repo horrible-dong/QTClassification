@@ -70,7 +70,10 @@ def json_saver(obj, path, mode=0o777, overwrite=True, **kwargs):
     os.chmod(path, mode)
 
 
-def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=False, verbose=True):
+def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=False, load_on_master=False, verbose=True):
+    if load_on_master and not is_main_process():
+        return
+
     obj_state_dict = obj.state_dict()
     new_checkpoint = {}
     incompatible_value_shape = []
@@ -101,14 +104,13 @@ def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=Fal
 
 
 def checkpoint_saver(obj, save_path, mode=0o777, rename=False, overwrite=True, save_on_master=True):
-    if is_main_process():
-        if os.path.exists(save_path):
-            if not rename and not overwrite:
-                raise FileExistsError
-            if rename:
-                while os.path.exists(save_path):
-                    split_path = os.path.splitext(save_path)
-                    save_path = split_path[0] + "(1)" + split_path[1]
+    if os.path.exists(save_path):
+        if not rename and not overwrite:
+            raise FileExistsError
+        if rename:
+            while os.path.exists(save_path):
+                split_path = os.path.splitext(save_path)
+                save_path = split_path[0] + "(1)" + split_path[1]
 
     if save_on_master:
         if is_main_process():

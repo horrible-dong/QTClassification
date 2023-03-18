@@ -8,10 +8,11 @@ def getattr_case_insensitive(func):
         import builtins as __builtin__
         ori_getattr = __builtin__.getattr
 
-        def getattr(object, name):
-            for a in dir(object):
+        def getattr(obj, name, default=None):
+            for a in dir(obj):
                 if a.lower() == name.lower():
-                    return ori_getattr(object, a)
+                    return ori_getattr(obj, a, default)
+            raise AttributeError(f"module '{obj.__name__}' has no attribute '{name}'")
 
         __builtin__.getattr = getattr
         ret = func(*args, **kwargs)

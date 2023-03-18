@@ -33,4 +33,4 @@ if __name__ == '__main__':
     targets = {'logits': torch.tensor([1, 2, 3]), 'boxes': torch.randn([3, 4])}
 
     loss = criterion(outputs, targets)
-    print(loss)  # {'loss_ce': tensor(2.3216), 'loss_boxes': tensor(1.4083)}
+    print(loss)

@@ -89,7 +89,7 @@ def get_args_parser():
 def main(args):
     init_seeds(args.seed)
     init_distributed_mode(args)
-    device = torch.device(args.device if torch.cuda.is_available() else "cpu")
+    device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
     if args.num_workers is None:
         args.num_workers = min([os.cpu_count(), args.batch_size if args.batch_size > 1 else 0, 8])
     output_dir = Path(args.output_dir)
@@ -117,7 +117,7 @@ def main(args):
 
     # ** optimizer & scheduler **
     param_dicts = [
-        {"params": [p for n, p in model_without_ddp.named_parameters() if p.requires_grad]},
+        {'params': [p for n, p in model_without_ddp.named_parameters() if p.requires_grad]},
     ]
 
     optimizer = build_optimizer(args, param_dicts)
@@ -127,8 +127,8 @@ def main(args):
     criterion = build_criterion(args)
 
     # ** dataset **
-    dataset_train = build_dataset(args, mode="train")
-    dataset_val = build_dataset(args, mode="val")
+    dataset_train = build_dataset(args, mode='train')
+    dataset_val = build_dataset(args, mode='val')
 
     if args.distributed:
         sampler_train = Data.distributed.DistributedSampler(dataset=dataset_train, shuffle=True)
@@ -161,7 +161,7 @@ def main(args):
 
     if args.eval:
         test_stats, evaluator = evaluate(model, data_loader_val, criterion, device, args)
-        # return
+        return
 
     print('\n' + 'Start training:')
     start_time = time.time()
@@ -194,8 +194,8 @@ def main(args):
                      'n_parameters': n_parameters}
 
         if args.output_dir and is_main_process():
-            with (output_dir / "log.txt").open("a") as f:
-                f.write(json.dumps(log_stats) + "\n")
+            with (output_dir / 'log.txt').open('a') as f:
+                f.write(json.dumps(log_stats) + '\n')
 
     total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
