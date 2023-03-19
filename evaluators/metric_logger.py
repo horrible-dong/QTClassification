@@ -6,7 +6,7 @@ from collections import defaultdict
 
 import torch
 
-from .smooth_value import SmoothedValue
+from .smoothed_value import SmoothedValue
 
 __all__ = ['MetricLogger']
 

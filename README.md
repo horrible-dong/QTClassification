@@ -42,7 +42,6 @@ python main.py \
   --batch_size 4 \
   --epochs 50 \
   --output_dir ./runs/__tmp__
-  
 ```
 
 Coming soon ...
