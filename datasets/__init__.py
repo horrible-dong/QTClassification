@@ -147,4 +147,4 @@ def build_dataset(args, split, download=True):
                            split=split,
                            transform=transform)
 
-    raise ValueError(f'dataset {dataset_name} is not exist.')
+    raise ValueError(f"dataset '{dataset_name}' is not found.")

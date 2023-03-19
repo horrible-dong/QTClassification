@@ -69,10 +69,7 @@ def json_saver(obj, path, mode=0o777, overwrite=True, **kwargs):
     os.chmod(path, mode)
 
 
-def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=False, load_on_master=False, verbose=True):
-    if load_on_master and not is_main_process():
-        return
-
+def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=False, verbose=True, load_on_master=False):
     obj_state_dict = obj.state_dict()
     new_checkpoint = {}
     incompatible_value_shape = []

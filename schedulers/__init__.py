@@ -10,4 +10,4 @@ def build_scheduler(args, optimizer):
     if scheduler_name in ['cosine', 'default']:
         return CosineLR(optimizer, args.epochs, args.lrf)
 
-    raise ValueError(f'scheduler {scheduler_name} is not exist.')
+    raise ValueError(f"scheduler '{scheduler_name}' is not found.")
