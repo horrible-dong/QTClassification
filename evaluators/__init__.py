@@ -11,4 +11,4 @@ def build_evaluator(args):
         metrics = ['acc', 'recall', 'precision', 'f1']
         return DefaultEvaluator(metrics)
 
-    raise ValueError(f'{evaluator_name} is not exist.')
+    raise ValueError(f'evaluator {evaluator_name} is not exist.')

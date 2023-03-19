@@ -1,4 +1,5 @@
 # Copyright (c) QIU, Tian. All rights reserved.
+import timm
 
 import datasets
 from utils.decorators import getattr_case_insensitive
@@ -23,9 +24,18 @@ __vars__ = vars()
 
 
 def build_model(args):
+    model_lib = args.model_lib.lower()
     model_name = args.model.lower()
-    return __vars__[model_name](num_classes=get_num_classes(args.dataset),
-                                pretrained=is_main_process() and not args.no_pretrain)
+    num_classes = get_num_classes(args.dataset)
+    pretrained = not args.no_pretrain and is_main_process()
+
+    if model_lib == 'torchvision':
+        return __vars__[model_name](num_classes=num_classes, pretrained=pretrained)
+
+    if model_lib == 'timm':
+        return timm.create_model(model_name, num_classes=num_classes, pretrained=pretrained)
+
+    raise ValueError(f'model_lib {model_lib} is not exist.')
 
 
 @getattr_case_insensitive

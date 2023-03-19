@@ -12,4 +12,4 @@ def build_optimizer(args, params):
     if optimizer_name == 'adam':
         return Adam(params, lr=args.lr, weight_decay=args.weight_decay)
 
-    raise ValueError(f'{optimizer_name} is not exist.')
+    raise ValueError(f'optimizer {optimizer_name} is not exist.')

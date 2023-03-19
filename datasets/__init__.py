@@ -86,4 +86,4 @@ def build_dataset(args, mode, download=True):
                         transforms=transforms,
                         download=download)
 
-    raise ValueError(f'{dataset_name} is not exist.')
+    raise ValueError(f'dataset {dataset_name} is not exist.')

@@ -51,6 +51,8 @@ def get_args_parser():
     parser.add_argument('--dataset', type=str, default='cifar10')
 
     # model
+    parser.add_argument('--model_lib', default='torchvision', type=str, choices=['torchvision', 'timm'],
+                        help='model library')
     parser.add_argument('--model', default='resnet50', type=str, help='model name')
 
     # criterion
