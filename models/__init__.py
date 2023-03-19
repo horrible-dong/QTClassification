@@ -1,6 +1,4 @@
 # Copyright (c) QIU, Tian. All rights reserved.
-import timm
-
 import datasets
 from utils.decorators import getattr_case_insensitive
 from utils.misc import is_main_process
@@ -33,6 +31,7 @@ def build_model(args):
         return __vars__[model_name](num_classes=num_classes, pretrained=pretrained)
 
     if model_lib == 'timm':
+        import timm
         return timm.create_model(model_name, num_classes=num_classes, pretrained=pretrained)
 
     raise ValueError(f'model_lib {model_lib} is not exist.')
