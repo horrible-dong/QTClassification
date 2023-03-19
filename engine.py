@@ -13,14 +13,13 @@ from utils.misc import update, reduce_dict
 
 def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
                     data_loader: Iterable, optimizer: torch.optim.Optimizer,
-                    device: torch.device, epoch: int, max_norm: float = 0):
+                    device: torch.device, epoch: int, max_norm: float = 0, print_freq: int = 10):
     model.train()
     criterion.train()
     metric_logger = MetricLogger(delimiter='  ')
     metric_logger.add_meter('lr', SmoothedValue(window_size=1, fmt='{value:.6f}'))
     metric_logger.add_meter('class_error', SmoothedValue(window_size=1, fmt='{value:.2f}'))
     header = 'Epoch: [{}]'.format(epoch)
-    print_freq = 10
 
     for samples, targets in metric_logger.log_every(data_loader, print_freq, header):
         samples = samples.to(device)  # [B, C, H, W]
@@ -58,7 +57,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
 
 
 @torch.no_grad()
-def evaluate(model, data_loader, criterion, device, args):
+def evaluate(model, data_loader, criterion, device, args, print_freq=10):
     model.eval()
     criterion.eval()
 
@@ -68,7 +67,7 @@ def evaluate(model, data_loader, criterion, device, args):
 
     evaluator = build_evaluator(args)
 
-    for samples, targets in metric_logger.log_every(data_loader, 10, header):
+    for samples, targets in metric_logger.log_every(data_loader, print_freq, header):
         samples = samples.to(device)
         targets = targets.to(device)
 

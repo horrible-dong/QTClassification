@@ -45,6 +45,7 @@ def get_args_parser():
     parser.add_argument('--world_size', default=1, type=int, help='number of distributed processes')
     parser.add_argument('--dist_url', default='env://', help='url used to set up distributed training')
     parser.add_argument('--local_rank', type=int, default=-1)
+    parser.add_argument('--print_freq', type=int, default=50)
 
     # dataset
     parser.add_argument('--data_root', type=str, default='./data')
@@ -159,7 +160,7 @@ def main(args):
             args.start_epoch = checkpoint['epoch'] + 1
 
     if args.eval:
-        test_stats, evaluator = evaluate(model, data_loader_val, criterion, device, args)
+        test_stats, evaluator = evaluate(model, data_loader_val, criterion, device, args, args.print_freq)
         return
 
     print('\n' + 'Start training:')
@@ -170,7 +171,7 @@ def main(args):
             sampler_train.set_epoch(epoch)
         train_stats = train_one_epoch(
             model, criterion, data_loader_train, optimizer, device, epoch,
-            args.clip_max_norm)
+            args.clip_max_norm, args.print_freq)
         lr_scheduler.step()
         if args.output_dir:
             checkpoint_paths = [output_dir / 'checkpoint.pth']
@@ -183,9 +184,9 @@ def main(args):
                     'lr_scheduler': lr_scheduler.state_dict(),
                     'epoch': epoch,
                     'args': args,
-                }, checkpoint_path, save_on_master=True)
+                }, checkpoint_path)
 
-        test_stats, evaluator = evaluate(model, data_loader_val, criterion, device, args)
+        test_stats, evaluator = evaluate(model, data_loader_val, criterion, device, args, args.print_freq)
 
         log_stats = {**{f'train_{k}': v for k, v in train_stats.items()},
                      **{f'test_{k}': v for k, v in test_stats.items()},

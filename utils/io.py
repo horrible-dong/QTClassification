@@ -106,15 +106,16 @@ def checkpoint_saver(obj, save_path, mode=0o777, rename=False, overwrite=True, s
     if os.path.exists(save_path):
         if not rename and not overwrite:
             raise FileExistsError
+        if overwrite and rename:
+            raise Exception('overwrite or rename?')
+
+        if overwrite and is_main_process():
+            os.remove(save_path)
         if rename:
             while os.path.exists(save_path):
                 split_path = os.path.splitext(save_path)
                 save_path = split_path[0] + "(1)" + split_path[1]
 
-    if save_on_master:
-        if is_main_process():
-            torch.save(obj, save_path)
-            os.chmod(save_path, mode)
-    else:
+    if is_main_process():
         torch.save(obj, save_path)
         os.chmod(save_path, mode)
