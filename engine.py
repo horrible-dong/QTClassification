@@ -6,8 +6,7 @@ from typing import Iterable
 
 import torch
 
-from evaluators import build_evaluator
-from evaluators.metric_logger import SmoothedValue, MetricLogger
+from evaluators import build_evaluator, MetricLogger, SmoothedValue
 from utils.misc import update, reduce_dict
 
 

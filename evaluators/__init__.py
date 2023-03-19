@@ -2,6 +2,7 @@
 
 from .default import DefaultEvaluator
 from .metric_logger import MetricLogger
+from .smooth_value import SmoothedValue
 
 
 def build_evaluator(args):
