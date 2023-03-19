@@ -84,10 +84,10 @@ class MNIST(BaseDataset):
         warnings.warn("test_data has been renamed data")
         return self.data
 
-    def __init__(self, root, mode="train", transforms=None, download=False):
-        super().__init__(root, mode, transforms=transforms)
+    def __init__(self, root, split="train", transform=None, download=False):
+        super().__init__(root, split, transform=transform)
 
-        self.train = mode == 'train'
+        self.train = split == 'train'
 
         if self._check_legacy_exist():
             self.data, self.targets = self._load_legacy_data()
@@ -139,8 +139,8 @@ class MNIST(BaseDataset):
         # to return a PIL Image
         image = Image.fromarray(image.numpy(), mode="L")
 
-        if self.transforms is not None:
-            image = self.transforms(image)
+        if self.transform is not None:
+            image = self.transform(image)
 
         return image, target
 

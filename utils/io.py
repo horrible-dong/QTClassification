@@ -3,7 +3,6 @@
 import os
 
 import cv2
-import imageio
 import numpy as np
 import torch
 import ujson as json
@@ -119,16 +118,3 @@ def checkpoint_saver(obj, save_path, mode=0o777, rename=False, overwrite=True, s
     else:
         torch.save(obj, save_path)
         os.chmod(save_path, mode)
-
-
-def images_to_gif(image_dir, gif_path, duration=None, fps=None, loop=0):
-    """
-    duration: interval between frames (seconds)
-    fps: frames per second
-    loop: play times
-    """
-    if fps:
-        duration = 1 / fps
-    image_paths = os.listdir(image_dir)
-    images = [imageio.imread(os.path.join(image_dir, image_path)) for image_path in image_paths]
-    imageio.mimsave(gif_path, images, "gif", duration=duration, loop=loop)

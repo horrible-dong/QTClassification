@@ -39,8 +39,8 @@ class CIFAR10(BaseDataset):
         "md5": "5ff9c542aee3614f3951f8cda6e48888",
     }
 
-    def __init__(self, root, mode="train", transforms=None, download=False):
-        super().__init__(root, mode, transforms=transforms)
+    def __init__(self, root, split="train", transform=None, download=False):
+        super().__init__(root, split, transform=transform)
 
         if download:
             self.download()
@@ -48,7 +48,7 @@ class CIFAR10(BaseDataset):
         if not self._check_integrity():
             raise RuntimeError("Dataset not found or corrupted. You can use download=True to download it")
 
-        if mode == "train":
+        if split == "train":
             downloaded_list = self.train_list
         else:
             downloaded_list = self.test_list
@@ -88,7 +88,7 @@ class CIFAR10(BaseDataset):
         # to return a PIL Image
         image = Image.fromarray(image)
 
-        image = self.transforms(image)
+        image = self.transform(image)
 
         return image, target
 
@@ -117,7 +117,7 @@ class CIFAR10(BaseDataset):
         download_and_extract_archive(self.url, self.root, filename=self.filename, md5=self.tgz_md5)
 
     def extra_repr(self):
-        split = "Train" if self.mode == "train" else "Test"
+        split = "Train" if self.split == "train" else "Test"
         return f"Split: {split}"
 
 

@@ -14,20 +14,21 @@ def default_loader(path, format="RGB"):
 
 
 class BaseDataset(Dataset):
-    def __init__(self, root, mode='train', loader=default_loader, transforms=None, target_transforms=None,
-                 verbose=True):
+    def __init__(self, root, split='train', loader=None, transform=None, target_transform=None, verbose=True):
         if root is None:
             root = f'./data/{self.__class__.__name__.lower()}'
+        if loader is None:
+            loader = default_loader
         self.root = os.path.expanduser(root)
-        self.mode = mode.lower()
+        self.split = split.lower()
         self.loader = loader
-        self.transforms = transforms
-        self.target_transforms = target_transforms
+        self.transform = transform
+        self.target_transform = target_transform
 
         self.__check_transforms()
 
         if verbose:
-            print(f'loading {self.__class__.__name__.lower()}-{mode} from {self.root}')
+            print(f'loading {self.__class__.__name__.lower()}-{split} from {self.root}')
 
     def __getitem__(self, index):
         raise NotImplementedError
@@ -40,7 +41,7 @@ class BaseDataset(Dataset):
         raise NotImplementedError
 
     def __check_transforms(self):
-        if isinstance(self.transforms, dict):
-            self.transforms = self.transforms[self.mode]
-        if isinstance(self.target_transforms, dict):
-            self.target_transforms = self.target_transforms[self.mode]
+        if isinstance(self.transform, dict):
+            self.transform = self.transform[self.split]
+        if isinstance(self.target_transform, dict):
+            self.target_transform = self.target_transform[self.split]

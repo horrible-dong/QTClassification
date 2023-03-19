@@ -1,6 +1,6 @@
 # Copyright (c) QIU, Tian. All rights reserved.
+
 import datasets
-from utils.decorators import getattr_case_insensitive
 from utils.misc import is_main_process
 from .alexnet import *
 from .convnext import *
@@ -24,7 +24,7 @@ __vars__ = vars()
 def build_model(args):
     model_lib = args.model_lib.lower()
     model_name = args.model.lower()
-    num_classes = get_num_classes(args.dataset)
+    num_classes = datasets.num_classes[args.dataset.lower()]
     pretrained = not args.no_pretrain and is_main_process()
 
     if model_lib == 'torchvision':
@@ -35,8 +35,3 @@ def build_model(args):
         return timm.create_model(model_name, num_classes=num_classes, pretrained=pretrained)
 
     raise ValueError(f'model_lib {model_lib} is not exist.')
-
-
-@getattr_case_insensitive
-def get_num_classes(dataset_name):
-    return len(getattr(datasets, dataset_name).classes)

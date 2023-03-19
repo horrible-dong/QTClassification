@@ -126,8 +126,8 @@ def main(args):
     criterion = build_criterion(args)
 
     # ** dataset **
-    dataset_train = build_dataset(args, mode='train')
-    dataset_val = build_dataset(args, mode='val')
+    dataset_train = build_dataset(args, split='train')
+    dataset_val = build_dataset(args, split='val')
 
     if args.distributed:
         sampler_train = Data.distributed.DistributedSampler(dataset=dataset_train, shuffle=True)
