@@ -7,7 +7,6 @@
 *.pth
 **/__pycache__/**
 .ipynb_checkpoints/
-datasets/data/
 experiment-*
 *.tmp
 *.pkl
@@ -15,10 +14,13 @@ experiment-*
 .mypy_cache/*
 not_tracked_dir/
 .vscode
-logs
-jobs
-subs
-tmp
+work_dir/
+work_dirs/
+runs/
+logs/
+jobs/
+subs/
+tmp/
 *.sub
 _test_.py
 vis/

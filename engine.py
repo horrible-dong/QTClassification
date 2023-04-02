@@ -6,13 +6,13 @@ from typing import Iterable
 
 import torch
 
-from evaluators import build_evaluator, MetricLogger, SmoothedValue
-from utils.misc import update, reduce_dict
+from qtcls import build_evaluator
+from qtcls.utils.misc import update, reduce_dict, MetricLogger, SmoothedValue
 
 
-def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
-                    data_loader: Iterable, optimizer: torch.optim.Optimizer,
-                    device: torch.device, epoch: int, max_norm: float = 0, print_freq: int = 10):
+def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module, data_loader: Iterable,
+                    optimizer: torch.optim.Optimizer, device: torch.device, epoch: int, max_norm: float = 0,
+                    scaler: torch.cuda.amp.GradScaler = None, print_freq: int = 10, need_targets: bool = False):
     model.train()
     criterion.train()
     metric_logger = MetricLogger(delimiter='  ')
@@ -21,13 +21,18 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
     header = 'Epoch: [{}]'.format(epoch)
 
     for samples, targets in metric_logger.log_every(data_loader, print_freq, header):
-        samples = samples.to(device)  # [B, C, H, W]
-        targets = targets.to(device)  # [B]
+        samples = samples.to(device)
+        targets = targets.to(device)
 
-        outputs = model(samples)
-        loss_dict = criterion(outputs, targets)
-        weight_dict = criterion.weight_dict
-        losses = sum(loss_dict[k] * weight_dict[k] for k in loss_dict.keys() if k in weight_dict)
+        with torch.cuda.amp.autocast(enabled=scaler is not None):
+            if need_targets:
+                outputs = model(samples, targets)
+            else:
+                outputs = model(samples)
+
+            loss_dict = criterion(outputs, targets)
+            weight_dict = criterion.weight_dict
+            losses = sum(loss_dict[k] * weight_dict[k] for k in loss_dict.keys() if k in weight_dict)
 
         loss_dict_reduced = reduce_dict(loss_dict)
         loss_dict_reduced_unscaled = {f'{k}_unscaled': v for k, v in loss_dict_reduced.items()}
@@ -41,7 +46,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
             print(loss_dict_reduced)
             sys.exit(1)
 
-        update(optimizer, losses, model, max_norm)
+        update(optimizer, losses, model, max_norm, scaler)
 
         metric_logger.update(loss=loss_value, **loss_dict_reduced_scaled, **loss_dict_reduced_unscaled)
         metric_logger.update(class_error=loss_dict_reduced['class_error'])
@@ -56,7 +61,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
 
 
 @torch.no_grad()
-def evaluate(model, data_loader, criterion, device, args, print_freq=10):
+def evaluate(model, data_loader, criterion, device, args, print_freq=10, need_targets=False):
     model.eval()
     criterion.eval()
 
@@ -70,7 +75,11 @@ def evaluate(model, data_loader, criterion, device, args, print_freq=10):
         samples = samples.to(device)
         targets = targets.to(device)
 
-        outputs = model(samples)
+        if need_targets:
+            outputs = model(samples, targets)
+        else:
+            outputs = model(samples)
+
         loss_dict = criterion(outputs, targets)
         weight_dict = criterion.weight_dict
 
@@ -92,5 +101,7 @@ def evaluate(model, data_loader, criterion, device, args, print_freq=10):
     evaluator.summarize()
 
     stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}
+
+    stats['eval'] = list(evaluator.eval.values())
 
     return stats, evaluator
