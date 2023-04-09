@@ -11,11 +11,13 @@ data/
   ├── mnist/
   ├── cifar10/
   ├── cifar100/
+  ├── imagenet1k/
+  ├── stl10/
+  ├── svhn/
   ├── pets/
-  ├── imagenet/
   └── your_dataset/
 ```
 
-Note that directory names are all _lowercase_.
+Note that directory names are all **lowercase**.
 
 If you want to change the data root, please set the argument `--data_root`.

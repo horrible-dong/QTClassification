@@ -55,15 +55,18 @@ def build_dataset(args, split, download=True):
         if split == 'val':
             split = 'test'
 
+        image_size = 32
+
         transform = {
             "train": tfs.Compose([
-                # tfs.Resize(224),
+                tfs.RandomCrop(32, padding=4),
+                tfs.Resize(image_size),
                 tfs.RandomHorizontalFlip(),
                 tfs.ToTensor(),
                 tfs.Normalize([0.4914, 0.4822, 0.4465], [0.2023, 0.1994, 0.2010]),
             ]),
             "test": tfs.Compose([
-                # tfs.Resize(224),
+                tfs.Resize(image_size),
                 tfs.ToTensor(),
                 tfs.Normalize([0.4914, 0.4822, 0.4465], [0.2023, 0.1994, 0.2010])
             ])
@@ -78,13 +81,18 @@ def build_dataset(args, split, download=True):
         if split == 'val':
             split = 'test'
 
+        image_size = 32
+
         transform = {
             "train": tfs.Compose([
+                tfs.RandomCrop(32, padding=4),
+                tfs.Resize(image_size),
                 tfs.RandomHorizontalFlip(),
                 tfs.ToTensor(),
                 tfs.Normalize([0.4914, 0.4822, 0.4465], [0.2023, 0.1994, 0.2010]),
             ]),
             "test": tfs.Compose([
+                tfs.Resize(image_size),
                 tfs.ToTensor(),
                 tfs.Normalize([0.4914, 0.4822, 0.4465], [0.2023, 0.1994, 0.2010])
             ])
@@ -98,8 +106,7 @@ def build_dataset(args, split, download=True):
     if dataset_name == 'imagenet1k':  # 224 x 224
         transform = {
             "train": tfs.Compose([
-                tfs.Resize(256),
-                tfs.CenterCrop(224),
+                tfs.RandomResizedCrop(224),
                 tfs.RandomHorizontalFlip(),
                 tfs.ToTensor(),
                 tfs.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
@@ -141,33 +148,6 @@ def build_dataset(args, split, download=True):
                      transform=transform,
                      download=download)
 
-    if dataset_name == 'pets':
-        if split == 'train':
-            split = 'trainval'
-        if split == 'val':
-            split = 'test'
-
-        transform = {
-            "trainval": tfs.Compose([
-                tfs.Resize(256),
-                tfs.CenterCrop(224),
-                tfs.RandomHorizontalFlip(),
-                tfs.ToTensor(),
-                tfs.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-            ]),
-            "test": tfs.Compose([
-                tfs.Resize(256),
-                tfs.CenterCrop(224),
-                tfs.ToTensor(),
-                tfs.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-            ])
-        }
-
-        return OxfordIIITPet(root=dataset_path,
-                             split=split,
-                             transform=transform,
-                             download=download)
-
     if dataset_name == 'svhn':  # 32 x 32
         if split == 'val':
             split = 'test'
@@ -188,5 +168,31 @@ def build_dataset(args, split, download=True):
                     split=split,
                     transform=transform,
                     download=download)
+
+    if dataset_name == 'pets':
+        if split == 'train':
+            split = 'trainval'
+        if split == 'val':
+            split = 'test'
+
+        transform = {
+            "trainval": tfs.Compose([
+                tfs.RandomResizedCrop(224),
+                tfs.RandomHorizontalFlip(),
+                tfs.ToTensor(),
+                tfs.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+            ]),
+            "test": tfs.Compose([
+                tfs.Resize(256),
+                tfs.CenterCrop(224),
+                tfs.ToTensor(),
+                tfs.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+            ])
+        }
+
+        return OxfordIIITPet(root=dataset_path,
+                             split=split,
+                             transform=transform,
+                             download=download)
 
     raise ValueError(f"dataset '{dataset_name}' is not found.")

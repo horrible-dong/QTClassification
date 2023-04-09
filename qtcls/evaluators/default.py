@@ -1,10 +1,13 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
 import itertools
+import warnings
 
 from sklearn import metrics as sklearn_metrics
 
 from ..utils.misc import all_gather
+
+warnings.filterwarnings("ignore")
 
 
 class DefaultEvaluator:
@@ -36,7 +39,7 @@ class DefaultEvaluator:
         return sklearn_metrics.recall_score(targets, outputs, average='macro')
 
     def metric_precision(self, outputs, targets, **kwargs):
-        return sklearn_metrics.precision_score(targets, outputs, average='macro')  # TODO remove warning
+        return sklearn_metrics.precision_score(targets, outputs, average='macro')
 
     def metric_f1(self, outputs, targets, **kwargs):
         return sklearn_metrics.f1_score(targets, outputs, average='macro')

@@ -1,6 +1,7 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
 import argparse
+import copy
 import datetime
 import json
 import os
@@ -10,6 +11,7 @@ from pathlib import Path
 import torch
 import torch.distributed as dist
 import torch.utils.data as Data
+from termcolor import cprint
 
 from engine import evaluate, train_one_epoch
 from qtcls import build_criterion, build_dataset, build_model, build_optimizer, build_scheduler
@@ -28,7 +30,7 @@ def get_args_parser():
     parser.add_argument('--batch_size', '-b', type=int, default=8)
     parser.add_argument('--epochs', type=int, default=300)
     parser.add_argument('--start_epoch', type=int, default=0)
-    parser.add_argument('--clip_max_norm', default=0.0, type=float, help='gradient clipping max norm')
+    parser.add_argument('--clip_max_norm', default=1.0, type=float, help='gradient clipping max norm')
     parser.add_argument('--eval', action='store_true')
     parser.add_argument('--eval_interval', type=int, default=1)
     parser.add_argument('--num_workers', type=int, default=None)
@@ -42,7 +44,7 @@ def get_args_parser():
     parser.add_argument('--need_targets', action='store_true')
     parser.add_argument('--drop_lr_now', action='store_true')
     parser.add_argument('--drop_last', action='store_true')
-    parser.add_argument('--amp', action='store_true', help='mixed precision training')
+    parser.add_argument('--amp', action='store_true', help='automatic mixed precision training')
 
     # dataset
     parser.add_argument('--data_root', type=str, default='./data')
@@ -58,7 +60,7 @@ def get_args_parser():
 
     # optimizer
     parser.add_argument('--optimizer', default='adamw', type=str, help='optimizer name')
-    parser.add_argument('--lr', type=float, default=2.5e-4)
+    parser.add_argument('--lr', type=float, default=1e-4)
     parser.add_argument('--lr_drop', default=-1, type=int)
     parser.add_argument('--momentum', default=0.9, type=float, help='sgd momentum')
     parser.add_argument('--weight_decay', default=5e-2, type=float)
@@ -77,7 +79,7 @@ def get_args_parser():
 
     # loading weights
     parser.add_argument('--no_pretrain', action='store_true')
-    parser.add_argument('--resume', '-r', type=str, default='')
+    parser.add_argument('--resume', '-r', type=str)
     parser.add_argument('--load_pos', type=str)
 
     # saving weights
@@ -95,16 +97,25 @@ def main(args):
     init_seeds(args.seed)
     init_distributed_mode(args)
     device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
-    if device.type == 'cpu':
+    if device.type == 'cpu' or args.eval:
         args.amp = False
     if args.num_workers is None:
         args.num_workers = min([os.cpu_count(), args.batch_size if args.batch_size > 1 else 0, 8])
+    if args.resume:
+        args.no_pretrain = True
     if args.note is None:
-        args.note = args.output_dir
+        args.note = f'dataset: {args.dataset} | model: {args.model} | output_dir: {args.output_dir}'
     output_dir = Path(args.output_dir)
 
     print(args)
-    variables_saver(vars(args), os.path.join(args.output_dir, 'config.py'))
+    __args__ = copy.deepcopy(vars(args))
+    ignored_args = ['config', 'eval', 'world_size', 'local_rank', 'distributed', 'start_epoch']
+    for ignored_arg in ignored_args:
+        pop_info = __args__.pop(ignored_arg, 'KeyError')
+        if pop_info == 'KeyError':
+            cprint(f"Warning: argument '{ignored_arg}' to be ignored is not in 'args'.", 'light_yellow')
+
+    variables_saver(__args__, os.path.join(args.output_dir, 'config.py'))
 
     # ** model **
     model = build_model(args)
@@ -120,15 +131,13 @@ def main(args):
         model_without_ddp = model.module
 
     n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    print(f'number of params: {n_parameters}')
+    print(f'Number of params: {n_parameters}')
 
-    # ** optimizer & scheduler **
+    # ** optimizer **
     param_dicts = [
         {'params': [p for n, p in model_without_ddp.named_parameters() if p.requires_grad]},
     ]
-
     optimizer = build_optimizer(args, param_dicts)
-    lr_scheduler = build_scheduler(args, optimizer)
 
     # ** criterion **
     criterion = build_criterion(args)
@@ -159,6 +168,9 @@ def main(args):
                                       num_workers=args.num_workers,
                                       collate_fn=dataset_val.collate_fn)
 
+    # ** scheduler **
+    lr_scheduler = build_scheduler(args, optimizer, len(data_loader_train))
+
     # ** scaler **
     scaler = torch.cuda.amp.GradScaler() if args.amp else None
 
@@ -166,16 +178,17 @@ def main(args):
         checkpoint = torch.load(args.resume, map_location='cpu')
         checkpoint_loader(model_without_ddp, checkpoint['model'], delete_keys=())
         if not args.eval and 'optimizer' in checkpoint and 'lr_scheduler' in checkpoint and 'epoch' in checkpoint:
-            checkpoint_loader(optimizer, checkpoint['optimizer'], verbose=False)
-            checkpoint_loader(lr_scheduler, checkpoint['lr_scheduler'], verbose=False)
+            checkpoint_loader(optimizer, checkpoint['optimizer'])
+            checkpoint_loader(lr_scheduler, checkpoint['lr_scheduler'])
             args.start_epoch = checkpoint['epoch'] + 1
-            if args.drop_lr_now:
+            if args.drop_lr_now:  # only works when using StepLR or MultiStepLR
                 for param_group in optimizer.param_groups:
                     param_group['lr'] = param_group['lr'] * 0.1
         if scaler and 'scaler' in checkpoint:
-            scaler.load_state_dict(checkpoint["scaler"])
+            checkpoint_loader(scaler, checkpoint["scaler"])
 
     if args.eval:
+        print()
         test_stats, evaluator = evaluate(
             model, data_loader_val, criterion, device, args, args.print_freq, args.need_targets
         )
@@ -188,10 +201,9 @@ def main(args):
         if args.distributed:
             sampler_train.set_epoch(epoch)
         train_stats = train_one_epoch(
-            model, criterion, data_loader_train, optimizer, device, epoch, args.clip_max_norm, scaler, args.print_freq,
-            args.need_targets
+            model, criterion, data_loader_train, optimizer, lr_scheduler, device, epoch, args.clip_max_norm, scaler,
+            args.print_freq, args.need_targets
         )
-        lr_scheduler.step(epoch)
         if args.output_dir and (epoch + 1) % args.save_interval == 0:
             checkpoint_paths = [output_dir / 'checkpoint.pth']
             if (epoch + 1) % args.lr_drop == 0 or (epoch + 1) % 1 == 0:

@@ -3,7 +3,7 @@ QTClassification
 
 **轻量可扩展的图像分类工具箱**
 
-[![version](https://img.shields.io/badge/Version-0.1.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.2.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README_zh-CN.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -50,24 +50,26 @@ pip install -r requirements.txt
 **训练**
 
 ```bash
-# 多gpu (推荐, 需要pytorch版本>=1.9.0)
+# 多gpu（推荐, 需要pytorch版本>=1.9.0）
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 torchrun --nproc_per_node=2 main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
-  --epochs 50 \
+  --batch_size 256 \
+  --lr 1e-4 \
+  --epochs 12 \
   --output_dir ./runs/__tmp__
   
-# 多gpu (适用于任何pytorch版本)
+# 多gpu（适用于任何pytorch版本）
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 python -m torch.distributed.launch --nproc_per_node=2 main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
-  --epochs 50 \
+  --batch_size 256 \
+  --lr 1e-4 \
+  --epochs 12 \
   --output_dir ./runs/__tmp__
   
 # 单gpu
@@ -76,34 +78,35 @@ python main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
-  --epochs 50 \
+  --batch_size 256 \
+  --lr 1e-4 \
+  --epochs 12 \
   --output_dir ./runs/__tmp__
 ```
 
-`cifar10` 数据集和 `resnet50` 预训练权重会自动下载。`cifar10` 数据集会被下载到 `./data`
-目录下。在训练过程中，checkpoint文件（包含模型权重、优化器权重等）、日志文件和其他输出都会被存放在 `./runs/__tmp__` 目录下。
+`cifar10` 数据集和 `resnet50` 预训练权重会自动下载。`cifar10` 数据集会被下载到 `./data` 目录下。在训练过程中，
+配置文件（config），checkpoint文件（包含模型权重、优化器权重等）、日志文件（log）和其他输出都会被存放在 `./runs/__tmp__` 目录下。
 
 **验证**
 
 ```bash
-# 多gpu (推荐, 需要pytorch版本>=1.9.0)
+# 多gpu（推荐, 需要pytorch版本>=1.9.0）
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 torchrun --nproc_per_node=2 main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
+  --batch_size 256 \
   --resume ./runs/__tmp__/checkpoint.pth \
   --eval
   
-# 多gpu (适用于任何pytorch版本)
+# 多gpu（适用于任何pytorch版本）
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 python -m torch.distributed.launch --nproc_per_node=2 main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
+  --batch_size 256 \
   --resume ./runs/__tmp__/checkpoint.pth \
   --eval
   
@@ -113,7 +116,7 @@ python main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
+  --batch_size 256 \
   --resume ./runs/__tmp__/checkpoint.pth \
   --eval
 ```
@@ -136,11 +139,12 @@ python main.py \
 |      `--evaluator`       |               验证器名称，在 [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py) 中定义。默认的验证器会计算准确率、召回率、精确率和f1分数。               |    `default`     |
 |   `--resume`<br />`-r`   |                                                            要从中恢复的检查点路径。                                                             |        /         |
 | `--output_dir`<br />`-o` |                                           输出目录，用来存放checkpoint文件（包含模型权重、优化器权重等）、日志文件和其他输出。                                           | `./runs/__tmp__` |
-|          `--lr`          |                                                                学习率。                                                                 |     `2.5e-4`     |
+|          `--lr`          |                                                                学习率。                                                                 |      `1e-4`      |
 |        `--epochs`        |                                                                  /                                                                  |      `300`       |
 | `--batch_size`<br />`-b` |                                                                  /                                                                  |       `8`        |
+|         `--amp`          |                                                             启用自动混合精度训练。                                                             |     `False`      |
 |         `--eval`         |                                                              只验证，不训练。                                                               |     `False`      |
-|   `--config`<br />`-c`   |                                     配置文件，在 [configs](configs) 中定义。配置文件中的参数会合并或覆盖命令行参数 `args` 。                                      |        /         |
+|   `--config`<br />`-c`   |                                      配置文件路径。详见 [configs](configs)。配置文件中的参数会合并或覆盖命令行参数 `args` 。                                      |        /         |
 |         `--note`         |                                              备忘笔记。 笔记内容会在每个epoch之后打印一次，以防你记不清自己正在跑什么。                                               |        /         |
 
 **如何放置你的数据集**
@@ -174,7 +178,7 @@ python main.py \
 
 ## <span id="模型库">模型库</span>
 
-我们的基础模型库由 `torchvision` 扩展而来 (我们的默认模型库)，同时我们也支持 `timm` 模型库。
+我们的基础模型库由 `torchvision` 扩展而来（我们的默认模型库），同时我们也支持 `timm` 模型库。
 
 ### torchvision（经过我们扩展的）
 
@@ -184,6 +188,9 @@ python main.py \
 
 **AlexNet**  
 `alexnet`
+
+**CaiT**  
+`cait_xxs24_224`, `cait_xxs24_384`, `cait_xxs36_224`, `cait_xxs36_384`, `cait_xs24_384`, `cait_s24_224`, `cait_s24_384`, `cait_s36_384`, `cait_m36_384`, `cait_m48_448`
 
 **ConvNext**  
 `convnext_tiny`, `convnext_small`, `convnext_base`, `convnext_large`
@@ -200,11 +207,20 @@ python main.py \
 **Inception**    
 `inception_v3`
 
+**LeVit**    
+`levit_128s`, `levit_128`, `levit_192`, `levit_256`, `levit_256d`, `levit_384`
+
+**MlpMixer**   
+`mixer_s32_224`, `mixer_s16_224`, `mixer_b32_224`, `mixer_b16_224`, `mixer_b16_224_in21k`, `mixer_l32_224`, `mixer_l16_224`, `mixer_l16_224_in21k`, `mixer_b16_224_miil_in21k`, `mixer_b16_224_miil`, `gmixer_12_224`, `gmixer_24_224`, `resmlp_12_224`, `resmlp_24_224`, `resmlp_36_224`, `resmlp_big_24_224`, `resmlp_12_distilled_224`, `resmlp_24_distilled_224`, `resmlp_36_distilled_224`, `resmlp_big_24_distilled_224`, `resmlp_big_24_224_in22ft1k`, `resmlp_12_224_dino`, `resmlp_24_224_dino`, `gmlp_ti16_224`, `gmlp_s16_224`, `gmlp_b16_224`
+
 **MNASNet**   
 `mnasnet0_5`, `mnasnet0_75`, `mnasnet1_0`, `mnasnet1_3`
 
 **MobileNet**  
 `mobilenet_v2`, `mobilenetv3`, `mobilenet_v3_large`, `mobilenet_v3_small`
+
+**PoolFormer**   
+`poolformer_s12`, `poolformer_s24`, `poolformer_s36`, `poolformer_m36`, `poolformer_m48`
 
 **RegNet**  
 `regnet_y_400mf`, `regnet_y_800mf`, `regnet_y_1_6gf`, `regnet_y_3_2gf`, `regnet_y_8gf`, `regnet_y_16gf`, `regnet_y_32gf`, `regnet_y_128gf`, `regnet_x_400mf`, `regnet_x_800mf`, `regnet_x_1_6gf`, `regnet_x_3_2gf`, `regnet_x_8gf`, `regnet_x_16gf`, `regnet_x_32gf`
@@ -212,23 +228,26 @@ python main.py \
 **ResNet**     
 `resnet18`, `resnet34`, `resnet50`, `resnet101`, `resnet152`, `resnext50_32x4d`, `resnext101_32x8d`, `wide_resnet50_2`, `wide_resnet101_2`
 
-**ShuffleNet**  
-`shufflenet_v2_x0_5`, `shufflenet_v2_x1_0`, `shufflenet_v2_x1_5`, `shufflenet_v2_x2_0`, `squeezenet1_0`, `squeezenet1_1`
+**ShuffleNetV2**  
+`shufflenet_v2_x0_5`, `shufflenet_v2_x1_0`, `shufflenet_v2_x1_5`, `shufflenet_v2_x2_0`
 
 **SqueezeNet**  
 `squeezenet1_0`, `squeezenet1_1`
 
 **Swin Transformer**  
-`swin_tiny_patch4_window7_224`, `swin_small_patch4_window7_224`, `swin_base_patch4_window7_224`, `swin_base_patch4_window12_384`, `swin_base_patch4_window7_224_in22k`, `swin_base_patch4_window12_384_in22k`, `swin_large_patch4_window7_224_in22k`, `swin_large_patch4_window12_384_in22k`
+`swin_tiny_patch4_window7_224`, `swin_small_patch4_window7_224`, `swin_base_patch4_window7_224`, `swin_base_patch4_window12_384`, `swin_large_patch4_window7_224`, `swin_large_patch4_window12_384`, `swin_base_patch4_window7_224_in22k`, `swin_base_patch4_window12_384_in22k`, `swin_large_patch4_window7_224_in22k`, `swin_large_patch4_window12_384_in22k`
+
+**Swin Transformer V2**  
+`swinv2_tiny_window8_256`, `swinv2_tiny_window16_256`, `swinv2_small_window8_256`, `swinv2_small_window16_256`, `swinv2_base_window8_256`, `swinv2_base_window16_256`, `swinv2_base_window12_192_22k`, `swinv2_base_window12to16_192to256_22kft1k`, `swinv2_base_window12to24_192to384_22kft1k`, `swinv2_large_window12_192_22k`, `swinv2_large_window12to16_192to256_22kft1k`, `swinv2_large_window12to24_192to384_22kft1k`
 
 **VGG**  
 `vgg11`, `vgg11_bn`, `vgg13`, `vgg13_bn`, `vgg16`, `vgg16_bn`, `vgg19`, `vgg19_bn`
 
+**Vision Transformer (timm)**   
+`vit_tiny_patch4_32`, `vit_tiny_patch16_224`, `vit_tiny_patch16_384`, `vit_small_patch32_224`, `vit_small_patch32_384`, `vit_small_patch16_224`, `vit_small_patch16_384`, `vit_small_patch8_224`, `vit_base_patch32_224`, `vit_base_patch32_384`, `vit_base_patch16_224`, `vit_base_patch16_384`, `vit_base_patch8_224`, `vit_large_patch32_224`, `vit_large_patch32_384`, `vit_large_patch16_224`, `vit_large_patch16_384`, `vit_large_patch14_224`, `vit_huge_patch14_224`, `vit_giant_patch14_224`
+
 **Vision Transformer (torchvision)**  
 `vit_b_16`, `vit_b_32`, `vit_l_16`, `vit_l_32`
-
-**Vision Transformer (timm)**   
-`vit_base_patch16_224`, `vit_base_patch16_224_in21k`, `vit_base_patch32_224`, `vit_base_patch32_224_in21k`, `vit_large_patch16_224`, `vit_large_patch16_224_in21k`, `vit_large_patch32_224_in21k`, `vit_huge_patch14_224_in21k`
 
 ### timm
 

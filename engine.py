@@ -2,7 +2,6 @@
 
 import math
 import sys
-from typing import Iterable
 
 import torch
 
@@ -10,17 +9,17 @@ from qtcls import build_evaluator
 from qtcls.utils.misc import update, reduce_dict, MetricLogger, SmoothedValue
 
 
-def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module, data_loader: Iterable,
-                    optimizer: torch.optim.Optimizer, device: torch.device, epoch: int, max_norm: float = 0,
-                    scaler: torch.cuda.amp.GradScaler = None, print_freq: int = 10, need_targets: bool = False):
+def train_one_epoch(model, criterion, data_loader, optimizer, lr_scheduler, device, epoch: int, max_norm: float = 0,
+                    scaler=None, print_freq: int = 10, need_targets: bool = False):
     model.train()
     criterion.train()
+    n_steps = len(data_loader)
     metric_logger = MetricLogger(delimiter='  ')
     metric_logger.add_meter('lr', SmoothedValue(window_size=1, fmt='{value:.6f}'))
     metric_logger.add_meter('class_error', SmoothedValue(window_size=1, fmt='{value:.2f}'))
     header = 'Epoch: [{}]'.format(epoch)
 
-    for samples, targets in metric_logger.log_every(data_loader, print_freq, header):
+    for batch_idx, (samples, targets) in enumerate(metric_logger.log_every(data_loader, print_freq, header)):
         samples = samples.to(device)
         targets = targets.to(device)
 
@@ -48,9 +47,14 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module, data_loa
 
         update(optimizer, losses, model, max_norm, scaler)
 
+        if hasattr(lr_scheduler, 'step_update'):
+            lr_scheduler.step_update(epoch * n_steps + batch_idx)
+
         metric_logger.update(loss=loss_value, **loss_dict_reduced_scaled, **loss_dict_reduced_unscaled)
         metric_logger.update(class_error=loss_dict_reduced['class_error'])
         metric_logger.update(lr=optimizer.param_groups[0]['lr'])
+
+    lr_scheduler.step(epoch)
 
     metric_logger.synchronize_between_processes()
     print('Averaged stats:', metric_logger)

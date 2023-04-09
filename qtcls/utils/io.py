@@ -4,11 +4,13 @@ import importlib
 import inspect
 import json
 import os
+import sys
 
 import cv2
 import numpy as np
 import torch
 from PIL import Image
+from termcolor import cprint
 
 from .decorators import main_process_only
 from .misc import has_param
@@ -21,6 +23,7 @@ def pil_loader(path, format=None):
     return image
 
 
+# @main_process_only
 def pil_saver(image, path, mode=0o777, overwrite=True):
     if os.path.exists(path):
         if overwrite:
@@ -45,6 +48,7 @@ def cv2_loader(path, format=None):
     return image
 
 
+# @main_process_only
 def cv2_saver(image, path, mode=0o777, overwrite=True):
     if os.path.exists(path):
         if overwrite:
@@ -61,6 +65,7 @@ def json_loader(path):
     return obj
 
 
+# @main_process_only
 def json_saver(obj, path, mode=0o777, overwrite=True, **kwargs):
     if os.path.exists(path):
         if overwrite:
@@ -85,21 +90,24 @@ def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=Fal
     checkpoint = new_checkpoint
 
     for key in delete_keys:
-        if checkpoint.get(key) is not None:
-            del checkpoint[key]
+        pop_info = checkpoint.pop(key, 'KeyError')
+        if pop_info == 'KeyError':
+            cprint(f"Warning: key '{key}' to be deleted is not in the checkpoint.", 'light_yellow')
 
     if load_pos is not None:
         obj = getattr(obj, load_pos)
 
     if has_param(obj.load_state_dict, 'strict'):
-        info = obj.load_state_dict(checkpoint, strict=strict)
+        load_info = obj.load_state_dict(checkpoint, strict=strict)
     else:
-        info = obj.load_state_dict(checkpoint)
+        load_info = obj.load_state_dict(checkpoint)
 
-    if verbose:
-        from termcolor import cprint
-        cprint(info, 'red')
-        # cprint(f"_IncompatibleValueShape({incompatible_value_shape})", 'red')
+    if verbose and load_info:
+        if str(load_info) == '<All keys matched successfully>':
+            cprint(load_info, 'light_green')
+        else:
+            cprint(f'Warning: {load_info}', 'light_yellow')
+            # cprint(f"Warning: _IncompatibleValueShape({incompatible_value_shape})", 'light_yellow')
 
 
 @main_process_only
@@ -110,24 +118,37 @@ def checkpoint_saver(obj, save_path, mode=0o777, rename=False, overwrite=True):
         if overwrite and rename:
             raise Exception('overwrite or rename?')
 
-        if overwrite:  # if overwrite and is_main_process():
+        if overwrite:
             os.remove(save_path)
         if rename:
             while os.path.exists(save_path):
                 split_path = os.path.splitext(save_path)
                 save_path = split_path[0] + "(1)" + split_path[1]
 
-    # if is_main_process():
     torch.save(obj, save_path)
     os.chmod(save_path, mode)
 
 
-def variables_loader(module_name):
+def variables_loader(file_path):
+    r"""
+    The parameter 'file_path' supports any file system path.
+    e.g. configs/_demo_.py, D:\\QTClassification\\configs\\_demo_.py, ../../other_project/cfg.py
+    """
+    if not os.path.isfile(file_path):
+        raise FileNotFoundError(f"file '{file_path}' does not exist.")
+
+    dir_path = os.path.dirname(file_path)
+    file_name = os.path.basename(file_path)
+
+    sys.path.append(dir_path)
+    module_name = os.path.splitext(file_name)[0]
     module = importlib.import_module(module_name)
+
     variables = {}
     for name, value in inspect.getmembers(module):
         if not name.startswith("__") and not inspect.ismodule(value):
             variables[name] = value
+
     return variables
 
 

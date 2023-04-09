@@ -3,7 +3,7 @@ QTClassification
 
 **A lightweight and extensible toolbox for image classification**
 
-[![version](https://img.shields.io/badge/Version-0.1.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.2.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -57,8 +57,9 @@ torchrun --nproc_per_node=2 main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
-  --epochs 50 \
+  --batch_size 256 \
+  --lr 1e-4 \
+  --epochs 12 \
   --output_dir ./runs/__tmp__
   
 # multi-gpu (for any pytorch version)
@@ -67,8 +68,9 @@ python -m torch.distributed.launch --nproc_per_node=2 main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
-  --epochs 50 \
+  --batch_size 256 \
+  --lr 1e-4 \
+  --epochs 12 \
   --output_dir ./runs/__tmp__
   
 # single-gpu
@@ -77,13 +79,15 @@ python main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
-  --epochs 50 \
+  --batch_size 256 \
+  --lr 1e-4 \
+  --epochs 12 \
   --output_dir ./runs/__tmp__
 ```
 
 The `cifar10` dataset and `resnet50` pretrained weights will be automatically downloaded. The `cifar10` dataset will be
-downloaded to `./data`. During the training, the checkpoints, logs and other outputs will be stored in `./runs/__tmp__`.
+downloaded to `./data`. During the training, the config file, checkpoints, logs and other outputs will be stored in
+`./runs/__tmp__`.
 
 **Evaluation**
 
@@ -94,7 +98,7 @@ torchrun --nproc_per_node=2 main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
+  --batch_size 256 \
   --resume ./runs/__tmp__/checkpoint.pth \
   --eval
   
@@ -104,7 +108,7 @@ python -m torch.distributed.launch --nproc_per_node=2 main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
+  --batch_size 256 \
   --resume ./runs/__tmp__/checkpoint.pth \
   --eval
   
@@ -114,7 +118,7 @@ python main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
-  --batch_size 32 \
+  --batch_size 256 \
   --resume ./runs/__tmp__/checkpoint.pth \
   --eval
 ```
@@ -138,11 +142,12 @@ arguments*.
 |      `--evaluator`       |             Evaluator name defined in [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py). The `default` evaluator computes the accuracy, recall, precision, and f1_score.              |    `default`     |
 |   `--resume`<br />`-r`   |                                                                                   Checkpoint path to resume from.                                                                                    |        /         |
 | `--output_dir`<br />`-o` |                                                                       Path to store your checkpoints, logs, and other outputs.                                                                       | `./runs/__tmp__` |
-|          `--lr`          |                                                                                            Learning rate.                                                                                            |     `2.5e-4`     |
+|          `--lr`          |                                                                                            Learning rate.                                                                                            |      `1e-4`      |
 |        `--epochs`        |                                                                                                  /                                                                                                   |      `300`       |
 | `--batch_size`<br />`-b` |                                                                                                  /                                                                                                   |       `8`        |
-|         `--eval`         |                                                                                    To evaluate without training.                                                                                     |     `False`      |
-|   `--config`<br />`-c`   |                                 Configuration file defined in [configs](configs). Arguments in configuration files merge or override command line arguments `args`.                                  |        /         |
+|         `--amp`          |                                                                              Enable automatic mixed precision training.                                                                              |     `False`      |
+|         `--eval`         |                                                                                            Evaluate only.                                                                                            |     `False`      |
+|   `--config`<br />`-c`   |                                       Config file path. See [configs](configs). Arguments in the config file merge or override command line arguments `args`.                                        |        /         |
 |         `--note`         |                                                       Note. The note content prints after each epoch, in case you forget what you are running.                                                       |        /         |
 
 **How to put your dataset**
@@ -172,9 +177,8 @@ Our toolbox is flexible enough to be extended. Please follow the instructions be
 
 Currently supported argument `--dataset`:  
 `mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `imagenet1k`, and all datasets in `folder` format (consistent
-with `imagenet`
-storage format, that is, images of each category are stored in a folder/directory, and the folder/directory name is the
-category name).
+with `imagenet` storage format, that is, images of each category are stored in a folder/directory, and the
+folder/directory name is the category name).
 
 ## <span id="model_zoo">Model Zoo</span>
 
@@ -188,6 +192,9 @@ Currently supported argument `--model`:
 
 **AlexNet**  
 `alexnet`
+
+**CaiT**  
+`cait_xxs24_224`, `cait_xxs24_384`, `cait_xxs36_224`, `cait_xxs36_384`, `cait_xs24_384`, `cait_s24_224`, `cait_s24_384`, `cait_s36_384`, `cait_m36_384`, `cait_m48_448`
 
 **ConvNext**  
 `convnext_tiny`, `convnext_small`, `convnext_base`, `convnext_large`
@@ -204,11 +211,20 @@ Currently supported argument `--model`:
 **Inception**    
 `inception_v3`
 
+**LeVit**    
+`levit_128s`, `levit_128`, `levit_192`, `levit_256`, `levit_256d`, `levit_384`
+
+**MlpMixer**   
+`mixer_s32_224`, `mixer_s16_224`, `mixer_b32_224`, `mixer_b16_224`, `mixer_b16_224_in21k`, `mixer_l32_224`, `mixer_l16_224`, `mixer_l16_224_in21k`, `mixer_b16_224_miil_in21k`, `mixer_b16_224_miil`, `gmixer_12_224`, `gmixer_24_224`, `resmlp_12_224`, `resmlp_24_224`, `resmlp_36_224`, `resmlp_big_24_224`, `resmlp_12_distilled_224`, `resmlp_24_distilled_224`, `resmlp_36_distilled_224`, `resmlp_big_24_distilled_224`, `resmlp_big_24_224_in22ft1k`, `resmlp_12_224_dino`, `resmlp_24_224_dino`, `gmlp_ti16_224`, `gmlp_s16_224`, `gmlp_b16_224`
+
 **MNASNet**   
 `mnasnet0_5`, `mnasnet0_75`, `mnasnet1_0`, `mnasnet1_3`
 
 **MobileNet**  
 `mobilenet_v2`, `mobilenetv3`, `mobilenet_v3_large`, `mobilenet_v3_small`
+
+**PoolFormer**   
+`poolformer_s12`, `poolformer_s24`, `poolformer_s36`, `poolformer_m36`, `poolformer_m48`
 
 **RegNet**  
 `regnet_y_400mf`, `regnet_y_800mf`, `regnet_y_1_6gf`, `regnet_y_3_2gf`, `regnet_y_8gf`, `regnet_y_16gf`, `regnet_y_32gf`, `regnet_y_128gf`, `regnet_x_400mf`, `regnet_x_800mf`, `regnet_x_1_6gf`, `regnet_x_3_2gf`, `regnet_x_8gf`, `regnet_x_16gf`, `regnet_x_32gf`
@@ -216,23 +232,26 @@ Currently supported argument `--model`:
 **ResNet**     
 `resnet18`, `resnet34`, `resnet50`, `resnet101`, `resnet152`, `resnext50_32x4d`, `resnext101_32x8d`, `wide_resnet50_2`, `wide_resnet101_2`
 
-**ShuffleNet**  
-`shufflenet_v2_x0_5`, `shufflenet_v2_x1_0`, `shufflenet_v2_x1_5`, `shufflenet_v2_x2_0`, `squeezenet1_0`, `squeezenet1_1`
+**ShuffleNetV2**  
+`shufflenet_v2_x0_5`, `shufflenet_v2_x1_0`, `shufflenet_v2_x1_5`, `shufflenet_v2_x2_0`
 
 **SqueezeNet**  
 `squeezenet1_0`, `squeezenet1_1`
 
 **Swin Transformer**  
-`swin_tiny_patch4_window7_224`, `swin_small_patch4_window7_224`, `swin_base_patch4_window7_224`, `swin_base_patch4_window12_384`, `swin_base_patch4_window7_224_in22k`, `swin_base_patch4_window12_384_in22k`, `swin_large_patch4_window7_224_in22k`, `swin_large_patch4_window12_384_in22k`
+`swin_tiny_patch4_window7_224`, `swin_small_patch4_window7_224`, `swin_base_patch4_window7_224`, `swin_base_patch4_window12_384`, `swin_large_patch4_window7_224`, `swin_large_patch4_window12_384`, `swin_base_patch4_window7_224_in22k`, `swin_base_patch4_window12_384_in22k`, `swin_large_patch4_window7_224_in22k`, `swin_large_patch4_window12_384_in22k`
+
+**Swin Transformer V2**  
+`swinv2_tiny_window8_256`, `swinv2_tiny_window16_256`, `swinv2_small_window8_256`, `swinv2_small_window16_256`, `swinv2_base_window8_256`, `swinv2_base_window16_256`, `swinv2_base_window12_192_22k`, `swinv2_base_window12to16_192to256_22kft1k`, `swinv2_base_window12to24_192to384_22kft1k`, `swinv2_large_window12_192_22k`, `swinv2_large_window12to16_192to256_22kft1k`, `swinv2_large_window12to24_192to384_22kft1k`
 
 **VGG**  
 `vgg11`, `vgg11_bn`, `vgg13`, `vgg13_bn`, `vgg16`, `vgg16_bn`, `vgg19`, `vgg19_bn`
 
+**Vision Transformer (timm)**   
+`vit_tiny_patch4_32`, `vit_tiny_patch16_224`, `vit_tiny_patch16_384`, `vit_small_patch32_224`, `vit_small_patch32_384`, `vit_small_patch16_224`, `vit_small_patch16_384`, `vit_small_patch8_224`, `vit_base_patch32_224`, `vit_base_patch32_384`, `vit_base_patch16_224`, `vit_base_patch16_384`, `vit_base_patch8_224`, `vit_large_patch32_224`, `vit_large_patch32_384`, `vit_large_patch16_224`, `vit_large_patch16_384`, `vit_large_patch14_224`, `vit_huge_patch14_224`, `vit_giant_patch14_224`
+
 **Vision Transformer (torchvision)**  
 `vit_b_16`, `vit_b_32`, `vit_l_16`, `vit_l_32`
-
-**Vision Transformer (timm)**   
-`vit_base_patch16_224`, `vit_base_patch16_224_in21k`, `vit_base_patch32_224`, `vit_base_patch32_224_in21k`, `vit_large_patch16_224`, `vit_large_patch16_224_in21k`, `vit_large_patch32_224_in21k`, `vit_huge_patch14_224_in21k`
 
 ### timm
 

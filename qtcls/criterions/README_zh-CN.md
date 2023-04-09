@@ -3,9 +3,9 @@
 [English](README.md) | 简体中文
 
 1. 创建 `your_criterion.py`。
-2. 在 `your_criterion.py` 中，继承 `BaseCriterion` 来定义你的损失函数。*
-   *你只需要定义每一个子损失函数，它们均以字典形式返回，每一个键值对代表一个损失项。子损失函数的名称\*必须\*以 `loss_`
-   开头，即`loss_{name}`形式。** forward() 函数定义在父类 `BaseCriterion` 中，它会调用我们定义的子损失函数，并汇总它们的结果。
+2. 在 `your_criterion.py` 中，继承 `BaseCriterion` 来定义你的损失函数。**你只需要定义每一个子损失函数，它们均以字典形式返回，
+   每一个键值对代表一个损失项。子损失函数的名称 \*\*必须\*\* 以 `loss_` 开头，即`loss_{name}`形式。** `forward()`
+   函数定义在父类 `BaseCriterion` 中，它会调用我们定义的子损失函数，并汇总它们的结果。
 
 ```python
 # your_criterion.py

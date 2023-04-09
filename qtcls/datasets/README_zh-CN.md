@@ -46,7 +46,7 @@ from .your_dataset import YourDataset
 
 num_classes = {
     # 全部小写 !!!
-    ...
+    ...,
     'your_dataset': your_num_classes
 }
 

@@ -46,8 +46,8 @@ from .your_dataset import YourDataset
 
 num_classes = {
     # all in lowercase !!!
-    ...
-'your_dataset': your_num_classes
+    ...,
+    'your_dataset': your_num_classes
 }
 
 def build_dataset(args, split, download=True):

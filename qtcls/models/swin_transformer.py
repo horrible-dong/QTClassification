@@ -2,6 +2,8 @@
 # Modified from
 # https://github.com/microsoft/Swin-Transformer/blob/main/models/swin_transformer.py
 # https://github.com/WZMIAOMIAO/deep-learning-for-image-processing
+# timm
+# FIXME 384
 # ------------------------------------------------------------------------------------------
 
 import torch
@@ -15,43 +17,13 @@ __all__ = [
     "swin_small_patch4_window7_224",
     "swin_base_patch4_window7_224",
     "swin_base_patch4_window12_384",
+    "swin_large_patch4_window7_224",
+    "swin_large_patch4_window12_384",
     "swin_base_patch4_window7_224_in22k",
     "swin_base_patch4_window12_384_in22k",
     "swin_large_patch4_window7_224_in22k",
     "swin_large_patch4_window12_384_in22k"
 ]
-
-model_urls = {
-    'swin_tiny_patch4_window7_224':
-        'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_tiny_patch4_window7_224.pth',
-
-    'swin_small_patch4_window7_224':
-        'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_small_patch4_window7_224.pth',
-
-    'swin_base_patch4_window12_384':
-        'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22kto1k.pth',
-
-    'swin_base_patch4_window7_224':
-        'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224_22kto1k.pth',
-
-    'swin_large_patch4_window12_384':
-        'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_large_patch4_window12_384_22kto1k.pth',
-
-    'swin_large_patch4_window7_224':
-        'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_large_patch4_window7_224_22kto1k.pth',
-
-    'swin_base_patch4_window12_384_in22k':
-        'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22k.pth',
-
-    'swin_base_patch4_window7_224_in22k':
-        'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224_22k.pth',
-
-    'swin_large_patch4_window12_384_in22k':
-        'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_large_patch4_window12_384_22k.pth',
-
-    'swin_large_patch4_window7_224_in22k':
-        'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_large_patch4_window7_224_22k.pth',
-}
 
 WindowProcess = None
 WindowProcessReverse = None
@@ -137,7 +109,7 @@ class WindowAttention(nn.Module):
         # get pair-wise relative position index for each token inside the window
         coords_h = torch.arange(self.window_size[0])
         coords_w = torch.arange(self.window_size[1])
-        coords = torch.stack(torch.meshgrid([coords_h, coords_w], indexing="ij"))  # 2, Wh, Ww
+        coords = torch.stack(torch.meshgrid([coords_h, coords_w]))  # 2, Wh, Ww
         coords_flatten = torch.flatten(coords, 1)  # 2, Wh*Ww
         relative_coords = coords_flatten[:, :, None] - coords_flatten[:, None, :]  # 2, Wh*Ww, Wh*Ww
         relative_coords = relative_coords.permute(1, 2, 0).contiguous()  # Wh*Ww, Wh*Ww, 2
@@ -643,8 +615,11 @@ class SwinTransformer(nn.Module):
 
 
 def swin_tiny_patch4_window7_224(num_classes: int = 1000, **kwargs):
-    # https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_tiny_patch4_window7_224.pth
-    model = SwinTransformer(in_chans=3,
+    """
+    https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_tiny_patch4_window7_224.pth
+    """
+    model = SwinTransformer(image_size=224,
+                            in_chans=3,
                             patch_size=4,
                             window_size=7,
                             embed_dim=96,
@@ -656,8 +631,11 @@ def swin_tiny_patch4_window7_224(num_classes: int = 1000, **kwargs):
 
 
 def swin_small_patch4_window7_224(num_classes: int = 1000, **kwargs):
-    # https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_small_patch4_window7_224.pth
-    model = SwinTransformer(in_chans=3,
+    """
+    https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_small_patch4_window7_224.pth
+    """
+    model = SwinTransformer(image_size=224,
+                            in_chans=3,
                             patch_size=4,
                             window_size=7,
                             embed_dim=96,
@@ -669,8 +647,11 @@ def swin_small_patch4_window7_224(num_classes: int = 1000, **kwargs):
 
 
 def swin_base_patch4_window7_224(num_classes: int = 1000, **kwargs):
-    # https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224.pth
-    model = SwinTransformer(in_chans=3,
+    """
+    https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224.pth
+    """
+    model = SwinTransformer(image_size=224,
+                            in_chans=3,
                             patch_size=4,
                             window_size=7,
                             embed_dim=128,
@@ -682,8 +663,11 @@ def swin_base_patch4_window7_224(num_classes: int = 1000, **kwargs):
 
 
 def swin_base_patch4_window12_384(num_classes: int = 1000, **kwargs):
-    # https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384.pth
-    model = SwinTransformer(in_chans=3,
+    """
+    https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384.pth
+    """
+    model = SwinTransformer(image_size=384,
+                            in_chans=3,
                             patch_size=4,
                             window_size=12,
                             embed_dim=128,
@@ -694,9 +678,44 @@ def swin_base_patch4_window12_384(num_classes: int = 1000, **kwargs):
     return model
 
 
+def swin_large_patch4_window7_224(num_classes: int = 1000, **kwargs):
+    """
+    https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_large_patch4_window7_224_22kto1k.pth
+    """
+    model = SwinTransformer(image_size=224,
+                            in_chans=3,
+                            patch_size=4,
+                            window_size=7,
+                            embed_dim=192,
+                            depths=(2, 2, 18, 2),
+                            num_heads=(6, 12, 24, 48),
+                            num_classes=num_classes,
+                            **kwargs)
+    return model
+
+
+def swin_large_patch4_window12_384(num_classes: int = 1000, **kwargs):
+    """
+    https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_large_patch4_window12_384_22kto1k.pth
+    """
+    model = SwinTransformer(image_size=384,
+                            in_chans=3,
+                            patch_size=4,
+                            window_size=12,
+                            embed_dim=192,
+                            depths=(2, 2, 18, 2),
+                            num_heads=(6, 12, 24, 48),
+                            num_classes=num_classes,
+                            **kwargs)
+    return model
+
+
 def swin_base_patch4_window7_224_in22k(num_classes: int = 21841, **kwargs):
-    # https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224_22k.pth
-    model = SwinTransformer(in_chans=3,
+    """
+    https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224_22k.pth
+    """
+    model = SwinTransformer(image_size=224,
+                            in_chans=3,
                             patch_size=4,
                             window_size=7,
                             embed_dim=128,
@@ -708,8 +727,11 @@ def swin_base_patch4_window7_224_in22k(num_classes: int = 21841, **kwargs):
 
 
 def swin_base_patch4_window12_384_in22k(num_classes: int = 21841, **kwargs):
-    # https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22k.pth
-    model = SwinTransformer(in_chans=3,
+    """
+    https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22k.pth
+    """
+    model = SwinTransformer(image_size=384,
+                            in_chans=3,
                             patch_size=4,
                             window_size=12,
                             embed_dim=128,
@@ -721,8 +743,11 @@ def swin_base_patch4_window12_384_in22k(num_classes: int = 21841, **kwargs):
 
 
 def swin_large_patch4_window7_224_in22k(num_classes: int = 21841, **kwargs):
-    # https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_large_patch4_window7_224_22k.pth
-    model = SwinTransformer(in_chans=3,
+    """
+    https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_large_patch4_window7_224_22k.pth
+    """
+    model = SwinTransformer(image_size=224,
+                            in_chans=3,
                             patch_size=4,
                             window_size=7,
                             embed_dim=192,
@@ -734,8 +759,11 @@ def swin_large_patch4_window7_224_in22k(num_classes: int = 21841, **kwargs):
 
 
 def swin_large_patch4_window12_384_in22k(num_classes: int = 21841, **kwargs):
-    # https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_large_patch4_window12_384_22k.pth
-    model = SwinTransformer(in_chans=3,
+    """
+    https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_large_patch4_window12_384_22k.pth
+    """
+    model = SwinTransformer(image_size=384,
+                            in_chans=3,
                             patch_size=4,
                             window_size=12,
                             embed_dim=192,

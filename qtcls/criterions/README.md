@@ -5,8 +5,8 @@ English | [简体中文](README_zh-CN.md)
 1. Create `your_criterion.py`.
 2. In `your_criterion.py`, inherit `BaseCriterion` to define your criterion. **You only need to define every loss
    function that returns in `dict` format, and each key-value pair represents a loss item. The loss function name MUST
-   be in `loss_{name}` format.** The forward() is defined in the parent class `BaseCriterion` that calls the loss
-   functions we defined and gathers each loss function's output.
+   be in `loss_{name}` format.** The `forward()` function is defined in the parent class `BaseCriterion` that calls the
+   loss functions we defined and gathers each loss function's output.
 
 ```python
 # your_criterion.py
@@ -23,7 +23,7 @@ class YourCriterion(BaseCriterion):
     def loss_name1(self, outputs, targets, **kwargs):
         losses = {}
         ...
-        losses['a'] = ... 
+        losses['a'] = ...
         return losses
 
     def loss_name2(self, outputs, targets, **kwargs):
@@ -32,11 +32,11 @@ class YourCriterion(BaseCriterion):
         losses['b'] = ...
         losses['c'] = ...
         return losses
-    
+
     def loss_name3(self, outputs, targets, **kwargs):
         losses = {}
         ...
-        losses['d'] = ... 
+        losses['d'] = ...
         return losses
 ```
 

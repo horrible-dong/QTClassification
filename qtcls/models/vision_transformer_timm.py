@@ -1,5 +1,6 @@
 # -------------------------------------------------------------------------------
 # Modified from
+# timm
 # https://github.com/WZMIAOMIAO/deep-learning-for-image-processing
 # -------------------------------------------------------------------------------
 
@@ -11,14 +12,26 @@ import torch.nn as nn
 
 __all__ = [
     'VisionTransformer',
-    'vit_base_patch16_224',
-    'vit_base_patch16_224_in21k',
+    'vit_tiny_patch4_32',
+    'vit_tiny_patch16_224',
+    'vit_tiny_patch16_384',
+    'vit_small_patch32_224',
+    'vit_small_patch32_384',
+    'vit_small_patch16_224',
+    'vit_small_patch16_384',
+    'vit_small_patch8_224',
     'vit_base_patch32_224',
-    'vit_base_patch32_224_in21k',
+    'vit_base_patch32_384',
+    'vit_base_patch16_224',
+    'vit_base_patch16_384',
+    'vit_base_patch8_224',
+    'vit_large_patch32_224',
+    'vit_large_patch32_384',
     'vit_large_patch16_224',
-    'vit_large_patch16_224_in21k',
-    'vit_large_patch32_224_in21k',
-    'vit_huge_patch14_224_in21k',
+    'vit_large_patch16_384',
+    'vit_large_patch14_224',
+    'vit_huge_patch14_224',
+    'vit_giant_patch14_224'
 ]
 
 
@@ -76,8 +89,6 @@ class PatchEmbed(nn.Module):
         assert H == self.img_size[0] and W == self.img_size[1], \
             f"Input image size ({H}*{W}) doesn't match model ({self.img_size[0]}*{self.img_size[1]})."
 
-        # flatten: [B, C, H, W] -> [B, C, HW]
-        # transpose: [B, C, HW] -> [B, HW, C]
         x = self.proj(x).flatten(2).transpose(1, 2)
         x = self.norm(x)
         return x
@@ -101,25 +112,15 @@ class Attention(nn.Module):
         self.proj_drop = nn.Dropout(proj_drop_ratio)
 
     def forward(self, x):
-        # [batch_size, num_patches + 1, total_embed_dim]
         B, N, C = x.shape
 
-        # qkv(): -> [batch_size, num_patches + 1, 3 * total_embed_dim]
-        # reshape: -> [batch_size, num_patches + 1, 3, num_heads, embed_dim_per_head]
-        # permute: -> [3, batch_size, num_heads, num_patches + 1, embed_dim_per_head]
         qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, C // self.num_heads).permute(2, 0, 3, 1, 4)
-        # [batch_size, num_heads, num_patches + 1, embed_dim_per_head]
         q, k, v = qkv[0], qkv[1], qkv[2]  # make torchscript happy (cannot use tensor as tuple)
 
-        # transpose: -> [batch_size, num_heads, embed_dim_per_head, num_patches + 1]
-        # @: multiply -> [batch_size, num_heads, num_patches + 1, num_patches + 1]
         attn = (q @ k.transpose(-2, -1)) * self.scale
         attn = attn.softmax(dim=-1)
         attn = self.attn_drop(attn)
 
-        # @: multiply -> [batch_size, num_heads, num_patches + 1, embed_dim_per_head]
-        # transpose: -> [batch_size, num_patches + 1, num_heads, embed_dim_per_head]
-        # reshape: -> [batch_size, num_patches + 1, total_embed_dim]
         x = (attn @ v).transpose(1, 2).reshape(B, N, C)
         x = self.proj(x)
         x = self.proj_drop(x)
@@ -192,7 +193,7 @@ class VisionTransformer(nn.Module):
             embed_dim (int): embedding dimension
             depth (int): depth of transformer
             num_heads (int): number of attention heads
-            mlp_ratio (int): ratio of mlp hidden dim to embedding dim
+            mlp_ratio (float): ratio of mlp hidden dim to embedding dim
             qkv_bias (bool): enable bias for qkv if True
             qk_scale (float): override default qk scale of head_dim ** -0.5 if set
             representation_size (Optional[int]): enable and set representation layer (pre-logits) to this value if set
@@ -254,12 +255,11 @@ class VisionTransformer(nn.Module):
         self.apply(_init_vit_weights)
 
     def forward_features(self, x):
-        # [B, C, H, W] -> [B, num_patches, embed_dim]
-        x = self.patch_embed(x)  # [B, 196, 768]
-        # [1, 1, 768] -> [B, 1, 768]
+        x = self.patch_embed(x)
+
         cls_token = self.cls_token.expand(x.shape[0], -1, -1)
         if self.dist_token is None:
-            x = torch.cat((cls_token, x), dim=1)  # [B, 197, 768]
+            x = torch.cat((cls_token, x), dim=1)
         else:
             x = torch.cat((cls_token, self.dist_token.expand(x.shape[0], -1, -1), x), dim=1)
 
@@ -303,65 +303,108 @@ def _init_vit_weights(m):
         nn.init.ones_(m.weight)
 
 
-def vit_base_patch16_224(num_classes: int = 1000):
-    """
-    ViT-Base model (ViT-B/16) from original paper (https://arxiv.org/abs/2010.11929).
-    ImageNet-1k weights @ 224x224, source https://github.com/google-research/vision_transformer.
-    weights ported from official Google JAX impl:
-    链接: https://pan.baidu.com/s/1zqb08naP0RPqqfSXfkB2EA  密码: eu9f
-    """
-    model = VisionTransformer(img_size=224,
-                              patch_size=16,
-                              embed_dim=768,
+def vit_tiny_patch4_32(num_classes: int = 10, has_logits: bool = True):
+    model = VisionTransformer(img_size=32,
+                              in_c=3,
+                              patch_size=4,
+                              embed_dim=192,
                               depth=12,
-                              num_heads=12,
-                              representation_size=None,
+                              num_heads=3,
+                              representation_size=192 if has_logits else None,
                               num_classes=num_classes)
     return model
 
 
-def vit_base_patch16_224_in21k(num_classes: int = 21843, has_logits: bool = True):
-    """
-    ViT-Base model (ViT-B/16) from original paper (https://arxiv.org/abs/2010.11929).
-    ImageNet-21k weights @ 224x224, source https://github.com/google-research/vision_transformer.
-    weights ported from official Google JAX impl:
-    https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_patch16_224_in21k-e5005f0a.pth
-    """
+def vit_tiny_patch16_224(num_classes: int = 1000, has_logits: bool = True):
     model = VisionTransformer(img_size=224,
+                              in_c=3,
                               patch_size=16,
-                              embed_dim=768,
+                              embed_dim=192,
                               depth=12,
-                              num_heads=12,
-                              representation_size=768 if has_logits else None,
+                              num_heads=3,
+                              representation_size=192 if has_logits else None,
                               num_classes=num_classes)
     return model
 
 
-def vit_base_patch32_224(num_classes: int = 1000):
-    """
-    ViT-Base model (ViT-B/32) from original paper (https://arxiv.org/abs/2010.11929).
-    ImageNet-1k weights @ 224x224, source https://github.com/google-research/vision_transformer.
-    weights ported from official Google JAX impl:
-    链接: https://pan.baidu.com/s/1hCv0U8pQomwAtHBYc4hmZg  密码: s5hl
-    """
+def vit_tiny_patch16_384(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=384,
+                              in_c=3,
+                              patch_size=16,
+                              embed_dim=192,
+                              depth=12,
+                              num_heads=3,
+                              representation_size=192 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_small_patch32_224(num_classes: int = 1000, has_logits: bool = True):
     model = VisionTransformer(img_size=224,
+                              in_c=3,
                               patch_size=32,
-                              embed_dim=768,
+                              embed_dim=384,
                               depth=12,
-                              num_heads=12,
-                              representation_size=None,
+                              num_heads=6,
+                              representation_size=384 if has_logits else None,
                               num_classes=num_classes)
     return model
 
 
-def vit_base_patch32_224_in21k(num_classes: int = 21843, has_logits: bool = True):
+def vit_small_patch32_384(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=384,
+                              in_c=3,
+                              patch_size=32,
+                              embed_dim=384,
+                              depth=12,
+                              num_heads=6,
+                              representation_size=384 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_small_patch16_224(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=224,
+                              in_c=3,
+                              patch_size=16,
+                              embed_dim=384,
+                              depth=12,
+                              num_heads=6,
+                              representation_size=384 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_small_patch16_384(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=384,
+                              in_c=3,
+                              patch_size=16,
+                              embed_dim=384,
+                              depth=12,
+                              num_heads=6,
+                              representation_size=384 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_small_patch8_224(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=224,
+                              in_c=3,
+                              patch_size=8,
+                              embed_dim=384,
+                              depth=12,
+                              num_heads=6,
+                              representation_size=384 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_base_patch32_224(num_classes: int = 1000, has_logits: bool = True):
     """
-    ViT-Base model (ViT-B/32) from original paper (https://arxiv.org/abs/2010.11929).
-    ImageNet-21k weights @ 224x224, source https://github.com/google-research/vision_transformer.
-    weights ported from official Google JAX impl:
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_patch32_224_in21k-8db57226.pth
     """
     model = VisionTransformer(img_size=224,
+                              in_c=3,
                               patch_size=32,
                               embed_dim=768,
                               depth=12,
@@ -371,48 +414,63 @@ def vit_base_patch32_224_in21k(num_classes: int = 21843, has_logits: bool = True
     return model
 
 
-def vit_large_patch16_224(num_classes: int = 1000):
-    """
-    ViT-Large model (ViT-L/16) from original paper (https://arxiv.org/abs/2010.11929).
-    ImageNet-1k weights @ 224x224, source https://github.com/google-research/vision_transformer.
-    weights ported from official Google JAX impl:
-    链接: https://pan.baidu.com/s/1cxBgZJJ6qUWPSBNcE4TdRQ  密码: qqt8
-    """
-    model = VisionTransformer(img_size=224,
-                              patch_size=16,
-                              embed_dim=1024,
-                              depth=24,
-                              num_heads=16,
-                              representation_size=None,
+def vit_base_patch32_384(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=384,
+                              in_c=3,
+                              patch_size=32,
+                              embed_dim=768,
+                              depth=12,
+                              num_heads=12,
+                              representation_size=768 if has_logits else None,
                               num_classes=num_classes)
     return model
 
 
-def vit_large_patch16_224_in21k(num_classes: int = 21843, has_logits: bool = True):
+def vit_base_patch16_224(num_classes: int = 1000, has_logits: bool = True):
     """
-    ViT-Large model (ViT-L/16) from original paper (https://arxiv.org/abs/2010.11929).
-    ImageNet-21k weights @ 224x224, source https://github.com/google-research/vision_transformer.
-    weights ported from official Google JAX impl:
-    https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_large_patch16_224_in21k-606da67d.pth
+    https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_patch16_224_in21k-e5005f0a.pth
     """
     model = VisionTransformer(img_size=224,
+                              in_c=3,
                               patch_size=16,
-                              embed_dim=1024,
-                              depth=24,
-                              num_heads=16,
-                              representation_size=1024 if has_logits else None,
+                              embed_dim=768,
+                              depth=12,
+                              num_heads=12,
+                              representation_size=768 if has_logits else None,
                               num_classes=num_classes)
     return model
 
 
-def vit_large_patch32_224_in21k(num_classes: int = 21843, has_logits: bool = True):
+def vit_base_patch16_384(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=384,
+                              in_c=3,
+                              patch_size=16,
+                              embed_dim=768,
+                              depth=12,
+                              num_heads=12,
+                              representation_size=768 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_base_patch8_224(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=224,
+                              in_c=3,
+                              patch_size=8,
+                              embed_dim=768,
+                              depth=12,
+                              num_heads=12,
+                              representation_size=768 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_large_patch32_224(num_classes: int = 1000, has_logits: bool = True):
     """
-    ViT-Large model (ViT-L/32) from original paper (https://arxiv.org/abs/2010.11929).
-    ImageNet-21k weights @ 224x224, source https://github.com/google-research/vision_transformer.
-    weights ported from official Google JAX impl:
-    https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_large_patch32_224_in21k-9046d2e7.pth
+    https://github.com/rwightman/releases/download/v0.1-vitjx/jx_vit_large_patch32_224_in21k-9046d2e7.pth
     """
     model = VisionTransformer(img_size=224,
+                              in_c=3,
                               patch_size=32,
                               embed_dim=1024,
                               depth=24,
@@ -422,17 +480,77 @@ def vit_large_patch32_224_in21k(num_classes: int = 21843, has_logits: bool = Tru
     return model
 
 
-def vit_huge_patch14_224_in21k(num_classes: int = 21843, has_logits: bool = True):
+def vit_large_patch32_384(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=384,
+                              in_c=3,
+                              patch_size=32,
+                              embed_dim=1024,
+                              depth=24,
+                              num_heads=16,
+                              representation_size=1024 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_large_patch16_224(num_classes: int = 1000, has_logits: bool = True):
     """
-    ViT-Huge model (ViT-H/14) from original paper (https://arxiv.org/abs/2010.11929).
-    ImageNet-21k weights @ 224x224, source https://github.com/google-research/vision_transformer.
-    NOTE: converted weights not currently available, too large for github release hosting.
+    https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_large_patch16_224_in21k-606da67d.pth
     """
     model = VisionTransformer(img_size=224,
+                              in_c=3,
+                              patch_size=16,
+                              embed_dim=1024,
+                              depth=24,
+                              num_heads=16,
+                              representation_size=1024 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_large_patch16_384(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=384,
+                              in_c=3,
+                              patch_size=16,
+                              embed_dim=1024,
+                              depth=24,
+                              num_heads=16,
+                              representation_size=1024 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_large_patch14_224(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=224,
+                              in_c=3,
+                              patch_size=14,
+                              embed_dim=1024,
+                              depth=24,
+                              num_heads=16,
+                              representation_size=1024 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_huge_patch14_224(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=224,
+                              in_c=3,
                               patch_size=14,
                               embed_dim=1280,
                               depth=32,
                               num_heads=16,
+                              representation_size=1280 if has_logits else None,
+                              num_classes=num_classes)
+    return model
+
+
+def vit_giant_patch14_224(num_classes: int = 1000, has_logits: bool = True):
+    model = VisionTransformer(img_size=224,
+                              in_c=3,
+                              patch_size=14,
+                              embed_dim=1408,
+                              depth=40,
+                              num_heads=16,
+                              mlp_ratio=48 / 11,
                               representation_size=1280 if has_logits else None,
                               num_classes=num_classes)
     return model

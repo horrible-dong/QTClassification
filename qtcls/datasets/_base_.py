@@ -38,7 +38,7 @@ class BaseDataset(Dataset):
         self.__check_transforms()
 
         if verbose:
-            print(f'loading {self.__class__.__name__.lower()}-{split} from {self.root}')
+            print(f'Loading {self.__class__.__name__.lower()}-{split} from {self.root}')
 
     def __getitem__(self, index):
         raise NotImplementedError

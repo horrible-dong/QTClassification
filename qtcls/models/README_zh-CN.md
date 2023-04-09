@@ -51,7 +51,8 @@ from .your_dataset import *  # 通常在 '__all__' 被申明的情况下可以�
 ```
 
 4. 如果你有预训练权重，把它的路径添加到 [`_pretrain_.py`](_pretrain_.py)
-   中。当加载预训练权重时，会优先搜索 `model_local_paths`，而后才是 `model_urls`。对于同一个模型架构，你可以用列表存放多个本地权重路径，系统会自动从中搜索。
+   中。当加载预训练权重时，会优先搜索 `model_local_paths`，而后才是 `model_urls`。对于同一个模型架构，你可以用列表存放多个本地权
+   重路径，系统会自动从中搜索。
 
 ```python
 # _pretrain_.py

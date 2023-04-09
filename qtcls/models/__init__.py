@@ -1,19 +1,24 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
 from .alexnet import *
+from .cait import *
 from .convnext import *
 from .densenet import *
 from .efficientnet import *
 from .googlenet import *
 from .inception import *
+from .levit import *
+from .mlp_mixer import *
 from .mnasnet import *
 from .mobilenetv2 import *
 from .mobilenetv3 import *
+from .poolformer import *
 from .regnet import *
 from .resnet import *
 from .shufflenetv2 import *
 from .squeezenet import *
 from .swin_transformer import *
+from .swin_transformer_v2 import *
 from .vgg import *
 from .vision_transformer_timm import *
 from .vision_transformer_torchvision import *
@@ -30,14 +35,22 @@ def build_model(args):
 
     model_lib = args.model_lib.lower()
     model_name = args.model.lower()
-    num_classes = datasets.num_classes[args.dataset.lower()]
+
+    try:
+        num_classes = datasets.num_classes[args.dataset.lower()]
+    except KeyError:
+        print(f"KeyError: 'num_classes' for the dataset '{args.dataset.lower()}' is not found. "
+              f"Please register your dataset's 'num_classes' in 'qtcls/datasets/__init__.py'.")
+        exit(1)
+
     pretrained = not args.no_pretrain and is_main_process()
 
     if model_lib == 'torchvision-ex':
-        if __vars__.get(model_name):
+        try:
             model = __vars__[model_name](num_classes=num_classes)
-        else:
-            raise KeyError(f"model '{model_name}' is not found.")
+        except KeyError:
+            print(f"KeyError: model '{model_name}' is not found.")
+            exit(1)
 
         if pretrained:
             found_local_path = search_pretrained_from_local_paths(model_name)
@@ -47,8 +60,12 @@ def build_model(args):
                 state_dict = torch.load(found_local_path)
             elif found_url:
                 state_dict = load_state_dict_from_url(found_url, progress=True)
+                if 'model' in state_dict.keys():
+                    state_dict = state_dict['model']
             else:
-                raise FileNotFoundError(f"pretrained model for '{model_name}' is not found")
+                raise FileNotFoundError(f"pretrained model for '{model_name}' is not found. "
+                                        f"Please register your pretrained path in 'qtcls/datasets/_pretrain_.py' "
+                                        f"or set the argument '--no_pretrain'.")
 
             checkpoint_loader(model, state_dict, strict=False)
 
