@@ -45,10 +45,12 @@ def get_args_parser():
     parser.add_argument('--drop_lr_now', action='store_true')
     parser.add_argument('--drop_last', action='store_true')
     parser.add_argument('--amp', action='store_true', help='automatic mixed precision training')
+    parser.add_argument('--no_dist', action='store_true', help='forcibly disable distributed mode')
 
     # dataset
     parser.add_argument('--data_root', type=str, default='./data')
     parser.add_argument('--dataset', '-d', type=str, default='cifar10')
+    parser.add_argument('--image_size', type=int)
 
     # model
     parser.add_argument('--model_lib', default='torchvision-ex', type=str, choices=['torchvision-ex', 'timm'],

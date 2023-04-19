@@ -479,6 +479,7 @@ def levit_128s(num_classes: int = 1000):
                   key_dim=16,
                   num_heads=(4, 6, 8),
                   depth=(2, 3, 4),
+                  use_conv=False,
                   num_classes=num_classes)
     return model
 
@@ -491,6 +492,7 @@ def levit_128(num_classes: int = 1000):
                   key_dim=16,
                   num_heads=(4, 8, 12),
                   depth=(4, 4, 4),
+                  use_conv=False,
                   num_classes=num_classes)
     return model
 
@@ -503,6 +505,7 @@ def levit_192(num_classes: int = 1000):
                   key_dim=32,
                   num_heads=(3, 5, 6),
                   depth=(4, 4, 4),
+                  use_conv=False,
                   num_classes=num_classes)
     return model
 
@@ -515,6 +518,7 @@ def levit_256(num_classes: int = 1000):
                   key_dim=32,
                   num_heads=(4, 6, 8),
                   depth=(4, 4, 4),
+                  use_conv=False,
                   num_classes=num_classes)
     return model
 
@@ -526,6 +530,7 @@ def levit_256d(num_classes: int = 1000):
                   key_dim=32,
                   num_heads=(4, 6, 8),
                   depth=(4, 8, 6),
+                  use_conv=False,
                   num_classes=num_classes)
     return model
 
@@ -538,5 +543,6 @@ def levit_384(num_classes: int = 1000):
                   key_dim=32,
                   num_heads=(6, 9, 12),
                   depth=(4, 4, 4),
+                  use_conv=False,
                   num_classes=num_classes)
     return model

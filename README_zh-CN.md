@@ -3,7 +3,7 @@ QTClassification
 
 **轻量可扩展的图像分类工具箱**
 
-[![version](https://img.shields.io/badge/Version-0.2.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.3.0_dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README_zh-CN.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -137,15 +137,15 @@ python main.py \
 |      `--optimizer`       |                     优化器名称，在 [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py)，如 `sgd` 和 `adam`。                      |     `adamw`      |
 |      `--scheduler`       |                    学习率调整策略名称，在 [qtcls/schedulers/\_\_init\_\_.py](qtcls/schedulers/__init__.py) 中定义，如 `cosine`。                     |     `cosine`     |
 |      `--evaluator`       |               验证器名称，在 [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py) 中定义。默认的验证器会计算准确率、召回率、精确率和f1分数。               |    `default`     |
-|   `--resume`<br />`-r`   |                                                            要从中恢复的检查点路径。                                                             |        /         |
+|   `--resume`<br />`-r`   |                                                         要从中恢复的checkpoint路径。                                                         |        /         |
 | `--output_dir`<br />`-o` |                                           输出目录，用来存放checkpoint文件（包含模型权重、优化器权重等）、日志文件和其他输出。                                           | `./runs/__tmp__` |
 |          `--lr`          |                                                                学习率。                                                                 |      `1e-4`      |
 |        `--epochs`        |                                                                  /                                                                  |      `300`       |
 | `--batch_size`<br />`-b` |                                                                  /                                                                  |       `8`        |
 |         `--amp`          |                                                             启用自动混合精度训练。                                                             |     `False`      |
 |         `--eval`         |                                                              只验证，不训练。                                                               |     `False`      |
-|   `--config`<br />`-c`   |                                      配置文件路径。详见 [configs](configs)。配置文件中的参数会合并或覆盖命令行参数 `args` 。                                      |        /         |
 |         `--note`         |                                              备忘笔记。 笔记内容会在每个epoch之后打印一次，以防你记不清自己正在跑什么。                                               |        /         |
+|   `--config`<br />`-c`   |                                      配置文件路径。详见 [configs](configs)。配置文件中的参数会合并或覆盖命令行参数 `args` 。                                      |        /         |
 
 **如何放置你的数据集**
 
@@ -207,10 +207,10 @@ python main.py \
 **Inception**    
 `inception_v3`
 
-**LeVit**    
+**LeViT**    
 `levit_128s`, `levit_128`, `levit_192`, `levit_256`, `levit_256d`, `levit_384`
 
-**MlpMixer**   
+**MLP-Mixer**   
 `mixer_s32_224`, `mixer_s16_224`, `mixer_b32_224`, `mixer_b16_224`, `mixer_b16_224_in21k`, `mixer_l32_224`, `mixer_l16_224`, `mixer_l16_224_in21k`, `mixer_b16_224_miil_in21k`, `mixer_b16_224_miil`, `gmixer_12_224`, `gmixer_24_224`, `resmlp_12_224`, `resmlp_24_224`, `resmlp_36_224`, `resmlp_big_24_224`, `resmlp_12_distilled_224`, `resmlp_24_distilled_224`, `resmlp_36_distilled_224`, `resmlp_big_24_distilled_224`, `resmlp_big_24_224_in22ft1k`, `resmlp_12_224_dino`, `resmlp_24_224_dino`, `gmlp_ti16_224`, `gmlp_s16_224`, `gmlp_b16_224`
 
 **MNASNet**   

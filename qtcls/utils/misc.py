@@ -322,6 +322,10 @@ def is_main_process():
 
 
 def init_distributed_mode(args):
+    if args.no_dist:
+        args.distributed = False
+        return
+
     if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
         args.rank = int(os.environ["RANK"])
         args.world_size = int(os.environ['WORLD_SIZE'])

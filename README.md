@@ -3,7 +3,7 @@ QTClassification
 
 **A lightweight and extensible toolbox for image classification**
 
-[![version](https://img.shields.io/badge/Version-0.2.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.3.0_dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -147,8 +147,8 @@ arguments*.
 | `--batch_size`<br />`-b` |                                                                                                  /                                                                                                   |       `8`        |
 |         `--amp`          |                                                                              Enable automatic mixed precision training.                                                                              |     `False`      |
 |         `--eval`         |                                                                                            Evaluate only.                                                                                            |     `False`      |
-|   `--config`<br />`-c`   |                                       Config file path. See [configs](configs). Arguments in the config file merge or override command line arguments `args`.                                        |        /         |
 |         `--note`         |                                                       Note. The note content prints after each epoch, in case you forget what you are running.                                                       |        /         |
+|   `--config`<br />`-c`   |                                       Config file path. See [configs](configs). Arguments in the config file merge or override command line arguments `args`.                                        |        /         |
 
 **How to put your dataset**
 
@@ -211,10 +211,10 @@ Currently supported argument `--model`:
 **Inception**    
 `inception_v3`
 
-**LeVit**    
+**LeViT**    
 `levit_128s`, `levit_128`, `levit_192`, `levit_256`, `levit_256d`, `levit_384`
 
-**MlpMixer**   
+**MLP-Mixer**   
 `mixer_s32_224`, `mixer_s16_224`, `mixer_b32_224`, `mixer_b16_224`, `mixer_b16_224_in21k`, `mixer_l32_224`, `mixer_l16_224`, `mixer_l16_224_in21k`, `mixer_b16_224_miil_in21k`, `mixer_b16_224_miil`, `gmixer_12_224`, `gmixer_24_224`, `resmlp_12_224`, `resmlp_24_224`, `resmlp_36_224`, `resmlp_big_24_224`, `resmlp_12_distilled_224`, `resmlp_24_distilled_224`, `resmlp_36_distilled_224`, `resmlp_big_24_distilled_224`, `resmlp_big_24_224_in22ft1k`, `resmlp_12_224_dino`, `resmlp_24_224_dino`, `gmlp_ti16_224`, `gmlp_s16_224`, `gmlp_b16_224`
 
 **MNASNet**   

@@ -35,12 +35,16 @@ def build_dataset(args, split, download=True):
         if split == 'val':
             split = 'test'
 
+        image_size = 28 if args.image_size is None else args.image_size
+
         transform = {
             "train": tfs.Compose([
+                tfs.Resize(image_size),
                 tfs.ToTensor(),
                 tfs.Normalize([0.5], [0.5])
             ]),
             "test": tfs.Compose([
+                tfs.Resize(image_size),
                 tfs.ToTensor(),
                 tfs.Normalize([0.5], [0.5])
             ])
@@ -55,7 +59,7 @@ def build_dataset(args, split, download=True):
         if split == 'val':
             split = 'test'
 
-        image_size = 32
+        image_size = 32 if args.image_size is None else args.image_size
 
         transform = {
             "train": tfs.Compose([
@@ -81,7 +85,7 @@ def build_dataset(args, split, download=True):
         if split == 'val':
             split = 'test'
 
-        image_size = 32
+        image_size = 32 if args.image_size is None else args.image_size
 
         transform = {
             "train": tfs.Compose([
@@ -103,7 +107,7 @@ def build_dataset(args, split, download=True):
                         transform=transform,
                         download=download)
 
-    if dataset_name == 'imagenet1k':  # 224 x 224
+    if dataset_name == 'imagenet1k':
         transform = {
             "train": tfs.Compose([
                 tfs.RandomResizedCrop(224),
@@ -152,13 +156,17 @@ def build_dataset(args, split, download=True):
         if split == 'val':
             split = 'test'
 
+        image_size = 32 if args.image_size is None else args.image_size
+
         transform = {
             "train": tfs.Compose([
-                tfs.RandomHorizontalFlip(),
+                tfs.RandomCrop(32, padding=4),
+                tfs.Resize(image_size),
                 tfs.ToTensor(),
                 tfs.Normalize([0.4914, 0.4822, 0.4465], [0.2023, 0.1994, 0.2010]),
             ]),
             "test": tfs.Compose([
+                tfs.Resize(image_size),
                 tfs.ToTensor(),
                 tfs.Normalize([0.4914, 0.4822, 0.4465], [0.2023, 0.1994, 0.2010])
             ])
