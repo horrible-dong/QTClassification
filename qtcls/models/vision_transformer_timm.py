@@ -303,254 +303,234 @@ def _init_vit_weights(m):
         nn.init.ones_(m.weight)
 
 
-def vit_tiny_patch4_32(num_classes: int = 10, has_logits: bool = True):
+def vit_tiny_patch4_32(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=32,
-                              in_c=3,
                               patch_size=4,
                               embed_dim=192,
                               depth=12,
                               num_heads=3,
                               representation_size=192 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_tiny_patch16_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_tiny_patch16_224(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=16,
                               embed_dim=192,
                               depth=12,
                               num_heads=3,
                               representation_size=192 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_tiny_patch16_384(num_classes: int = 1000, has_logits: bool = True):
+def vit_tiny_patch16_384(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=384,
-                              in_c=3,
                               patch_size=16,
                               embed_dim=192,
                               depth=12,
                               num_heads=3,
                               representation_size=192 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_small_patch32_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_small_patch32_224(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=32,
                               embed_dim=384,
                               depth=12,
                               num_heads=6,
                               representation_size=384 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_small_patch32_384(num_classes: int = 1000, has_logits: bool = True):
+def vit_small_patch32_384(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=384,
-                              in_c=3,
                               patch_size=32,
                               embed_dim=384,
                               depth=12,
                               num_heads=6,
                               representation_size=384 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_small_patch16_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_small_patch16_224(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=16,
                               embed_dim=384,
                               depth=12,
                               num_heads=6,
                               representation_size=384 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_small_patch16_384(num_classes: int = 1000, has_logits: bool = True):
+def vit_small_patch16_384(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=384,
-                              in_c=3,
                               patch_size=16,
                               embed_dim=384,
                               depth=12,
                               num_heads=6,
                               representation_size=384 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_small_patch8_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_small_patch8_224(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=8,
                               embed_dim=384,
                               depth=12,
                               num_heads=6,
                               representation_size=384 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_base_patch32_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_base_patch32_224(has_logits: bool = True, **kwargs):
     """
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_patch32_224_in21k-8db57226.pth
     """
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=32,
                               embed_dim=768,
                               depth=12,
                               num_heads=12,
                               representation_size=768 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_base_patch32_384(num_classes: int = 1000, has_logits: bool = True):
+def vit_base_patch32_384(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=384,
-                              in_c=3,
                               patch_size=32,
                               embed_dim=768,
                               depth=12,
                               num_heads=12,
                               representation_size=768 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_base_patch16_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_base_patch16_224(has_logits: bool = True, **kwargs):
     """
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_patch16_224_in21k-e5005f0a.pth
     """
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=16,
                               embed_dim=768,
                               depth=12,
                               num_heads=12,
                               representation_size=768 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_base_patch16_384(num_classes: int = 1000, has_logits: bool = True):
+def vit_base_patch16_384(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=384,
-                              in_c=3,
                               patch_size=16,
                               embed_dim=768,
                               depth=12,
                               num_heads=12,
                               representation_size=768 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_base_patch8_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_base_patch8_224(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=8,
                               embed_dim=768,
                               depth=12,
                               num_heads=12,
                               representation_size=768 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_large_patch32_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_large_patch32_224(has_logits: bool = True, **kwargs):
     """
     https://github.com/rwightman/releases/download/v0.1-vitjx/jx_vit_large_patch32_224_in21k-9046d2e7.pth
     """
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=32,
                               embed_dim=1024,
                               depth=24,
                               num_heads=16,
                               representation_size=1024 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_large_patch32_384(num_classes: int = 1000, has_logits: bool = True):
+def vit_large_patch32_384(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=384,
-                              in_c=3,
                               patch_size=32,
                               embed_dim=1024,
                               depth=24,
                               num_heads=16,
                               representation_size=1024 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_large_patch16_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_large_patch16_224(has_logits: bool = True, **kwargs):
     """
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_large_patch16_224_in21k-606da67d.pth
     """
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=16,
                               embed_dim=1024,
                               depth=24,
                               num_heads=16,
                               representation_size=1024 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_large_patch16_384(num_classes: int = 1000, has_logits: bool = True):
+def vit_large_patch16_384(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=384,
-                              in_c=3,
                               patch_size=16,
                               embed_dim=1024,
                               depth=24,
                               num_heads=16,
                               representation_size=1024 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_large_patch14_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_large_patch14_224(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=14,
                               embed_dim=1024,
                               depth=24,
                               num_heads=16,
                               representation_size=1024 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_huge_patch14_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_huge_patch14_224(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=14,
                               embed_dim=1280,
                               depth=32,
                               num_heads=16,
                               representation_size=1280 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def vit_giant_patch14_224(num_classes: int = 1000, has_logits: bool = True):
+def vit_giant_patch14_224(has_logits: bool = True, **kwargs):
     model = VisionTransformer(img_size=224,
-                              in_c=3,
                               patch_size=14,
                               embed_dim=1408,
                               depth=40,
                               num_heads=16,
                               mlp_ratio=48 / 11,
                               representation_size=1280 if has_logits else None,
-                              num_classes=num_classes)
+                              **kwargs)
     return model

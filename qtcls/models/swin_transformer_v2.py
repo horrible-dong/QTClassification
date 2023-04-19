@@ -569,173 +569,161 @@ def checkpoint_filter_fn(state_dict, model):
     return out_dict
 
 
-def swinv2_tiny_window16_256(num_classes: int = 1000):
+def swinv2_tiny_window16_256(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_tiny_patch4_window16_256.pth
     """
     model = SwinTransformerV2(img_size=256,
-                              in_chans=3,
                               window_size=16,
                               embed_dim=96,
                               depths=(2, 2, 6, 2),
                               num_heads=(3, 6, 12, 24),
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def swinv2_tiny_window8_256(num_classes: int = 1000):
+def swinv2_tiny_window8_256(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_tiny_patch4_window8_256.pth
     """
     model = SwinTransformerV2(img_size=256,
-                              in_chans=3,
                               window_size=8,
                               embed_dim=96,
                               depths=(2, 2, 6, 2),
                               num_heads=(3, 6, 12, 24),
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def swinv2_small_window16_256(num_classes: int = 1000):
+def swinv2_small_window16_256(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_small_patch4_window16_256.pth
     """
     model = SwinTransformerV2(img_size=256,
-                              in_chans=3,
                               window_size=16,
                               embed_dim=96,
                               depths=(2, 2, 18, 2),
                               num_heads=(3, 6, 12, 24),
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def swinv2_small_window8_256(num_classes: int = 1000):
+def swinv2_small_window8_256(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_small_patch4_window8_256.pth
     """
     model = SwinTransformerV2(img_size=256,
-                              in_chans=3,
                               window_size=8,
                               embed_dim=96,
                               depths=(2, 2, 18, 2),
                               num_heads=(3, 6, 12, 24),
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def swinv2_base_window16_256(num_classes: int = 1000):
+def swinv2_base_window16_256(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_base_patch4_window16_256.pth
     """
     model = SwinTransformerV2(img_size=256,
-                              in_chans=3,
                               window_size=16,
                               embed_dim=128,
                               depths=(2, 2, 18, 2),
                               num_heads=(4, 8, 16, 32),
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def swinv2_base_window8_256(num_classes: int = 1000):
+def swinv2_base_window8_256(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_base_patch4_window8_256.pth
     """
     model = SwinTransformerV2(img_size=256,
-                              in_chans=3,
                               window_size=8,
                               embed_dim=128,
                               depths=(2, 2, 18, 2),
                               num_heads=(4, 8, 16, 32),
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def swinv2_base_window12_192_22k(num_classes: int = 1000):
+def swinv2_base_window12_192_22k(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_base_patch4_window12_192_22k.pth
     """
     model = SwinTransformerV2(img_size=192,
-                              in_chans=3,
                               window_size=12,
                               embed_dim=128,
                               depths=(2, 2, 18, 2),
                               num_heads=(4, 8, 16, 32),
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def swinv2_base_window12to16_192to256_22kft1k(num_classes: int = 1000):
+def swinv2_base_window12to16_192to256_22kft1k(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_base_patch4_window12to16_192to256_22kto1k_ft.pth
     """
     model = SwinTransformerV2(img_size=256,
-                              in_chans=3,
                               window_size=16,
                               embed_dim=128,
                               depths=(2, 2, 18, 2),
                               num_heads=(4, 8, 16, 32),
                               pretrained_window_sizes=(12, 12, 12, 6),
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def swinv2_base_window12to24_192to384_22kft1k(num_classes: int = 1000):
+def swinv2_base_window12to24_192to384_22kft1k(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_base_patch4_window12to24_192to384_22kto1k_ft.pth
     """
     model = SwinTransformerV2(img_size=384,
-                              in_chans=3,
                               window_size=24,
                               embed_dim=128,
                               depths=(2, 2, 18, 2),
                               num_heads=(4, 8, 16, 32),
                               pretrained_window_sizes=(12, 12, 12, 6),
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def swinv2_large_window12_192_22k(num_classes: int = 1000):
+def swinv2_large_window12_192_22k(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_large_patch4_window12_192_22k.pth
     """
     model = SwinTransformerV2(img_size=192,
-                              in_chans=3,
                               window_size=12,
                               embed_dim=192,
                               depths=(2, 2, 18, 2),
                               num_heads=(6, 12, 24, 48),
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def swinv2_large_window12to16_192to256_22kft1k(num_classes: int = 1000):
+def swinv2_large_window12to16_192to256_22kft1k(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_large_patch4_window12to16_192to256_22kto1k_ft.pth
     """
     model = SwinTransformerV2(img_size=256,
-                              in_chans=3,
                               window_size=16,
                               embed_dim=192,
                               depths=(2, 2, 18, 2),
                               num_heads=(6, 12, 24, 48),
                               pretrained_window_sizes=(12, 12, 12, 6),
-                              num_classes=num_classes)
+                              **kwargs)
     return model
 
 
-def swinv2_large_window12to24_192to384_22kft1k(num_classes: int = 1000):
+def swinv2_large_window12to24_192to384_22kft1k(**kwargs):
     """
     https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_large_patch4_window12to24_192to384_22kto1k_ft.pth
     """
     model = SwinTransformerV2(img_size=384,
-                              in_chans=3,
                               window_size=24,
                               embed_dim=192,
                               depths=(2, 2, 18, 2),
                               num_heads=(6, 12, 24, 48),
                               pretrained_window_sizes=(12, 12, 12, 6),
-                              num_classes=num_classes)
+                              **kwargs)
     return model

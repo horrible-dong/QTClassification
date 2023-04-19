@@ -471,78 +471,72 @@ def checkpoint_filter_fn(state_dict, model):
     return state_dict
 
 
-def levit_128s(num_classes: int = 1000):
+def levit_128s(**kwargs):
     """ https://dl.fbaipublicfiles.com/LeViT/LeViT-128S-96703c44.pth """
     model = Levit(img_size=224,
-                  in_chans=3,
                   embed_dim=(128, 256, 384),
                   key_dim=16,
                   num_heads=(4, 6, 8),
                   depth=(2, 3, 4),
                   use_conv=False,
-                  num_classes=num_classes)
+                  **kwargs)
     return model
 
 
-def levit_128(num_classes: int = 1000):
+def levit_128(**kwargs):
     """ https://dl.fbaipublicfiles.com/LeViT/LeViT-128-b88c2750.pth """
     model = Levit(img_size=224,
-                  in_chans=3,
                   embed_dim=(128, 256, 384),
                   key_dim=16,
                   num_heads=(4, 8, 12),
                   depth=(4, 4, 4),
                   use_conv=False,
-                  num_classes=num_classes)
+                  **kwargs)
     return model
 
 
-def levit_192(num_classes: int = 1000):
+def levit_192(**kwargs):
     """ https://dl.fbaipublicfiles.com/LeViT/LeViT-192-92712e41.pth """
     model = Levit(img_size=224,
-                  in_chans=3,
                   embed_dim=(192, 288, 384),
                   key_dim=32,
                   num_heads=(3, 5, 6),
                   depth=(4, 4, 4),
                   use_conv=False,
-                  num_classes=num_classes)
+                  **kwargs)
     return model
 
 
-def levit_256(num_classes: int = 1000):
+def levit_256(**kwargs):
     """ https://dl.fbaipublicfiles.com/LeViT/LeViT-256-13b5763e.pth """
     model = Levit(img_size=224,
-                  in_chans=3,
                   embed_dim=(256, 384, 512),
                   key_dim=32,
                   num_heads=(4, 6, 8),
                   depth=(4, 4, 4),
                   use_conv=False,
-                  num_classes=num_classes)
+                  **kwargs)
     return model
 
 
-def levit_256d(num_classes: int = 1000):
+def levit_256d(**kwargs):
     model = Levit(img_size=224,
-                  in_chans=3,
                   embed_dim=(256, 384, 512),
                   key_dim=32,
                   num_heads=(4, 6, 8),
                   depth=(4, 8, 6),
                   use_conv=False,
-                  num_classes=num_classes)
+                  **kwargs)
     return model
 
 
-def levit_384(num_classes: int = 1000):
+def levit_384(**kwargs):
     """ https://dl.fbaipublicfiles.com/LeViT/LeViT-384-9bdaf2e2.pth """
     model = Levit(img_size=224,
-                  in_chans=3,
                   embed_dim=(384, 512, 768),
                   key_dim=32,
                   num_heads=(6, 9, 12),
                   depth=(4, 4, 4),
                   use_conv=False,
-                  num_classes=num_classes)
+                  **kwargs)
     return model

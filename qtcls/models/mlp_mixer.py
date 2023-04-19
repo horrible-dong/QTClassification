@@ -280,329 +280,308 @@ def checkpoint_filter_fn(state_dict, model):
     return state_dict
 
 
-def mixer_s32_224(num_classes: int = 1000):
+def mixer_s32_224(**kwargs):
     """ Mixer-S/32 224x224
     Paper: 'MLP-Mixer: An all-MLP Architecture for Vision' - https://arxiv.org/abs/2105.01601
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=32,
                      num_blocks=8,
                      embed_dim=512,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def mixer_s16_224(num_classes: int = 1000):
+def mixer_s16_224(**kwargs):
     """ Mixer-S/16 224x224
     Paper:  'MLP-Mixer: An all-MLP Architecture for Vision' - https://arxiv.org/abs/2105.01601
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=8,
                      embed_dim=512,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def mixer_b32_224(num_classes: int = 1000):
+def mixer_b32_224(**kwargs):
     """ Mixer-B/32 224x224
     Paper:  'MLP-Mixer: An all-MLP Architecture for Vision' - https://arxiv.org/abs/2105.01601
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=32,
                      num_blocks=12,
                      embed_dim=768,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def mixer_b16_224(num_classes: int = 1000):
+def mixer_b16_224(**kwargs):
     """ Mixer-B/16 224x224. ImageNet-1k pretrained weights.
     Paper:  'MLP-Mixer: An all-MLP Architecture for Vision' - https://arxiv.org/abs/2105.01601
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_mixer_b16_224-76587d61.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=12,
                      embed_dim=768,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def mixer_b16_224_in21k(num_classes: int = 1000):
+def mixer_b16_224_in21k(**kwargs):
     """ Mixer-B/16 224x224. ImageNet-21k pretrained weights.
     Paper:  'MLP-Mixer: An all-MLP Architecture for Vision' - https://arxiv.org/abs/2105.01601
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_mixer_b16_224_in21k-617b3de2.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=12,
                      embed_dim=768,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def mixer_l32_224(num_classes: int = 1000):
+def mixer_l32_224(**kwargs):
     """ Mixer-L/32 224x224.
     Paper:  'MLP-Mixer: An all-MLP Architecture for Vision' - https://arxiv.org/abs/2105.01601
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=32,
                      num_blocks=24,
                      embed_dim=1024,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def mixer_l16_224(num_classes: int = 1000):
+def mixer_l16_224(**kwargs):
     """ Mixer-L/16 224x224. ImageNet-1k pretrained weights.
     Paper:  'MLP-Mixer: An all-MLP Architecture for Vision' - https://arxiv.org/abs/2105.01601
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_mixer_l16_224-92f9adc4.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=24,
                      embed_dim=1024,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def mixer_l16_224_in21k(num_classes: int = 1000):
+def mixer_l16_224_in21k(**kwargs):
     """ Mixer-L/16 224x224. ImageNet-21k pretrained weights.
     Paper:  'MLP-Mixer: An all-MLP Architecture for Vision' - https://arxiv.org/abs/2105.01601
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_mixer_l16_224_in21k-846aa33c.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=24,
                      embed_dim=1024,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def mixer_b16_224_miil(num_classes: int = 1000):
+def mixer_b16_224_miil(**kwargs):
     """ Mixer-B/16 224x224. ImageNet-21k pretrained weights.
     Weights taken from: https://github.com/Alibaba-MIIL/ImageNet21K
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-tresnet/mixer_b16_224_miil-9229a591.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=12,
                      embed_dim=768,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def mixer_b16_224_miil_in21k(num_classes: int = 1000):
+def mixer_b16_224_miil_in21k(**kwargs):
     """ Mixer-B/16 224x224. ImageNet-1k pretrained weights.
     Weights taken from: https://github.com/Alibaba-MIIL/ImageNet21K
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-tresnet/mixer_b16_224_miil_in21k-2a558a71.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=12,
                      embed_dim=768,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def gmixer_12_224(num_classes: int = 1000):
+def gmixer_12_224(**kwargs):
     """ Glu-Mixer-12 224x224
     Experiment by Ross Wightman, adding (Si)GLU to MLP-Mixer
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=12,
                      embed_dim=384,
                      mlp_ratio=(1.0, 4.0),
                      mlp_layer=GluMlp,
                      act_layer=nn.SiLU,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def gmixer_24_224(num_classes: int = 1000):
+def gmixer_24_224(**kwargs):
     """ Glu-Mixer-24 224x224
     Experiment by Ross Wightman, adding (Si)GLU to MLP-Mixer
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/gmixer_24_224_raa-7daf7ae6.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=24,
                      embed_dim=384,
                      mlp_ratio=(1.0, 4.0),
                      mlp_layer=GluMlp,
                      act_layer=nn.SiLU,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def resmlp_12_224(num_classes: int = 1000):
+def resmlp_12_224(**kwargs):
     """ ResMLP-12
     Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
     https://dl.fbaipublicfiles.com/deit/resmlp_12_no_dist.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=12,
                      embed_dim=384,
                      mlp_ratio=4,
                      block_layer=ResBlock,
                      norm_layer=Affine,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def resmlp_24_224(num_classes: int = 1000):
+def resmlp_24_224(**kwargs):
     """ ResMLP-24
     Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
     https://dl.fbaipublicfiles.com/deit/resmlp_24_no_dist.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=24,
                      embed_dim=384,
                      mlp_ratio=4,
                      block_layer=partial(ResBlock, init_values=1e-5),
                      norm_layer=Affine,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def resmlp_36_224(num_classes: int = 1000):
+def resmlp_36_224(**kwargs):
     """ ResMLP-36
     Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
     https://dl.fbaipublicfiles.com/deit/resmlp_36_no_dist.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=36,
                      embed_dim=384,
                      mlp_ratio=4,
                      block_layer=partial(ResBlock, init_values=1e-6),
                      norm_layer=Affine,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def resmlp_big_24_224(num_classes: int = 1000):
+def resmlp_big_24_224(**kwargs):
     """ ResMLP-B-24
     Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
     https://dl.fbaipublicfiles.com/deit/resmlpB_24_no_dist.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=8,
                      num_blocks=24,
                      embed_dim=768,
                      mlp_ratio=4,
                      block_layer=partial(ResBlock, init_values=1e-6),
                      norm_layer=Affine,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def resmlp_12_distilled_224(num_classes: int = 1000):
+def resmlp_12_distilled_224(**kwargs):
     """ ResMLP-12
     Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
     https://dl.fbaipublicfiles.com/deit/resmlp_12_dist.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=12,
                      embed_dim=384,
                      mlp_ratio=4,
                      block_layer=ResBlock,
                      norm_layer=Affine,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def resmlp_24_distilled_224(num_classes: int = 1000):
+def resmlp_24_distilled_224(**kwargs):
     """ ResMLP-24
     Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
     https://dl.fbaipublicfiles.com/deit/resmlp_24_dist.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=24,
                      embed_dim=384,
                      mlp_ratio=4,
                      block_layer=partial(ResBlock, init_values=1e-5),
                      norm_layer=Affine,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def resmlp_36_distilled_224(num_classes: int = 1000):
+def resmlp_36_distilled_224(**kwargs):
     """ ResMLP-36
     Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
     https://dl.fbaipublicfiles.com/deit/resmlp_36_dist.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=36,
                      embed_dim=384,
                      mlp_ratio=4,
                      block_layer=partial(ResBlock, init_values=1e-6),
                      norm_layer=Affine,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def resmlp_big_24_distilled_224(num_classes: int = 1000):
+def resmlp_big_24_distilled_224(**kwargs):
     """ ResMLP-B-24
     Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
     https://dl.fbaipublicfiles.com/deit/resmlpB_24_dist.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=8,
                      num_blocks=24,
                      embed_dim=768,
                      mlp_ratio=4,
                      block_layer=partial(ResBlock, init_values=1e-6),
                      norm_layer=Affine,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def resmlp_big_24_224_in22ft1k(num_classes: int = 1000):
+def resmlp_big_24_224_in22ft1k(**kwargs):
     """ ResMLP-B-24
     Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
     https://dl.fbaipublicfiles.com/deit/resmlpB_24_22k.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=8,
                      num_blocks=24,
                      embed_dim=768,
                      mlp_ratio=4,
                      block_layer=partial(ResBlock, init_values=1e-6),
                      norm_layer=Affine,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def resmlp_12_224_dino(num_classes: int = 1000):
+def resmlp_12_224_dino(**kwargs):
     """ ResMLP-12
     Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
 
@@ -610,18 +589,17 @@ def resmlp_12_224_dino(num_classes: int = 1000):
     https://dl.fbaipublicfiles.com/deit/resmlp_12_dino.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=12,
                      embed_dim=384,
                      mlp_ratio=4,
                      block_layer=ResBlock,
                      norm_layer=Affine,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def resmlp_24_224_dino(num_classes: int = 1000):
+def resmlp_24_224_dino(**kwargs):
     """ ResMLP-24
     Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
 
@@ -629,61 +607,57 @@ def resmlp_24_224_dino(num_classes: int = 1000):
     https://dl.fbaipublicfiles.com/deit/resmlp_24_dino.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=24,
                      embed_dim=384,
                      mlp_ratio=4,
                      block_layer=partial(ResBlock, init_values=1e-5),
                      norm_layer=Affine,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def gmlp_ti16_224(num_classes: int = 1000):
+def gmlp_ti16_224(**kwargs):
     """ gMLP-Tiny
     Paper: `Pay Attention to MLPs` - https://arxiv.org/abs/2105.08050
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=30,
                      embed_dim=128,
                      mlp_ratio=6,
                      block_layer=SpatialGatingBlock,
                      mlp_layer=GatedMlp,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def gmlp_s16_224(num_classes: int = 1000):
+def gmlp_s16_224(**kwargs):
     """ gMLP-Small
     Paper: `Pay Attention to MLPs` - https://arxiv.org/abs/2105.08050
     https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/gmlp_s16_224_raa-10536d42.pth
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=30,
                      embed_dim=256,
                      mlp_ratio=6,
                      block_layer=SpatialGatingBlock,
                      mlp_layer=GatedMlp,
-                     num_classes=num_classes)
+                     **kwargs)
     return model
 
 
-def gmlp_b16_224(num_classes: int = 1000):
+def gmlp_b16_224(**kwargs):
     """ gMLP-Base
     Paper: `Pay Attention to MLPs` - https://arxiv.org/abs/2105.08050
     """
     model = MlpMixer(img_size=224,
-                     in_chans=3,
                      patch_size=16,
                      num_blocks=30,
                      embed_dim=512,
                      mlp_ratio=6,
                      block_layer=SpatialGatingBlock,
                      mlp_layer=GatedMlp,
-                     num_classes=num_classes)
+                     **kwargs)
     return model

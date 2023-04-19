@@ -233,61 +233,56 @@ class PoolFormer(nn.Module):
         return x
 
 
-def poolformer_s12(num_classes: int = 1000):
+def poolformer_s12(**kwargs):
     """
     PoolFormer-S12 model, Params: 12M
     https://github.com/sail-sg/poolformer/releases/download/v1.0/poolformer_s12.pth.tar
     """
-    model = PoolFormer(in_chans=3,
-                       layers=(2, 2, 6, 2),
-                       num_classes=num_classes)
+    model = PoolFormer(layers=(2, 2, 6, 2),
+                       **kwargs)
     return model
 
 
-def poolformer_s24(num_classes: int = 1000):
+def poolformer_s24(**kwargs):
     """
     PoolFormer-S24 model, Params: 21M
     https://github.com/sail-sg/poolformer/releases/download/v1.0/poolformer_s24.pth.tar
     """
-    model = PoolFormer(in_chans=3,
-                       layers=(4, 4, 12, 4),
-                       num_classes=num_classes)
+    model = PoolFormer(layers=(4, 4, 12, 4),
+                       **kwargs)
     return model
 
 
-def poolformer_s36(num_classes: int = 1000):
+def poolformer_s36(**kwargs):
     """
     PoolFormer-S36 model, Params: 31M
     https://github.com/sail-sg/poolformer/releases/download/v1.0/poolformer_s36.pth.tar
     """
-    model = PoolFormer(in_chans=3,
-                       layers=(6, 6, 18, 6),
+    model = PoolFormer(layers=(6, 6, 18, 6),
                        layer_scale_init_value=1e-6,
-                       num_classes=num_classes)
+                       **kwargs)
     return model
 
 
-def poolformer_m36(num_classes: int = 1000):
+def poolformer_m36(**kwargs):
     """
     PoolFormer-M36 model, Params: 56M
     https://github.com/sail-sg/poolformer/releases/download/v1.0/poolformer_m36.pth.tar
     """
-    model = PoolFormer(in_chans=3,
-                       layers=(6, 6, 18, 6),
+    model = PoolFormer(layers=(6, 6, 18, 6),
                        embed_dims=(96, 192, 384, 768),
                        layer_scale_init_value=1e-6,
-                       num_classes=num_classes)
+                       **kwargs)
     return model
 
 
-def poolformer_m48(num_classes: int = 1000):
+def poolformer_m48(**kwargs):
     """
     PoolFormer-M48 model, Params: 73M
     https://github.com/sail-sg/poolformer/releases/download/v1.0/poolformer_m48.pth.tar
     """
-    model = PoolFormer(in_chans=3,
-                       layers=(8, 8, 24, 8),
+    model = PoolFormer(layers=(8, 8, 24, 8),
                        embed_dims=(96, 192, 384, 768),
                        layer_scale_init_value=1e-6,
-                       num_classes=num_classes)
+                       **kwargs)
     return model

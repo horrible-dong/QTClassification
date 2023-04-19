@@ -285,131 +285,121 @@ class Cait(nn.Module):
         return x
 
 
-def cait_xxs24_224(num_classes: int = 1000):
+def cait_xxs24_224(**kwargs):
     """ https://dl.fbaipublicfiles.com/deit/XXS24_224.pth """
     model = Cait(img_size=224,
-                 in_chans=3,
                  patch_size=16,
                  embed_dim=192,
                  depth=24,
                  num_heads=4,
                  init_values=1e-5,
-                 num_classes=num_classes)
+                 **kwargs)
     return model
 
 
-def cait_xxs24_384(num_classes: int = 1000):
+def cait_xxs24_384(**kwargs):
     """ https://dl.fbaipublicfiles.com/deit/XXS24_384.pth """
     model = Cait(img_size=384,
-                 in_chans=3,
                  patch_size=16,
                  embed_dim=192,
                  depth=24,
                  num_heads=4,
                  init_values=1e-5,
-                 num_classes=num_classes)
+                 **kwargs)
     return model
 
 
-def cait_xxs36_224(num_classes: int = 1000):
+def cait_xxs36_224(**kwargs):
     """ https://dl.fbaipublicfiles.com/deit/XXS36_224.pth """
     model = Cait(img_size=224,
-                 in_chans=3,
                  patch_size=16,
                  embed_dim=192,
                  depth=36,
                  num_heads=4,
                  init_values=1e-5,
-                 num_classes=num_classes)
+                 **kwargs)
     return model
 
 
-def cait_xxs36_384(num_classes: int = 1000):
+def cait_xxs36_384(**kwargs):
     """ https://dl.fbaipublicfiles.com/deit/XXS36_384.pth """
     model = Cait(img_size=384,
-                 in_chans=3,
                  patch_size=16,
                  embed_dim=192,
                  depth=36,
                  num_heads=4,
                  init_values=1e-5,
-                 num_classes=num_classes)
+                 **kwargs)
     return model
 
 
-def cait_xs24_384(num_classes: int = 1000):
+def cait_xs24_384(**kwargs):
     """ https://dl.fbaipublicfiles.com/deit/XS24_384.pth """
     model = Cait(img_size=384,
-                 in_chans=3,
                  patch_size=16,
                  embed_dim=288,
                  depth=24,
                  num_heads=6,
                  init_values=1e-5,
-                 num_classes=num_classes)
+                 **kwargs)
     return model
 
 
-def cait_s24_224(num_classes: int = 1000):
+def cait_s24_224(**kwargs):
     """ https://dl.fbaipublicfiles.com/deit/S24_224.pth """
     model = Cait(img_size=224,
-                 in_chans=3,
                  patch_size=16,
                  embed_dim=384,
                  depth=24,
                  num_heads=8,
                  init_values=1e-5,
-                 num_classes=num_classes)
+                 **kwargs)
     return model
 
 
-def cait_s24_384(num_classes: int = 1000):
+def cait_s24_384(**kwargs):
     """ https://dl.fbaipublicfiles.com/deit/S24_384.pth """
     model = Cait(img_size=384,
-                 in_chans=3,
                  patch_size=16,
                  embed_dim=384,
                  depth=24,
                  num_heads=8,
                  init_values=1e-5,
-                 num_classes=num_classes)
+                 **kwargs)
     return model
 
 
-def cait_s36_384(num_classes: int = 1000):
+def cait_s36_384(**kwargs):
     """ https://dl.fbaipublicfiles.com/deit/S36_384.pth """
     model = Cait(img_size=384,
-                 in_chans=3,
                  patch_size=16,
                  embed_dim=384,
                  depth=36,
                  num_heads=8,
                  init_values=1e-6,
-                 num_classes=num_classes)
+                 **kwargs)
     return model
 
 
-def cait_m36_384(num_classes: int = 1000):
+def cait_m36_384(**kwargs):
     """ https://dl.fbaipublicfiles.com/deit/M36_384.pth """
     model = Cait(img_size=384,
-                 in_chans=3,
                  patch_size=16,
                  embed_dim=768,
                  depth=36,
                  num_heads=16,
                  init_values=1e-6,
-                 num_classes=num_classes)
+                 **kwargs)
     return model
 
 
-def cait_m48_448(num_classes: int = 1000):
+def cait_m48_448(**kwargs):
     """ https://dl.fbaipublicfiles.com/deit/M48_448.pth """
     model = Cait(img_size=448,
-                 in_chans=3,
                  patch_size=16,
                  embed_dim=768,
                  depth=48,
                  num_heads=16,
                  init_values=1e-6,
-                 num_classes=num_classes)
+                 **kwargs)
     return model

@@ -24,3 +24,5 @@ clip_max_norm = 5.0
 
 warmup_epochs = 2
 amp = True
+
+model_kwargs = dict(groups=1, width_per_group=64)  # do NOT set 'num_classes' in 'model_kwargs'

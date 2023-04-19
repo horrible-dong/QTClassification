@@ -56,7 +56,7 @@ model_urls = {
     'levit_256': 'https://dl.fbaipublicfiles.com/LeViT/LeViT-256-13b5763e.pth',
     'levit_256d': '',
     'levit_384': 'https://dl.fbaipublicfiles.com/LeViT/LeViT-384-9bdaf2e2.pth',
-    
+
     'mixer_s32_224': '',
     'mixer_s16_224': '',
     'mixer_b32_224': '',

@@ -29,12 +29,17 @@ __vars__ = vars()
 def build_model(args):
     import torch
     from torch.hub import load_state_dict_from_url
+    from termcolor import cprint
     from .. import datasets
     from ..utils.io import checkpoint_loader
     from ..utils.misc import is_main_process
 
     model_lib = args.model_lib.lower()
     model_name = args.model.lower()
+
+    if 'num_classes' in args.model_kwargs.keys():
+        cprint(f"Warning: do NOT set 'num_classes' in 'args.model_kwargs'. "
+               f"Now fetching the 'num_classes' registered in 'qtcls/datasets/__init__.py'.", 'light_yellow')
 
     try:
         num_classes = datasets.num_classes[args.dataset.lower()]
@@ -43,11 +48,13 @@ def build_model(args):
               f"Please register your dataset's 'num_classes' in 'qtcls/datasets/__init__.py'.")
         exit(1)
 
+    args.model_kwargs['num_classes'] = num_classes
+
     pretrained = not args.no_pretrain and is_main_process()
 
     if model_lib == 'torchvision-ex':
         try:
-            model = __vars__[model_name](num_classes=num_classes)
+            model = __vars__[model_name](**args.model_kwargs)
         except KeyError:
             print(f"KeyError: model '{model_name}' is not found.")
             exit(1)
@@ -73,7 +80,7 @@ def build_model(args):
 
     if model_lib == 'timm':
         import timm
-        return timm.create_model(model_name, num_classes=num_classes, pretrained=pretrained)
+        return timm.create_model(model_name=model_name, pretrained=pretrained, **args.model_kwargs)
 
     raise ValueError(f"model_lib '{model_lib}' is not found.")
 

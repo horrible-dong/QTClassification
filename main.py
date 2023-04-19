@@ -56,6 +56,7 @@ def get_args_parser():
     parser.add_argument('--model_lib', default='torchvision-ex', type=str, choices=['torchvision-ex', 'timm'],
                         help='model library')
     parser.add_argument('--model', '-m', default='resnet50', type=str, help='model name')
+    parser.add_argument('--model_kwargs', default=dict(), help='model specific kwargs')
 
     # criterion
     parser.add_argument('--criterion', default='default', type=str, help='criterion name')
@@ -255,7 +256,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.config:
-        args_vars = vars(args)
         cfg = variables_loader(args.config)
         for k, v in cfg.items():
             setattr(args, k, v)
