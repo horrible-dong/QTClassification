@@ -76,4 +76,4 @@ def build_dataset(args, split, download=True):
 4. 当使用你的数据集时，把 `--dataset` 赋值为你的数据集名称 `your_dataset`。注意 `your_dataset`
    不需要和你的数据集类名 `YourDataset` 保持一致。
 5. 把你的数据集放在 `--data_root` 目录下 (默认是 `./data` 目录下).
-   请参考[“如何放置你的数据集”](../../data/README_zh-CN.md)。 
+   请参考 [“如何放置你的数据集”](../../data/README_zh-CN.md) 。 

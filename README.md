@@ -51,7 +51,7 @@ For a quick experience, you can directly run the following commands:
 **Training**
 
 ```bash
-# multi-gpu (recommend, needs pytorch>=1.9.0)
+# multi-gpu (recommended, needs pytorch>=1.9.0)
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 torchrun --nproc_per_node=2 main.py \
   --data_root ./data \
@@ -92,7 +92,7 @@ downloaded to `./data`. During the training, the config file, checkpoints, logs 
 **Evaluation**
 
 ```bash
-# multi-gpu (recommend, needs pytorch>=1.9.0)
+# multi-gpu (recommended, needs pytorch>=1.9.0)
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 torchrun --nproc_per_node=2 main.py \
   --data_root ./data \
@@ -125,7 +125,7 @@ python main.py \
 
 ### How to use
 
-When using our toolbox for training and evaluation, you can run the commands we provided above *with your own
+When using our toolbox for training and evaluation, you may run the commands we provided above *with your own
 arguments*.
 
 **Frequently-used command line arguments**
@@ -150,10 +150,27 @@ arguments*.
 |         `--note`         |                                                       Note. The note content prints after each epoch, in case you forget what you are running.                                                       |        /         |
 |   `--config`<br />`-c`   |                                       Config file path. See [configs](configs). Arguments in the config file merge or override command line arguments `args`.                                        |        /         |
 
+
+(Recommended) Or you can write the arguments into a config file (.py) and directly use `--config` / `-c` 
+to import the config file. For example,
+
+```bash
+python main.py --config configs/_demo_.py
+```
+
+or
+
+```bash
+python main.py -c configs/_demo_.py
+```
+
+Arguments in the config file merge or override command line arguments `args`. For more details, please see 
+["How to write and import your configs"](configs/README.md). 
+
 **How to put your dataset**
 
 Currently, `mnist`, `cifar10`, `cifar100`, `stl10`, `svhn` and `pets` datasets will be automatically downloaded to
-the `--data_root` directory. For other datasets, please refer to [this instruction](data/README.md)。
+the `--data_root` directory. For other datasets, please refer to ["How to put your dataset"](data/README.md).
 
 ### How to customize
 
@@ -171,7 +188,7 @@ Our toolbox is flexible enough to be extended. Please follow the instructions be
 
 [How to register your evaluators](qtcls/evaluators/README.md)
 
-[How to edit your configs](configs/README.md)
+[How to write and import your configs](configs/README.md)
 
 ## <span id="dataset_zoo">Dataset Zoo</span>
 

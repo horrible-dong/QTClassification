@@ -15,7 +15,7 @@ QTClassification
 
 ## 安装
 
-我们的开发环境是 `python 3.7 & pytorch 1.11.0+cu113`.
+我们的开发环境是 `python 3.7 & pytorch 1.11.0+cu113`。
 
 1. 如果需要的话，创建你的conda环境。
 
@@ -145,12 +145,26 @@ python main.py \
 |         `--amp`          |                                                             启用自动混合精度训练。                                                             |     `False`      |
 |         `--eval`         |                                                              只验证，不训练。                                                               |     `False`      |
 |         `--note`         |                                              备忘笔记。 笔记内容会在每个epoch之后打印一次，以防你记不清自己正在跑什么。                                               |        /         |
-|   `--config`<br />`-c`   |                                      配置文件路径。详见 [configs](configs)。配置文件中的参数会合并或覆盖命令行参数 `args` 。                                      |        /         |
+|   `--config`<br />`-c`   |                                      配置文件路径。详见 [configs](configs)。配置文件中的参数会合并或覆盖命令行参数 `args`。                                       |        /         |
+
+（推荐）或者你可以把参数写进配置文件（.py）中，并直接使用 `--config` / `-c` 来导入配置文件。例如：
+
+```bash
+python main.py --config configs/_demo_.py
+```
+
+或
+
+```bash
+python main.py -c configs/_demo_.py
+```
+
+配置文件中的参数会合并或覆盖命令行参数 `args`。更多细节请看 [“如何编写和导入你的配置文件”](configs/README_zh-CN.md) 。 
 
 **如何放置你的数据集**
 
 目前，`mnist`、`cifar10`、`cifar100`、`stl10`、`svhn` 和 `pets` 数据集会自动下载到 `--data_root`
-目录下。其余数据集请参考[“如何放置你的数据集”](data/README_zh-CN.md)。
+目录下。其余数据集请参考 [“如何放置你的数据集”](data/README_zh-CN.md) 。
 
 ### 如何自定义
 
@@ -168,11 +182,11 @@ python main.py \
 
 [如何注册你的验证器](qtcls/evaluators/README_zh-CN.md)
 
-[如何编写你的配置文件](configs/README_zh-CN.md)
+[如何编写和导入你的配置文件](configs/README_zh-CN.md)
 
 ## <span id="数据集">数据集</span>
 
-目前支持的 `--dataset` 参数:  
+目前支持的 `--dataset` 参数：  
 `mnist`、`cifar10`、`cifar100`、`stl10`、`svhn`、`pets`、`imagenet1k` 以及所有 `folder` 格式的数据集（与 `imagenet`
 存储格式一致，即每个类别的图片存放在一个文件夹内，文件夹名称是类别名称）。
 
