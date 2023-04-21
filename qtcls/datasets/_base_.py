@@ -16,10 +16,20 @@ def default_loader(path, format="RGB"):
 
 
 class BaseDataset(Dataset):
+    """
+    Args:
+        root (string): Root directory of the dataset.
+        split (string, optional): The dataset split. E.g, ``train``, ``val``, ``test``...
+        loader (callable, optional): A function to load an image given its path.
+        transform (callable, optional): A function/transform that takes in an PIL image and transforms it.
+        target_transform (callable, optional): A function/transform that takes in the target and transforms it.
+        verbose (bool): Whether to print information.
+    """
+
     def __init__(
             self,
             root: str,
-            split: str = 'train',
+            split: str,
             loader: Optional[Callable] = None,
             transform: Optional[Union[Callable, Dict[str, Callable]]] = None,
             target_transform: Optional[Union[Callable, Dict[str, Callable]]] = None,

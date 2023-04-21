@@ -28,4 +28,4 @@ def build_scheduler(args, optimizer, n_iter_per_epoch):
     if scheduler_name == 'multistep':
         return MultiStepLR(optimizer, args.milestones, args.gamma)
 
-    raise ValueError(f"scheduler '{scheduler_name}' is not found.")
+    raise ValueError(f"Scheduler '{scheduler_name}' is not found.")

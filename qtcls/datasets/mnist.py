@@ -68,7 +68,7 @@ class MNIST(BaseDataset):
         warnings.warn("test_data has been renamed data")
         return self.data
 
-    def __init__(self, root, split="train", transform=None, target_transform=None, download=False):
+    def __init__(self, root, split, transform=None, target_transform=None, download=False):
         super().__init__(root, split, transform=transform, target_transform=target_transform)
 
         self.train = split == 'train'

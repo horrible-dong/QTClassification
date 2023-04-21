@@ -33,7 +33,7 @@ class SVHN(BaseDataset):
         ],
     }
 
-    def __init__(self, root, split="train", loader=None, transform=None, target_transform=None, download=False):
+    def __init__(self, root, split, loader=None, transform=None, target_transform=None, download=False):
         super().__init__(root, split, loader, transform, target_transform)
         self.split = verify_str_arg(split, "split", tuple(self.split_list.keys()))
         self.url = self.split_list[split][0]

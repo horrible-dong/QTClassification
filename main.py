@@ -39,6 +39,7 @@ def get_args_parser():
     parser.add_argument('--find_unused_params', action='store_true')
     parser.add_argument('--world_size', default=1, type=int, help='number of distributed processes')
     parser.add_argument('--dist_url', default='env://', help='url used to set up distributed training')
+    parser.add_argument('--dist_backend', default='nccl', help='backend used to set up distributed training')
     parser.add_argument('--local_rank', type=int, default=-1)
     parser.add_argument('--print_freq', type=int, default=50)
     parser.add_argument('--need_targets', action='store_true', help='need targets for training')
@@ -113,12 +114,14 @@ def main(args):
 
     print(args)
     __args__ = copy.deepcopy(vars(args))
-    ignored_args = ['config', 'eval', 'world_size', 'local_rank', 'distributed', 'start_epoch']
+    ignored_args = ['config', 'eval', 'local_rank', 'start_epoch']
+    if args.distributed:
+        ignored_args += ['rank', 'gpu']
     for ignored_arg in ignored_args:
-        pop_info = __args__.pop(ignored_arg, 'KeyError')
-        if pop_info == 'KeyError':
-            cprint(f"Warning: argument '{ignored_arg}' to be ignored is not in 'args'.", 'light_yellow')
-
+        pop_info = __args__.pop(ignored_arg, KeyError)
+        if pop_info is KeyError:
+            cprint(f"Warning: The argument '{ignored_arg}' to be ignored is not in 'args'.", 'light_yellow')
+    __args__ = {k: v for k, v in sorted(__args__.items(), key=lambda item: item[0])}
     variables_saver(__args__, os.path.join(args.output_dir, 'config.py'))
 
     # ** model **

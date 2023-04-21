@@ -77,7 +77,7 @@ def json_saver(obj, path, mode=0o777, overwrite=True, **kwargs):
     os.chmod(path, mode)
 
 
-def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=False, verbose=True, load_on_master=False):
+def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=False, verbose=True, load_on_main=False):
     obj_state_dict = obj.state_dict()
     new_checkpoint = {}
     incompatible_value_shape = []
@@ -90,9 +90,9 @@ def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=Fal
     checkpoint = new_checkpoint
 
     for key in delete_keys:
-        pop_info = checkpoint.pop(key, 'KeyError')
-        if pop_info == 'KeyError':
-            cprint(f"Warning: key '{key}' to be deleted is not in the checkpoint.", 'light_yellow')
+        pop_info = checkpoint.pop(key, KeyError)
+        if pop_info is KeyError:
+            cprint(f"Warning: The key '{key}' to be deleted is not in the checkpoint.", 'light_yellow')
 
     if load_pos is not None:
         obj = getattr(obj, load_pos)
@@ -132,7 +132,7 @@ def checkpoint_saver(obj, save_path, mode=0o777, rename=False, overwrite=True):
 def variables_loader(file_path):
     r"""
     The parameter 'file_path' supports any file system path.
-    e.g. configs/_demo_.py, D:\\QTClassification\\configs\\_demo_.py, ../../other_project/cfg.py
+    E.g. configs/_demo_.py, D:\\QTClassification\\configs\\_demo_.py, ../../other_project/cfg.py
     """
     if not os.path.isfile(file_path):
         raise FileNotFoundError(f"file '{file_path}' does not exist.")

@@ -11,4 +11,4 @@ def build_criterion(args):
         weight_dict = {'loss_ce': 1}
         return DefaultCriterion(losses=losses, weight_dict=weight_dict)
 
-    raise ValueError(f"criterion '{criterion_name}' is not found.")
+    raise ValueError(f"Criterion '{criterion_name}' is not found.")

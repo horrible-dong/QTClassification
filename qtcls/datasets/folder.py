@@ -88,11 +88,12 @@ def make_dataset(
 
 
 class ImageFolder(BaseDataset):
-    def __init__(self, root: str, split: str, loader=None, extensions=IMG_EXTENSIONS, transform=None,
-                 target_transform=None, is_valid_file=None):
+    def __init__(self, root, split, loader=None, transform=None, target_transform=None, is_valid_file=None):
         super().__init__(root, split, loader, transform, target_transform)
-        classes, class_to_idx = self.find_classes(os.path.join(self.root, split))
-        samples = self.make_dataset(os.path.join(self.root, split), class_to_idx, extensions, is_valid_file)
+        extensions = IMG_EXTENSIONS if is_valid_file is None else None
+        split_folder = os.path.join(self.root, split)
+        classes, class_to_idx = self.find_classes(split_folder)
+        samples = self.make_dataset(split_folder, class_to_idx, extensions, is_valid_file)
 
         self.classes = classes
         self.class_to_idx = class_to_idx

@@ -6,7 +6,7 @@ import os
 import shutil
 import tempfile
 from contextlib import contextmanager
-from typing import Any, Dict, List, Iterator, Optional, Tuple
+from typing import Dict, List, Iterator, Optional, Tuple
 
 import torch
 from torchvision.datasets.utils import check_integrity, extract_archive, verify_str_arg
@@ -30,11 +30,9 @@ class ImageNet(ImageFolder):
     Args:
         root (string): Root directory of the ImageNet Dataset.
         split (string, optional): The dataset split, supports ``train``, or ``val``.
-        transform (callable, optional): A function/transform that  takes in an PIL image
-            and returns a transformed version. E.g, ``transforms.RandomCrop``
-        target_transform (callable, optional): A function/transform that takes in the
-            target and transforms it.
         loader (callable, optional): A function to load an image given its path.
+        transform (callable, optional): A function/transform that takes in an PIL image and transforms it.
+        target_transform (callable, optional): A function/transform that takes in the target and transforms it.
 
      Attributes:
         classes (list): List of the class name tuples.
@@ -45,11 +43,12 @@ class ImageNet(ImageFolder):
         targets (list): The class_index value for each image in the dataset
     """
 
-    def __init__(self, root: str, split: str = "train", **kwargs: Any) -> None:
-        super().__init__(root, split, **kwargs)
+    def __init__(self, root, split, loader=None, transform=None, target_transform=None) -> None:
         self.split = verify_str_arg(split, "split", ("train", "val"))
         self.parse_archives()
         wnid_to_classes = load_meta_file(self.root)[0]
+
+        super().__init__(root, split, loader, transform, target_transform)
 
         self.wnids = self.classes
         self.wnid_to_idx = self.class_to_idx

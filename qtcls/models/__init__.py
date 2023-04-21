@@ -38,7 +38,7 @@ def build_model(args):
     model_name = args.model.lower()
 
     if 'num_classes' in args.model_kwargs.keys():
-        cprint(f"Warning: do NOT set 'num_classes' in 'args.model_kwargs'. "
+        cprint(f"Warning: Do NOT set 'num_classes' in 'args.model_kwargs'. "
                f"Now fetching the 'num_classes' registered in 'qtcls/datasets/__init__.py'.", 'light_yellow')
 
     try:
@@ -56,7 +56,7 @@ def build_model(args):
         try:
             model = __vars__[model_name](**args.model_kwargs)
         except KeyError:
-            print(f"KeyError: model '{model_name}' is not found.")
+            print(f"KeyError: Model '{model_name}' is not found.")
             exit(1)
 
         if pretrained:
@@ -70,7 +70,7 @@ def build_model(args):
                 if 'model' in state_dict.keys():
                     state_dict = state_dict['model']
             else:
-                raise FileNotFoundError(f"pretrained model for '{model_name}' is not found. "
+                raise FileNotFoundError(f"Pretrained model for '{model_name}' is not found. "
                                         f"Please register your pretrained path in 'qtcls/datasets/_pretrain_.py' "
                                         f"or set the argument '--no_pretrain'.")
 
@@ -82,7 +82,7 @@ def build_model(args):
         import timm
         return timm.create_model(model_name=model_name, pretrained=pretrained, **args.model_kwargs)
 
-    raise ValueError(f"model_lib '{model_lib}' is not found.")
+    raise ValueError(f"Model lib '{model_lib}' is not found.")
 
 
 def search_pretrained_from_local_paths(model_name):
