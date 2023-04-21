@@ -65,7 +65,7 @@ def train_one_epoch(model, criterion, data_loader, optimizer, lr_scheduler, devi
 
 
 @torch.no_grad()
-def evaluate(model, data_loader, criterion, device, args, print_freq=10, need_targets=False):
+def evaluate(model, data_loader, criterion, device, args, print_freq=10, need_targets=False, amp=False):
     model.eval()
     criterion.eval()
 
@@ -79,14 +79,15 @@ def evaluate(model, data_loader, criterion, device, args, print_freq=10, need_ta
         samples = samples.to(device)
         targets = targets.to(device)
 
-        if need_targets:
-            outputs = model(samples, targets)
-        else:
-            outputs = model(samples)
+        with torch.cuda.amp.autocast(enabled=amp):
+            if need_targets:
+                outputs = model(samples, targets)
+            else:
+                outputs = model(samples)
 
-        loss_dict = criterion(outputs, targets)
+            loss_dict = criterion(outputs, targets)
+
         weight_dict = criterion.weight_dict
-
         loss_dict_reduced = reduce_dict(loss_dict)
         loss_dict_reduced_unscaled = {f'{k}_unscaled': v for k, v in loss_dict_reduced.items()}
         loss_dict_reduced_scaled = {k: v * weight_dict[k] for k, v in loss_dict_reduced.items() if k in weight_dict}

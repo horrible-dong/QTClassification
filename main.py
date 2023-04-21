@@ -194,7 +194,7 @@ def main(args):
     if args.eval:
         print()
         test_stats, evaluator = evaluate(
-            model, data_loader_val, criterion, device, args, args.print_freq, args.need_targets
+            model, data_loader_val, criterion, device, args, args.print_freq, args.need_targets, args.amp
         )
         return
 
@@ -225,7 +225,7 @@ def main(args):
                 checkpoint_saver(checkpoint, checkpoint_path)
 
         test_stats, evaluator = evaluate(
-            model, data_loader_val, criterion, device, args, args.print_freq, args.need_targets
+            model, data_loader_val, criterion, device, args, args.print_freq, args.need_targets, args.amp
         )
 
         log_stats = {**{f'train_{k}': v for k, v in train_stats.items()},
