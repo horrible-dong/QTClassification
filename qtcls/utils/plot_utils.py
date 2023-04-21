@@ -10,14 +10,13 @@
 Plotting utilities to visualize training logs.
 """
 import math
-
-import torch
-import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-
 from pathlib import Path, PurePath
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import torch
 
 
 def plot_logs(logs,

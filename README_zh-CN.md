@@ -159,7 +159,7 @@ python main.py --config configs/_demo_.py
 python main.py -c configs/_demo_.py
 ```
 
-配置文件中的参数会合并或覆盖命令行参数 `args`。更多细节请看 [“如何编写和导入你的配置文件”](configs/README_zh-CN.md) 。 
+配置文件中的参数会合并或覆盖命令行参数 `args`。更多细节请看 [“如何编写和导入你的配置文件”](configs/README_zh-CN.md) 。
 
 **如何放置你的数据集**
 
