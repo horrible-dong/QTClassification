@@ -3,7 +3,7 @@ QTClassification
 
 **A lightweight and extensible toolbox for image classification**
 
-[![version](https://img.shields.io/badge/Version-0.3.0--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.3.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -150,8 +150,8 @@ arguments*.
 |         `--note`         |                                                       Note. The note content prints after each epoch, in case you forget what you are running.                                                       |        /         |
 |   `--config`<br />`-c`   |                                       Config file path. See [configs](configs). Arguments in the config file merge or override command line arguments `args`.                                        |        /         |
 
-(Recommended) Or you can write the arguments into a config file (.py) and directly use `--config` / `-c`
-to import the config file. For example,
+**(Recommended)** Or you can write the arguments into a config file (.py) and directly use `--config` / `-c`
+to import it. For example,
 
 ```bash
 python main.py --config configs/_demo_.py

@@ -3,7 +3,7 @@ QTClassification
 
 **轻量可扩展的图像分类工具箱**
 
-[![version](https://img.shields.io/badge/Version-0.3.0--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.3.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README_zh-CN.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -147,7 +147,7 @@ python main.py \
 |         `--note`         |                                              备忘笔记。 笔记内容会在每个epoch之后打印一次，以防你记不清自己正在跑什么。                                               |        /         |
 |   `--config`<br />`-c`   |                                      配置文件路径。详见 [configs](configs)。配置文件中的参数会合并或覆盖命令行参数 `args`。                                       |        /         |
 
-（推荐）或者你可以把参数写进配置文件（.py）中，并直接使用 `--config` / `-c` 来导入配置文件。例如：
+**（推荐）** 或者你可以把参数写进配置文件（.py）中，并直接使用 `--config` / `-c` 来导入配置文件。例如：
 
 ```bash
 python main.py --config configs/_demo_.py
