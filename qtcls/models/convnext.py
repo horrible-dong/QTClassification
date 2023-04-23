@@ -107,6 +107,7 @@ class ConvNeXt(nn.Module):
             num_classes: int = 1000,
             block: Optional[Callable[..., nn.Module]] = None,
             norm_layer: Optional[Callable[..., nn.Module]] = None,
+            in_chans: int = 3,
             **kwargs: Any,
     ) -> None:
         super().__init__()
@@ -129,7 +130,7 @@ class ConvNeXt(nn.Module):
         firstconv_output_channels = block_setting[0].input_channels
         layers.append(
             ConvNormActivation(
-                3,
+                in_chans,
                 firstconv_output_channels,
                 kernel_size=4,
                 stride=4,

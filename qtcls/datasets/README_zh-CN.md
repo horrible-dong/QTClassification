@@ -33,9 +33,9 @@ class YourDataset(BaseDataset):
     - 导入你的数据集。
     - 添加你的数据集的类别数（num_classes）。
     - 在 `build_dataset()`
-      中注册你的数据集及其对应的数据增强方式（transform）。注意数据增强应该是 `{'train': Callable, 'val': Callable, ...}`
-      格式，其中键值 `'train'`, `'val'`, `...` 与参数 `split` 对应。例如，当创建训练集时，`split` 为 `'train'`
-      ，于是 `transform[split]` 就得到了训练集的数据增强。
+      中注册你的数据集及其对应的数据增强方式（augmentation / transform）。我们推荐的数据增强定义格式为
+      `{'train': Optional[Callable], 'val': Optional[Callable], ...}`，其中键值 `'train'`, `'val'`, `...`
+      与参数 `split` 对应。例如，当创建训练集时，`split` 为 `'train'` ，于是 `transform[split]` 就得到了训练集的数据增强。
 
 ```python
 # __init__.py
@@ -61,19 +61,28 @@ def build_dataset(args, split, download=True):
     ...
 
     if dataset_name == 'your_dataset':
+        ...
+
         transform = {
-            "train": ...,
-            "val": ...
+            'train': ...,
+            'val': ...
         }
+
+        batch_transform = {
+            'train': ...,
+            'val': ...
+        }
+
+        ...
 
         return YourDataset(root=dataset_path,
                            split=split,
-                           transform=transform)
-
+                           transform=transform,  # 也可以显式写成 transform=transform[split]
+                           batch_transform=batch_transform)  # 也可以显式写成 batch_transform[split]
     ...
 ```
 
-4. 当使用你的数据集时，把 `--dataset` 赋值为你的数据集名称 `your_dataset`。注意 `your_dataset`
+4. 当使用你的数据集时，把 `--dataset` / `-d` 赋值为你的数据集名称 `your_dataset`。注意 `your_dataset`
    不需要和你的数据集类名 `YourDataset` 保持一致。
-5. 把你的数据集放在 `--data_root` 目录下 (默认是 `./data` 目录下).
+5. 把你的数据集放在 `--data_root` 目录下 (默认是 `./data` 目录下)。
    请参考 [“如何放置你的数据集”](../../data/README_zh-CN.md) 。 

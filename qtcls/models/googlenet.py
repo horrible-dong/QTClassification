@@ -40,6 +40,7 @@ class GoogLeNet(nn.Module):
             blocks: Optional[List[Callable[..., nn.Module]]] = None,
             dropout: float = 0.2,
             dropout_aux: float = 0.7,
+            in_chans: int = 3,
     ) -> None:
         super().__init__()
         _log_api_usage_once(self)
@@ -61,7 +62,7 @@ class GoogLeNet(nn.Module):
         self.aux_logits = aux_logits
         self.transform_input = transform_input
 
-        self.conv1 = conv_block(3, 64, kernel_size=7, stride=2, padding=3)
+        self.conv1 = conv_block(in_chans, 64, kernel_size=7, stride=2, padding=3)
         self.maxpool1 = nn.MaxPool2d(3, stride=2, ceil_mode=True)
         self.conv2 = conv_block(64, 64, kernel_size=1)
         self.conv3 = conv_block(64, 192, kernel_size=3, padding=1)

@@ -73,4 +73,4 @@ model_urls = {
 }
 ```
 
-4. When using your model, set `--model` to `your_model_architecture_{1/2/3}`. 
+4. When using your model, set `--model` / `-m` to `your_model_architecture_{1/2/3}`. 

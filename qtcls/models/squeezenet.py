@@ -37,13 +37,13 @@ class Fire(nn.Module):
 
 
 class SqueezeNet(nn.Module):
-    def __init__(self, version: str = "1_0", num_classes: int = 1000, dropout: float = 0.5) -> None:
+    def __init__(self, version: str = "1_0", num_classes: int = 1000, dropout: float = 0.5, in_chans: int = 3) -> None:
         super().__init__()
         _log_api_usage_once(self)
         self.num_classes = num_classes
         if version == "1_0":
             self.features = nn.Sequential(
-                nn.Conv2d(3, 96, kernel_size=7, stride=2),
+                nn.Conv2d(in_chans, 96, kernel_size=7, stride=2),
                 nn.ReLU(inplace=True),
                 nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True),
                 Fire(96, 16, 64, 64),
@@ -59,7 +59,7 @@ class SqueezeNet(nn.Module):
             )
         elif version == "1_1":
             self.features = nn.Sequential(
-                nn.Conv2d(3, 64, kernel_size=3, stride=2),
+                nn.Conv2d(in_chans, 64, kernel_size=3, stride=2),
                 nn.ReLU(inplace=True),
                 nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True),
                 Fire(64, 16, 64, 64),

@@ -3,7 +3,7 @@ QTClassification
 
 **A lightweight and extensible toolbox for image classification**
 
-[![version](https://img.shields.io/badge/Version-0.3.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.4.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -136,7 +136,7 @@ arguments*.
 |  `--dataset`<br />`-d`   |                                      Dataset name defined in [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py), such as `cifar10` and `imagenet1k`.                                       |        /         |
 |      `--model_lib`       |                                  Model library where models come from. Our basic model library is extended from `torchvision` (default), and also supports `timm`.                                   | `torchvision-ex` |
 |   `--model`<br />`-m`    | Model name defined in [qtcls/models/\_\_init\_\_.py](qtcls/models/__init__.py), such as `resnet50` and `vit_b_16`. Currently supported model names are listed in <a href="#model_zoo">Model Zoo</a>. |        /         |
-|      `--criterion`       |                         Criterion name defined in [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py). The `default` criterion computes the cross entropy loss.                         |    `default`     |
+|      `--criterion`       |                                              Criterion name defined in [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py), such as `ce`.                                               |    `default`     |
 |      `--optimizer`       |                                        Optimizer name defined in [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py), such as `sgd` and `adam`.                                         |     `adamw`      |
 |      `--scheduler`       |                                            Scheduler name defined in [qtcls/schedulers/\_\_init\_\_.py](qtcls/schedulers/__init__.py), such as `cosine`.                                             |     `cosine`     |
 |      `--evaluator`       |             Evaluator name defined in [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py). The `default` evaluator computes the accuracy, recall, precision, and f1_score.              |    `default`     |
@@ -191,10 +191,10 @@ Our toolbox is flexible enough to be extended. Please follow the instructions be
 
 ## <span id="dataset_zoo">Dataset Zoo</span>
 
-Currently supported argument `--dataset`:  
-`mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `imagenet1k`, and all datasets in `folder` format (consistent
-with `imagenet` storage format, that is, images of each category are stored in a folder/directory, and the
-folder/directory name is the category name).
+Currently supported argument `--dataset` / `-d`:  
+`mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `imagenet1k`, `imagenet21k (also called imagenet22k)`,
+and all datasets in `folder` format (consistent with `imagenet` storage format, that is, images of each category are
+stored in a folder/directory, and the folder/directory name is the category name).
 
 ## <span id="model_zoo">Model Zoo</span>
 
@@ -204,7 +204,7 @@ Our basic model library is extended from `torchvision` (default), and also suppo
 
 Set the argument `--model_lib` to `torchvision-ex`.
 
-Currently supported argument `--model`:
+Currently supported argument `--model` / `-m`:
 
 **AlexNet**  
 `alexnet`
@@ -212,7 +212,7 @@ Currently supported argument `--model`:
 **CaiT**  
 `cait_xxs24_224`, `cait_xxs24_384`, `cait_xxs36_224`, `cait_xxs36_384`, `cait_xs24_384`, `cait_s24_224`, `cait_s24_384`, `cait_s36_384`, `cait_m36_384`, `cait_m48_448`
 
-**ConvNext**  
+**ConvNeXt**  
 `convnext_tiny`, `convnext_small`, `convnext_base`, `convnext_large`
 
 **DenseNet**  
@@ -273,7 +273,7 @@ Currently supported argument `--model`:
 
 Set the argument `--model_lib` to `timm`.
 
-Currently supported argument `--model`:  
+Currently supported argument `--model` / `-m`:  
 All supported. Please refer to `timm` for the specific model name.
 
 ## LICENSE

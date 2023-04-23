@@ -159,6 +159,7 @@ class EfficientNet(nn.Module):
             num_classes: int = 1000,
             block: Optional[Callable[..., nn.Module]] = None,
             norm_layer: Optional[Callable[..., nn.Module]] = None,
+            in_chans: int = 3,
             **kwargs: Any,
     ) -> None:
         """
@@ -171,6 +172,7 @@ class EfficientNet(nn.Module):
             num_classes (int): Number of classes
             block (Optional[Callable[..., nn.Module]]): Module specifying inverted residual building block for mobilenet
             norm_layer (Optional[Callable[..., nn.Module]]): Module specifying the normalization layer to use
+            in_chans (int): Number of input image channels
         """
         super().__init__()
         _log_api_usage_once(self)
@@ -195,7 +197,8 @@ class EfficientNet(nn.Module):
         firstconv_output_channels = inverted_residual_setting[0].input_channels
         layers.append(
             ConvNormActivation(
-                3, firstconv_output_channels, kernel_size=3, stride=2, norm_layer=norm_layer, activation_layer=nn.SiLU
+                in_chans, firstconv_output_channels, kernel_size=3, stride=2, norm_layer=norm_layer,
+                activation_layer=nn.SiLU
             )
         )
 

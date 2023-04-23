@@ -31,10 +31,12 @@ class STL10(BaseDataset):
     test_list = [["test_X.bin", "7f263ba9f9e0b06b93213547f721ac82"], ["test_y.bin", "36f9794fa4beb8a2c72628de14fa638e"]]
     splits = ("train", "train+unlabeled", "unlabeled", "test")
 
-    def __init__(self, root, split, folds: int = None, transform=None, target_transform=None, download=False):
-        super().__init__(root, split, transform=transform, target_transform=target_transform)
-        self.split = verify_str_arg(split, "split", self.splits)
+    def __init__(self, root, split, folds: int = None, transform=None, target_transform=None, batch_transform=None,
+                 download=False):
+        split = verify_str_arg(split, "split", self.splits)
         self.folds = self._verify_folds(folds)
+
+        super().__init__(root, split, transform, target_transform, batch_transform)
 
         if download:
             self.download()

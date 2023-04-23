@@ -14,6 +14,7 @@ def train_one_epoch(model, criterion, data_loader, optimizer, lr_scheduler, devi
     model.train()
     criterion.train()
     n_steps = len(data_loader)
+
     metric_logger = MetricLogger(delimiter='  ')
     metric_logger.add_meter('lr', SmoothedValue(window_size=1, fmt='{value:.6f}'))
     metric_logger.add_meter('class_error', SmoothedValue(window_size=1, fmt='{value:.2f}'))
@@ -29,7 +30,7 @@ def train_one_epoch(model, criterion, data_loader, optimizer, lr_scheduler, devi
             else:
                 outputs = model(samples)
 
-            loss_dict = criterion(outputs, targets)
+            loss_dict = criterion(outputs, targets, training=True)
             weight_dict = criterion.weight_dict
             losses = sum(loss_dict[k] * weight_dict[k] for k in loss_dict.keys() if k in weight_dict)
 
@@ -51,15 +52,16 @@ def train_one_epoch(model, criterion, data_loader, optimizer, lr_scheduler, devi
             lr_scheduler.step_update(epoch * n_steps + batch_idx)
 
         metric_logger.update(loss=loss_value, **loss_dict_reduced_scaled, **loss_dict_reduced_unscaled)
-        metric_logger.update(class_error=loss_dict_reduced['class_error'])
         metric_logger.update(lr=optimizer.param_groups[0]['lr'])
+        if 'class_error' in loss_dict_reduced.keys():
+            metric_logger.update(class_error=loss_dict_reduced['class_error'])
 
     lr_scheduler.step(epoch)
 
     metric_logger.synchronize_between_processes()
     print('Averaged stats:', metric_logger)
 
-    stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}
+    stats = {k: meter.global_avg for k, meter in metric_logger.meters.items() if meter.count > 0}
 
     return stats
 
@@ -85,7 +87,7 @@ def evaluate(model, data_loader, criterion, device, args, print_freq=10, need_ta
             else:
                 outputs = model(samples)
 
-            loss_dict = criterion(outputs, targets)
+            loss_dict = criterion(outputs, targets, training=False)
 
         weight_dict = criterion.weight_dict
         loss_dict_reduced = reduce_dict(loss_dict)

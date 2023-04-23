@@ -26,14 +26,6 @@ META_FILE = "meta.bin"
 
 class ImageNet(ImageFolder):
     """`ImageNet <http://image-net.org/>`_ 2012 Classification Dataset.
-
-    Args:
-        root (string): Root directory of the ImageNet Dataset.
-        split (string, optional): The dataset split, supports ``train``, or ``val``.
-        loader (callable, optional): A function to load an image given its path.
-        transform (callable, optional): A function/transform that takes in an PIL image and transforms it.
-        target_transform (callable, optional): A function/transform that takes in the target and transforms it.
-
      Attributes:
         classes (list): List of the class name tuples.
         class_to_idx (dict): Dict with items (class_name, class_index).
@@ -43,12 +35,12 @@ class ImageNet(ImageFolder):
         targets (list): The class_index value for each image in the dataset
     """
 
-    def __init__(self, root, split, loader=None, transform=None, target_transform=None) -> None:
+    def __init__(self, root, split, transform=None, target_transform=None, batch_transform=None, loader=None) -> None:
         self.split = verify_str_arg(split, "split", ("train", "val"))
         self.parse_archives()
         wnid_to_classes = load_meta_file(self.root)[0]
 
-        super().__init__(root, split, loader, transform, target_transform)
+        super().__init__(root, split, transform, target_transform, batch_transform, loader)
 
         self.wnids = self.classes
         self.wnid_to_idx = self.class_to_idx

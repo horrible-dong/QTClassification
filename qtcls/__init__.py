@@ -3,7 +3,7 @@
 # ********************************************
 # Copyright (c) QIU, Tian. All rights reserved.
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 from .criterions import build_criterion
 from .datasets import build_dataset

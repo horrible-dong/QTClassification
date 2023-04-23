@@ -72,4 +72,4 @@ model_urls = {
 }
 ```
 
-4. 当使用你的模型时，把 `--model` 赋值为你的模型架构名称 `your_model_architecture_{1/2/3}`. 
+4. 当使用你的模型时，把 `--model` / `-m` 赋值为你的模型架构名称 `your_model_architecture_{1/2/3}`. 

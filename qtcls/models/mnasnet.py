@@ -100,7 +100,7 @@ class MNASNet(torch.nn.Module):
     # Version 2 adds depth scaling in the initial stages of the network.
     _version = 2
 
-    def __init__(self, alpha: float, num_classes: int = 1000, dropout: float = 0.2) -> None:
+    def __init__(self, alpha: float, num_classes: int = 1000, dropout: float = 0.2, in_chans: int = 3) -> None:
         super().__init__()
         _log_api_usage_once(self)
         assert alpha > 0.0
@@ -109,7 +109,7 @@ class MNASNet(torch.nn.Module):
         depths = _get_depths(alpha)
         layers = [
             # First layer: regular conv.
-            nn.Conv2d(3, depths[0], 3, padding=1, stride=2, bias=False),
+            nn.Conv2d(in_chans, depths[0], 3, padding=1, stride=2, bias=False),
             nn.BatchNorm2d(depths[0], momentum=_BN_MOMENTUM),
             nn.ReLU(inplace=True),
             # Depthwise separable, no skip.

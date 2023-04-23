@@ -310,6 +310,7 @@ class RegNet(nn.Module):
             block_type: Optional[Callable[..., nn.Module]] = None,
             norm_layer: Optional[Callable[..., nn.Module]] = None,
             activation: Optional[Callable[..., nn.Module]] = None,
+            in_chans: int = 3,
     ) -> None:
         super().__init__()
         _log_api_usage_once(self)
@@ -325,7 +326,7 @@ class RegNet(nn.Module):
 
         # Ad hoc stem
         self.stem = stem_type(
-            3,  # width_in
+            in_chans,  # width_in
             stem_width,
             norm_layer,
             activation,

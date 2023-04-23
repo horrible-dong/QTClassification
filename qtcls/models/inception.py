@@ -36,6 +36,7 @@ class Inception3(nn.Module):
             inception_blocks: Optional[List[Callable[..., nn.Module]]] = None,
             init_weights: Optional[bool] = None,
             dropout: float = 0.5,
+            in_chans: int = 3,
     ) -> None:
         super().__init__()
         _log_api_usage_once(self)
@@ -60,7 +61,7 @@ class Inception3(nn.Module):
 
         self.aux_logits = aux_logits
         self.transform_input = transform_input
-        self.Conv2d_1a_3x3 = conv_block(3, 32, kernel_size=3, stride=2)
+        self.Conv2d_1a_3x3 = conv_block(in_chans, 32, kernel_size=3, stride=2)
         self.Conv2d_2a_3x3 = conv_block(32, 32, kernel_size=3)
         self.Conv2d_2b_3x3 = conv_block(32, 64, kernel_size=3, padding=1)
         self.maxpool1 = nn.MaxPool2d(kernel_size=3, stride=2)

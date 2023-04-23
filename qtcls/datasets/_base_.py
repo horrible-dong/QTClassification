@@ -20,9 +20,10 @@ class BaseDataset(Dataset):
     Args:
         root (string): Root directory of the dataset.
         split (string, optional): The dataset split. E.g, ``train``, ``val``, ``test``...
-        loader (callable, optional): A function to load an image given its path.
         transform (callable, optional): A function/transform that takes in an PIL image and transforms it.
         target_transform (callable, optional): A function/transform that takes in the target and transforms it.
+        batch_transform (callable, optional): A function/transform that takes in a batch and transforms it.
+        loader (callable, optional): A function to load an image given its path.
         verbose (bool): Whether to print information.
     """
 
@@ -30,9 +31,10 @@ class BaseDataset(Dataset):
             self,
             root: str,
             split: str,
+            transform: Union[Optional[Callable], Dict[str, Optional[Callable]]] = None,
+            target_transform: Union[Optional[Callable], Dict[str, Optional[Callable]]] = None,
+            batch_transform: Union[Optional[Callable], Dict[str, Optional[Callable]]] = None,
             loader: Optional[Callable] = None,
-            transform: Optional[Union[Callable, Dict[str, Callable]]] = None,
-            target_transform: Optional[Union[Callable, Dict[str, Callable]]] = None,
             verbose: bool = True
     ):
         if root is None:
@@ -41,9 +43,10 @@ class BaseDataset(Dataset):
             loader = default_loader
         self.root = os.path.expanduser(root)
         self.split = split.lower()
-        self.loader = loader
         self.transform = transform
         self.target_transform = target_transform
+        self.batch_transform = batch_transform
+        self.loader = loader
 
         self.__check_transforms()
 
@@ -56,13 +59,19 @@ class BaseDataset(Dataset):
     def __len__(self):
         raise NotImplementedError
 
-    @staticmethod
-    def collate_fn(batch):
+    def collate_fn(self, batch):
         batch_image, batch_target = list(zip(*batch))
-        return torch.stack(batch_image), torch.tensor(batch_target)
+        batch_image, batch_target = torch.stack(batch_image), torch.tensor(batch_target)
+
+        if self.batch_transform is not None:
+            batch_image, batch_target = self.batch_transform(batch_image, batch_target)
+
+        return batch_image, batch_target
 
     def __check_transforms(self):
         if isinstance(self.transform, dict):
             self.transform = self.transform[self.split]
         if isinstance(self.target_transform, dict):
             self.target_transform = self.target_transform[self.split]
+        if isinstance(self.batch_transform, dict):
+            self.batch_transform = self.batch_transform[self.split]

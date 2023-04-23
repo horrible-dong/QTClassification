@@ -152,6 +152,7 @@ class DenseNet(nn.Module):
         num_classes (int) - number of classification classes
         memory_efficient (bool) - If True, uses checkpointing. Much more memory efficient,
           but slower. Default: *False*. See `"paper" <https://arxiv.org/pdf/1707.06990.pdf>`_.
+        in_chans (int) - number of input image channels
     """
 
     def __init__(
@@ -163,6 +164,7 @@ class DenseNet(nn.Module):
             drop_rate: float = 0,
             num_classes: int = 1000,
             memory_efficient: bool = False,
+            in_chans: int = 3
     ) -> None:
 
         super().__init__()
@@ -172,7 +174,7 @@ class DenseNet(nn.Module):
         self.features = nn.Sequential(
             OrderedDict(
                 [
-                    ("conv0", nn.Conv2d(3, num_init_features, kernel_size=7, stride=2, padding=3, bias=False)),
+                    ("conv0", nn.Conv2d(in_chans, num_init_features, kernel_size=7, stride=2, padding=3, bias=False)),
                     ("norm0", nn.BatchNorm2d(num_init_features)),
                     ("relu0", nn.ReLU(inplace=True)),
                     ("pool0", nn.MaxPool2d(kernel_size=3, stride=2, padding=1)),

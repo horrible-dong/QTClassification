@@ -20,7 +20,7 @@ import torch
 
 
 def plot_logs(logs,
-              fields=('loss', 'loss_ce_unscaled', 'class_error_unscaled',
+              fields=('loss', 'loss_ce_unscaled',
                       'Accuracy', 'Recall', 'Precision', 'F1-Score'),
               ewm_col=0,
               log_name='log.txt',

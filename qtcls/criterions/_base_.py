@@ -11,8 +11,8 @@ class BaseCriterion(nn.Module):
         self.losses = losses
         self.weight_dict = weight_dict
 
-    def forward(self, outputs, targets):
+    def forward(self, outputs, targets, **kwargs):
         losses = {}
         for loss in self.losses:
-            losses.update(getattr(self, f'loss_{loss}')(outputs, targets))
+            losses.update(getattr(self, f'loss_{loss}')(outputs, targets, **kwargs))
         return losses

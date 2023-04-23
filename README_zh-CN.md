@@ -3,7 +3,7 @@ QTClassification
 
 **轻量可扩展的图像分类工具箱**
 
-[![version](https://img.shields.io/badge/Version-0.3.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.4.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README_zh-CN.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -133,7 +133,7 @@ python main.py \
 |  `--dataset`<br />`-d`   |                数据集名称，在 [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py) 里定义，如 `cifar10` 和 `imagenet1k`。                 |        /         |
 |      `--model_lib`       |                              模型库，模型都取自模型库。我们的基础模型库由 `torchvision` 扩展而来 (我们的默认模型库)，同时我们也支持 `timm` 模型库。                               | `torchvision-ex` |
 |   `--model`<br />`-m`    | 模型名称，在 [qtcls/models/\_\_init\_\_.py ](qtcls/models/__init__.py) 里定义，如 `resnet50` 和 `vit_b_16`。目前支持的模型名称在<a href="#模型库">模型库</a>中列出。 |        /         |
-|      `--criterion`       |                   损失函数名称，在 [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py) 里定义。默认的损失函数会计算交叉熵损失。                    |    `default`     |
+|      `--criterion`       |                        损失函数名称，在 [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py) 里定义，如 `ce`。                        |    `default`     |
 |      `--optimizer`       |                     优化器名称，在 [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py)，如 `sgd` 和 `adam`。                      |     `adamw`      |
 |      `--scheduler`       |                    学习率调整策略名称，在 [qtcls/schedulers/\_\_init\_\_.py](qtcls/schedulers/__init__.py) 中定义，如 `cosine`。                     |     `cosine`     |
 |      `--evaluator`       |               验证器名称，在 [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py) 中定义。默认的验证器会计算准确率、召回率、精确率和f1分数。               |    `default`     |
@@ -187,8 +187,8 @@ python main.py -c configs/_demo_.py
 ## <span id="数据集">数据集</span>
 
 目前支持的 `--dataset` 参数：  
-`mnist`、`cifar10`、`cifar100`、`stl10`、`svhn`、`pets`、`imagenet1k` 以及所有 `folder` 格式的数据集（与 `imagenet`
-存储格式一致，即每个类别的图片存放在一个文件夹内，文件夹名称是类别名称）。
+`mnist`、`cifar10`、`cifar100`、`stl10`、`svhn`、`pets`、`imagenet1k`、`imagenet21k (也叫做 imagenet22k)`
+以及所有 `folder` 格式的数据集（与 `imagenet` 存储格式一致，即每个类别的图片存放在一个文件夹内，文件夹名称是类别名称）。
 
 ## <span id="模型库">模型库</span>
 
@@ -206,7 +206,7 @@ python main.py -c configs/_demo_.py
 **CaiT**  
 `cait_xxs24_224`, `cait_xxs24_384`, `cait_xxs36_224`, `cait_xxs36_384`, `cait_xs24_384`, `cait_s24_224`, `cait_s24_384`, `cait_s36_384`, `cait_m36_384`, `cait_m48_448`
 
-**ConvNext**  
+**ConvNeXt**  
 `convnext_tiny`, `convnext_small`, `convnext_base`, `convnext_large`
 
 **DenseNet**  

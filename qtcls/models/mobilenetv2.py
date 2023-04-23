@@ -97,6 +97,7 @@ class MobileNetV2(nn.Module):
             block: Optional[Callable[..., nn.Module]] = None,
             norm_layer: Optional[Callable[..., nn.Module]] = None,
             dropout: float = 0.2,
+            in_chans: int = 3,
     ) -> None:
         """
         MobileNet V2 main class
@@ -110,7 +111,7 @@ class MobileNetV2(nn.Module):
             block: Module specifying inverted residual building block for mobilenet
             norm_layer: Module specifying the normalization layer to use
             dropout (float): The droupout probability
-
+            in_chans (int): Number of input image channels
         """
         super().__init__()
         _log_api_usage_once(self)
@@ -146,7 +147,7 @@ class MobileNetV2(nn.Module):
         input_channel = _make_divisible(input_channel * width_mult, round_nearest)
         self.last_channel = _make_divisible(last_channel * max(1.0, width_mult), round_nearest)
         features: List[nn.Module] = [
-            ConvNormActivation(3, input_channel, stride=2, norm_layer=norm_layer, activation_layer=nn.ReLU6)
+            ConvNormActivation(in_chans, input_channel, stride=2, norm_layer=norm_layer, activation_layer=nn.ReLU6)
         ]
         # building inverted residual blocks
         for t, c, n, s in inverted_residual_setting:

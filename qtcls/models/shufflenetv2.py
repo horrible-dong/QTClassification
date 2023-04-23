@@ -100,6 +100,7 @@ class ShuffleNetV2(nn.Module):
             stages_out_channels: List[int],
             num_classes: int = 1000,
             inverted_residual: Callable[..., nn.Module] = InvertedResidual,
+            in_chans: int = 3,
     ) -> None:
         super().__init__()
         _log_api_usage_once(self)
@@ -110,7 +111,7 @@ class ShuffleNetV2(nn.Module):
             raise ValueError("expected stages_out_channels as list of 5 positive ints")
         self._stage_out_channels = stages_out_channels
 
-        input_channels = 3
+        input_channels = in_chans
         output_channels = self._stage_out_channels[0]
         self.conv1 = nn.Sequential(
             nn.Conv2d(input_channels, output_channels, 3, 2, 1, bias=False),

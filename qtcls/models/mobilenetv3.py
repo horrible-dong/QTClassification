@@ -138,6 +138,7 @@ class MobileNetV3(nn.Module):
             block: Optional[Callable[..., nn.Module]] = None,
             norm_layer: Optional[Callable[..., nn.Module]] = None,
             dropout: float = 0.2,
+            in_chans: int = 3,
             **kwargs: Any,
     ) -> None:
         """
@@ -150,6 +151,7 @@ class MobileNetV3(nn.Module):
             block (Optional[Callable[..., nn.Module]]): Module specifying inverted residual building block for mobilenet
             norm_layer (Optional[Callable[..., nn.Module]]): Module specifying the normalization layer to use
             dropout (float): The droupout probability
+            in_chans (int): Number of input image channels
         """
         super().__init__()
         _log_api_usage_once(self)
@@ -174,7 +176,7 @@ class MobileNetV3(nn.Module):
         firstconv_output_channels = inverted_residual_setting[0].input_channels
         layers.append(
             ConvNormActivation(
-                3,
+                in_chans,
                 firstconv_output_channels,
                 kernel_size=3,
                 stride=2,

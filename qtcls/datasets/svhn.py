@@ -33,12 +33,13 @@ class SVHN(BaseDataset):
         ],
     }
 
-    def __init__(self, root, split, loader=None, transform=None, target_transform=None, download=False):
-        super().__init__(root, split, loader, transform, target_transform)
-        self.split = verify_str_arg(split, "split", tuple(self.split_list.keys()))
+    def __init__(self, root, split, transform=None, target_transform=None, batch_transform=None, download=False):
+        split = verify_str_arg(split, "split", tuple(self.split_list.keys()))
         self.url = self.split_list[split][0]
         self.filename = self.split_list[split][1]
         self.file_md5 = self.split_list[split][2]
+
+        super().__init__(root, split, transform, target_transform, batch_transform)
 
         if download:
             self.download()

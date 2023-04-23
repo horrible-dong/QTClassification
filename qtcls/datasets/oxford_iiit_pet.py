@@ -22,9 +22,9 @@ class OxfordIIITPet(BaseDataset):
     )
     _VALID_TARGET_TYPES = ("category", "segmentation")
 
-    def __init__(self, root, split, target_types: Union[Sequence[str], str] = "category", loader=None,
-                 transform=None, target_transform=None, download=False):
-        super().__init__(root, split, loader, transform, target_transform)
+    def __init__(self, root, split, target_types: Union[Sequence[str], str] = "category", transform=None,
+                 target_transform=None, batch_transform=None, loader=None, download=False):
+        super().__init__(root, split, transform, target_transform, batch_transform, loader)
         self._split = verify_str_arg(split, "split", ("trainval", "test"))
         if isinstance(target_types, str):
             target_types = [target_types]

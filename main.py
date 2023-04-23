@@ -51,7 +51,14 @@ def get_args_parser():
     # dataset
     parser.add_argument('--data_root', type=str, default='./data')
     parser.add_argument('--dataset', '-d', type=str, default='cifar10')
+
+    # data augmentation
     parser.add_argument('--image_size', type=int)
+    parser.add_argument('--train_aug_kwargs', default=dict())
+    parser.add_argument('--eval_aug_kwargs', default=dict())
+    parser.add_argument('--train_batch_aug_kwargs', default=dict())
+    parser.add_argument('--eval_batch_aug_kwargs', default=dict())
+    parser.add_argument('--label_smoothing', type=float, default=0.0, help='for LabelSmoothingCrossEntropy')
 
     # model
     parser.add_argument('--model_lib', default='torchvision-ex', type=str, choices=['torchvision-ex', 'timm'],

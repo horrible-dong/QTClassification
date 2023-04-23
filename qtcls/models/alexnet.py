@@ -17,11 +17,11 @@ model_urls = {
 
 
 class AlexNet(nn.Module):
-    def __init__(self, num_classes: int = 1000, dropout: float = 0.5) -> None:
+    def __init__(self, num_classes: int = 1000, dropout: float = 0.5, in_chans: int = 3) -> None:
         super().__init__()
         _log_api_usage_once(self)
         self.features = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=11, stride=4, padding=2),
+            nn.Conv2d(in_chans, 64, kernel_size=11, stride=4, padding=2),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2),
             nn.Conv2d(64, 192, kernel_size=5, padding=2),

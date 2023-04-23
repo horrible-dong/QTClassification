@@ -1,13 +1,14 @@
 device = 'cuda'
 seed = 42
-batch_size = 128
+batch_size = 256
 epochs = 12
 eval_interval = 1
 num_workers = 2
 pin_memory = True
 sync_bn = True
 data_root = './data'
-dataset = 'cifar10'
+dataset = 'mnist'
+no_pretrain = True
 model_lib = 'torchvision-ex'
 model = 'resnet18'
 optimizer = 'sgd'
@@ -23,6 +24,7 @@ print_freq = 10
 clip_max_norm = 5.0
 
 warmup_epochs = 2
+min_lr = 1e-6
 amp = True
 
-model_kwargs = dict(groups=1, width_per_group=64)  # do NOT set 'num_classes' in 'model_kwargs'
+model_kwargs = dict(in_chans=1, groups=1, width_per_group=64)  # Do NOT set 'num_classes' in 'model_kwargs'.

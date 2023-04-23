@@ -38,8 +38,8 @@ class CIFAR10(BaseDataset):
         "md5": "5ff9c542aee3614f3951f8cda6e48888",
     }
 
-    def __init__(self, root, split, transform=None, target_transform=None, download=False):
-        super().__init__(root, split, transform=transform, target_transform=target_transform)
+    def __init__(self, root, split, transform=None, target_transform=None, batch_transform=None, download=False):
+        super().__init__(root, split, transform, target_transform, batch_transform)
 
         if download:
             self.download()
