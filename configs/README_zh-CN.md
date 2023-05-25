@@ -21,5 +21,5 @@ python main.py -c configs/_demo_.py
 值得注意的是，`--config` / `-c` 可以支持任意文件系统路径，比如
 `configs/_demo_.py`, `D:\\QTClassification\\configs\\_demo_.py`, `../../other_project/cfg.py`。
 
-然后，这些参数会和 [`main.py`](../main.py) 中的命令行参数 `args` 进行合并。**如果参数名相同，配置文件参数会覆盖命令行参数。
-**
+然后，这些参数会和 [`main.py`](../main.py) 中的命令行参数 `args` 进行合并。
+**如果参数名相同，配置文件参数会覆盖命令行参数。**

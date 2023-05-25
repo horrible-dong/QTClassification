@@ -96,20 +96,20 @@ class PatchEmbed(nn.Module):
 
 class Attention(nn.Module):
     def __init__(self,
-                 dim,  # 输入token的dim
+                 dim,
                  num_heads=8,
                  qkv_bias=False,
                  qk_scale=None,
-                 attn_drop_ratio=0.,
-                 proj_drop_ratio=0.):
+                 attn_drop_rate=0.,
+                 proj_drop_rate=0.):
         super(Attention, self).__init__()
         self.num_heads = num_heads
         head_dim = dim // num_heads
         self.scale = qk_scale or head_dim ** -0.5
         self.qkv = nn.Linear(dim, dim * 3, bias=qkv_bias)
-        self.attn_drop = nn.Dropout(attn_drop_ratio)
+        self.attn_drop = nn.Dropout(attn_drop_rate)
         self.proj = nn.Linear(dim, dim)
-        self.proj_drop = nn.Dropout(proj_drop_ratio)
+        self.proj_drop = nn.Dropout(proj_drop_rate)
 
     def forward(self, x):
         B, N, C = x.shape
@@ -157,20 +157,20 @@ class Block(nn.Module):
                  mlp_ratio=4.,
                  qkv_bias=False,
                  qk_scale=None,
-                 drop_ratio=0.,
-                 attn_drop_ratio=0.,
-                 drop_path_ratio=0.,
+                 drop_rate=0.,
+                 attn_drop_rate=0.,
+                 drop_path_rate=0.,
                  act_layer=nn.GELU,
                  norm_layer=nn.LayerNorm):
         super(Block, self).__init__()
         self.norm1 = norm_layer(dim)
         self.attn = Attention(dim, num_heads=num_heads, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                              attn_drop_ratio=attn_drop_ratio, proj_drop_ratio=drop_ratio)
+                              attn_drop_rate=attn_drop_rate, proj_drop_rate=drop_rate)
         # NOTE: drop path for stochastic depth, we shall see if this is better than dropout here
-        self.drop_path = DropPath(drop_path_ratio) if drop_path_ratio > 0. else nn.Identity()
+        self.drop_path = DropPath(drop_path_rate) if drop_path_rate > 0. else nn.Identity()
         self.norm2 = norm_layer(dim)
         mlp_hidden_dim = int(dim * mlp_ratio)
-        self.mlp = Mlp(in_features=dim, hidden_features=mlp_hidden_dim, act_layer=act_layer, drop=drop_ratio)
+        self.mlp = Mlp(in_features=dim, hidden_features=mlp_hidden_dim, act_layer=act_layer, drop=drop_rate)
 
     def forward(self, x):
         x = x + self.drop_path(self.attn(self.norm1(x)))
@@ -181,8 +181,8 @@ class Block(nn.Module):
 class VisionTransformer(nn.Module):
     def __init__(self, img_size=224, patch_size=16, in_chans=3, num_classes=1000,
                  embed_dim=768, depth=12, num_heads=12, mlp_ratio=4.0, qkv_bias=True,
-                 qk_scale=None, representation_size=None, distilled=False, drop_ratio=0.,
-                 attn_drop_ratio=0., drop_path_ratio=0., embed_layer=PatchEmbed, norm_layer=None,
+                 qk_scale=None, representation_size=None, distilled=False, drop_rate=0.,
+                 attn_drop_rate=0., drop_path_rate=0., embed_layer=PatchEmbed, norm_layer=None,
                  act_layer=None):
         """
         Args:
@@ -198,9 +198,9 @@ class VisionTransformer(nn.Module):
             qk_scale (float): override default qk scale of head_dim ** -0.5 if set
             representation_size (Optional[int]): enable and set representation layer (pre-logits) to this value if set
             distilled (bool): model includes a distillation token and head as in DeiT models
-            drop_ratio (float): dropout rate
-            attn_drop_ratio (float): attention dropout rate
-            drop_path_ratio (float): stochastic depth rate
+            drop_rate (float): dropout rate
+            attn_drop_rate (float): attention dropout rate
+            drop_path_rate (float): stochastic depth rate
             embed_layer (nn.Module): patch embedding layer
             norm_layer: (nn.Module): normalization layer
         """
@@ -217,12 +217,12 @@ class VisionTransformer(nn.Module):
         self.cls_token = nn.Parameter(torch.zeros(1, 1, embed_dim))
         self.dist_token = nn.Parameter(torch.zeros(1, 1, embed_dim)) if distilled else None
         self.pos_embed = nn.Parameter(torch.zeros(1, num_patches + self.num_tokens, embed_dim))
-        self.pos_drop = nn.Dropout(p=drop_ratio)
+        self.pos_drop = nn.Dropout(p=drop_rate)
 
-        dpr = [x.item() for x in torch.linspace(0, drop_path_ratio, depth)]  # stochastic depth decay rule
+        dpr = [x.item() for x in torch.linspace(0, drop_path_rate, depth)]  # stochastic depth decay rule
         self.blocks = nn.Sequential(*[
             Block(dim=embed_dim, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                  drop_ratio=drop_ratio, attn_drop_ratio=attn_drop_ratio, drop_path_ratio=dpr[i],
+                  drop_rate=drop_rate, attn_drop_rate=attn_drop_rate, drop_path_rate=dpr[i],
                   norm_layer=norm_layer, act_layer=act_layer)
             for i in range(depth)
         ])

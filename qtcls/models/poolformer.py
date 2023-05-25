@@ -155,7 +155,6 @@ class PoolFormer(nn.Module):
         self.num_classes = num_classes
         self.global_pool = global_pool
         self.num_features = embed_dims[-1]
-        self.grad_checkpointing = False
 
         self.patch_embed = PatchEmbed(
             patch_size=in_patch_size, stride=in_stride, padding=in_pad,
@@ -190,31 +189,6 @@ class PoolFormer(nn.Module):
             trunc_normal_(m.weight, std=.02)
             if isinstance(m, nn.Linear) and m.bias is not None:
                 nn.init.constant_(m.bias, 0)
-
-    @torch.jit.ignore
-    def group_matcher(self, coarse=False):
-        return dict(
-            stem=r'^patch_embed',  # stem and embed
-            blocks=[
-                (r'^network\.(\d+).*\.proj', (99999,)),
-                (r'^network\.(\d+)', None) if coarse else (r'^network\.(\d+)\.(\d+)', None),
-                (r'^norm', (99999,))
-            ],
-        )
-
-    @torch.jit.ignore
-    def set_grad_checkpointing(self, enable=True):
-        self.grad_checkpointing = enable
-
-    @torch.jit.ignore
-    def get_classifier(self):
-        return self.head
-
-    def reset_classifier(self, num_classes, global_pool=None):
-        self.num_classes = num_classes
-        if global_pool is not None:
-            self.global_pool = global_pool
-        self.head = nn.Linear(self.num_features, num_classes) if num_classes > 0 else nn.Identity()
 
     def forward_features(self, x):
         x = self.patch_embed(x)

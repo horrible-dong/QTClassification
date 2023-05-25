@@ -8,7 +8,7 @@ from functools import partial
 
 import torch
 import torch.nn as nn
-from timm.models.helpers import named_apply, checkpoint_seq
+from timm.models.helpers import named_apply
 from timm.models.layers import PatchEmbed, Mlp, GluMlp, GatedMlp, DropPath, lecun_normal_, to_2tuple
 
 __all__ = [
@@ -169,7 +169,6 @@ class MlpMixer(nn.Module):
         self.num_classes = num_classes
         self.global_pool = global_pool
         self.num_features = self.embed_dim = embed_dim  # num_features for consistency with other models
-        self.grad_checkpointing = False
 
         self.stem = PatchEmbed(
             img_size=img_size, patch_size=patch_size, in_chans=in_chans,
@@ -190,34 +189,9 @@ class MlpMixer(nn.Module):
         head_bias = -math.log(self.num_classes) if nlhb else 0.
         named_apply(partial(_init_weights, head_bias=head_bias), module=self)  # depth-first
 
-    @torch.jit.ignore
-    def group_matcher(self, coarse=False):
-        return dict(
-            stem=r'^stem',  # stem and embed
-            blocks=[(r'^blocks\.(\d+)', None), (r'^norm', (99999,))]
-        )
-
-    @torch.jit.ignore
-    def set_grad_checkpointing(self, enable=True):
-        self.grad_checkpointing = enable
-
-    @torch.jit.ignore
-    def get_classifier(self):
-        return self.head
-
-    def reset_classifier(self, num_classes, global_pool=None):
-        self.num_classes = num_classes
-        if global_pool is not None:
-            assert global_pool in ('', 'avg')
-            self.global_pool = global_pool
-        self.head = nn.Linear(self.embed_dim, num_classes) if num_classes > 0 else nn.Identity()
-
     def forward_features(self, x):
         x = self.stem(x)
-        if self.grad_checkpointing and not torch.jit.is_scripting():
-            x = checkpoint_seq(self.blocks, x)
-        else:
-            x = self.blocks(x)
+        x = self.blocks(x)
         x = self.norm(x)
         return x
 

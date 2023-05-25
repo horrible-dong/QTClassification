@@ -44,7 +44,7 @@ def get_args_parser():
     parser.add_argument('--print_freq', type=int, default=50)
     parser.add_argument('--need_targets', action='store_true', help='need targets for training')
     parser.add_argument('--drop_lr_now', action='store_true')
-    parser.add_argument('--drop_last', type=bool, default=True)
+    parser.add_argument('--drop_last', action='store_true')
     parser.add_argument('--amp', action='store_true', help='automatic mixed precision training')
     parser.add_argument('--no_dist', action='store_true', help='forcibly disable distributed mode')
 
@@ -61,8 +61,7 @@ def get_args_parser():
     parser.add_argument('--label_smoothing', type=float, default=0.0, help='for LabelSmoothingCrossEntropy')
 
     # model
-    parser.add_argument('--model_lib', default='torchvision-ex', type=str, choices=['torchvision-ex', 'timm'],
-                        help='model library')
+    parser.add_argument('--model_lib', default='default', type=str, choices=['default', 'timm'], help='model library')
     parser.add_argument('--model', '-m', default='resnet50', type=str, help='model name')
     parser.add_argument('--model_kwargs', default=dict(), help='model specific kwargs')
 
@@ -171,7 +170,7 @@ def main(args):
     data_loader_train = Data.DataLoader(dataset=dataset_train,
                                         sampler=sampler_train,
                                         batch_size=args.batch_size,
-                                        drop_last=args.drop_last,
+                                        drop_last=bool(args.drop_last or len(dataset_train) % 2 or args.batch_size % 2),
                                         pin_memory=args.pin_memory,
                                         num_workers=args.num_workers,
                                         collate_fn=dataset_train.collate_fn)

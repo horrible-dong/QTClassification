@@ -10,7 +10,11 @@ import torch.nn.init as init
 from torch.hub import load_state_dict_from_url
 from torchvision.utils import _log_api_usage_once
 
-__all__ = ["SqueezeNet", "squeezenet1_0", "squeezenet1_1"]
+__all__ = [
+    "SqueezeNet",
+    "squeezenet1_0",
+    "squeezenet1_1"
+]
 
 model_urls = {
     "squeezenet1_0": "https://download.pytorch.org/models/squeezenet1_0-b66bff10.pth",

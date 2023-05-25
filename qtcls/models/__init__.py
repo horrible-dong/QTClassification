@@ -3,6 +3,7 @@
 from .alexnet import *
 from .cait import *
 from .convnext import *
+from .deit import *
 from .densenet import *
 from .efficientnet import *
 from .googlenet import *
@@ -13,12 +14,15 @@ from .mnasnet import *
 from .mobilenetv2 import *
 from .mobilenetv3 import *
 from .poolformer import *
+from .pvt import *
 from .regnet import *
 from .resnet import *
 from .shufflenetv2 import *
 from .squeezenet import *
 from .swin_transformer import *
 from .swin_transformer_v2 import *
+from .tnt import *
+from .twins import *
 from .vgg import *
 from .vision_transformer_timm import *
 from .vision_transformer_torchvision import *
@@ -52,7 +56,7 @@ def build_model(args):
 
     pretrained = not args.no_pretrain and is_main_process()
 
-    if model_lib == 'torchvision-ex':
+    if model_lib == 'default':
         try:
             model = __vars__[model_name](**args.model_kwargs)
         except KeyError:

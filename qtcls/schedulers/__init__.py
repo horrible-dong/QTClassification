@@ -9,7 +9,7 @@ def build_scheduler(args, optimizer, n_iter_per_epoch):
 
     if scheduler_name == 'cosine':
         if args.warmup_epochs > 0 and args.warmup_steps > 0:
-            raise AssertionError("'args.warmup_epochs' and 'args.warmup_steps' cannot be positive at the same time.")
+            raise AssertionError("'args.warmup_epochs' and 'args.warmup_steps' cannot both be positive.")
         num_steps = int(args.epochs * n_iter_per_epoch)
         warmup_steps = int(args.warmup_epochs * n_iter_per_epoch) if args.warmup_epochs > 0 else args.warmup_steps
         return CosineLRScheduler(

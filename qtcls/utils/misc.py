@@ -463,3 +463,24 @@ def flatten_list(lst):
         flatten_list(lst) => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     """
     return [ele for sublst in lst for ele in flatten_list(sublst)] if isinstance(lst, list) else [lst]
+
+
+def partial_class_init(cls, *partial_init_args, **partial_init_kwargs):
+    class PartialClassInit(cls):
+        def __init__(self, *init_args, **init_kwargs):
+            super().__init__(*partial_init_args, *init_args, **partial_init_kwargs, **init_kwargs)
+
+    return PartialClassInit
+
+
+def partial_class_call(cls, *partial_call_args, **partial_call_kwargs):
+    class PartialClassCall(cls):
+        def __init__(self, *init_args, **init_kwargs):
+            super().__init__(*init_args, **init_kwargs)
+            self.partial_call_args = partial_call_args
+            self.partial_call_kwargs = partial_call_kwargs
+
+        def __call__(self, *call_args, **call_kwargs):
+            return super().__call__(*self.partial_call_args, *call_args, **self.partial_call_kwargs, **call_kwargs)
+
+    return PartialClassCall

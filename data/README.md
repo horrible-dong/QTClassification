@@ -12,9 +12,12 @@ data/
   ├── cifar10/
   ├── cifar100/
   ├── imagenet1k/
+  ├── imagenet21k/
   ├── stl10/
   ├── svhn/
   ├── pets/
+  ├── flowers/
+  ├── cars/
   └── your_dataset/
 ```
 

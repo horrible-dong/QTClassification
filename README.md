@@ -3,7 +3,7 @@ QTClassification
 
 **A lightweight and extensible toolbox for image classification**
 
-[![version](https://img.shields.io/badge/Version-0.4.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.5.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -134,7 +134,7 @@ arguments*.
 |:------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
 |      `--data_root`       |                                                                               Directory where your datasets is stored.                                                                               |     `./data`     |
 |  `--dataset`<br />`-d`   |                                      Dataset name defined in [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py), such as `cifar10` and `imagenet1k`.                                       |        /         |
-|      `--model_lib`       |                                  Model library where models come from. Our basic model library is extended from `torchvision` (default), and also supports `timm`.                                   | `torchvision-ex` |
+|      `--model_lib`       |                      Model library where models come from. Our basic (default) model library is extended from `torchvision` and `timm`, and also supports the original `timm`.                       |    `default`     |
 |   `--model`<br />`-m`    | Model name defined in [qtcls/models/\_\_init\_\_.py](qtcls/models/__init__.py), such as `resnet50` and `vit_b_16`. Currently supported model names are listed in <a href="#model_zoo">Model Zoo</a>. |        /         |
 |      `--criterion`       |                                              Criterion name defined in [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py), such as `ce`.                                               |    `default`     |
 |      `--optimizer`       |                                        Optimizer name defined in [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py), such as `sgd` and `adam`.                                         |     `adamw`      |
@@ -168,8 +168,9 @@ Arguments in the config file merge or override command line arguments `args`. Fo
 
 **How to put your dataset**
 
-Currently, `mnist`, `cifar10`, `cifar100`, `stl10`, `svhn` and `pets` datasets will be automatically downloaded to
-the `--data_root` directory. For other datasets, please refer to ["How to put your dataset"](data/README.md).
+Currently, `mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers` and `cars` datasets will be automatically
+downloaded to the `--data_root` directory. For other datasets, please refer
+to ["How to put your dataset"](data/README.md).
 
 ### How to customize
 
@@ -192,17 +193,18 @@ Our toolbox is flexible enough to be extended. Please follow the instructions be
 ## <span id="dataset_zoo">Dataset Zoo</span>
 
 Currently supported argument `--dataset` / `-d`:  
-`mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `imagenet1k`, `imagenet21k (also called imagenet22k)`,
+`mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars`, `imagenet1k`,
+`imagenet21k (also called imagenet22k)`,
 and all datasets in `folder` format (consistent with `imagenet` storage format, that is, images of each category are
 stored in a folder/directory, and the folder/directory name is the category name).
 
 ## <span id="model_zoo">Model Zoo</span>
 
-Our basic model library is extended from `torchvision` (default), and also supports `timm`.
+Our basic (default) model library is extended from `torchvision` and `timm`, and also supports the original `timm`.
 
-### torchvision (extended)
+### default
 
-Set the argument `--model_lib` to `torchvision-ex`.
+Set the argument `--model_lib` to `default`.
 
 Currently supported argument `--model` / `-m`:
 
@@ -214,6 +216,9 @@ Currently supported argument `--model` / `-m`:
 
 **ConvNeXt**  
 `convnext_tiny`, `convnext_small`, `convnext_base`, `convnext_large`
+
+**DeiT**  
+`deit_tiny_patch16_224`, `deit_small_patch16_224`, `deit_base_patch16_224`, `deit_base_patch16_384`, `deit_tiny_distilled_patch16_224`, `deit_small_distilled_patch16_224`, `deit_base_distilled_patch16_224`, `deit_base_distilled_patch16_384`, `deit3_small_patch16_224`, `deit3_small_patch16_384`, `deit3_medium_patch16_224`, `deit3_base_patch16_224`, `deit3_base_patch16_384`, `deit3_large_patch16_224`, `deit3_large_patch16_384`, `deit3_huge_patch14_224`, `deit3_small_patch16_224_in21ft1k`, `deit3_small_patch16_384_in21ft1k`, `deit3_medium_patch16_224_in21ft1k`, `deit3_base_patch16_224_in21ft1k`, `deit3_base_patch16_384_in21ft1k`, `deit3_large_patch16_224_in21ft1k`, `deit3_large_patch16_384_in21ft1k`, `deit3_huge_patch14_224_in21ft1k`
 
 **DenseNet**  
 `densenet121`, `densenet169`, `densenet201`, `densenet161`
@@ -242,6 +247,9 @@ Currently supported argument `--model` / `-m`:
 **PoolFormer**   
 `poolformer_s12`, `poolformer_s24`, `poolformer_s36`, `poolformer_m36`, `poolformer_m48`
 
+**PVT**  
+`pvt_tiny`, `pvt_small`, `pvt_medium`, `pvt_large`, `pvt_huge_v2`
+
 **RegNet**  
 `regnet_y_400mf`, `regnet_y_800mf`, `regnet_y_1_6gf`, `regnet_y_3_2gf`, `regnet_y_8gf`, `regnet_y_16gf`, `regnet_y_32gf`, `regnet_y_128gf`, `regnet_x_400mf`, `regnet_x_800mf`, `regnet_x_1_6gf`, `regnet_x_3_2gf`, `regnet_x_8gf`, `regnet_x_16gf`, `regnet_x_32gf`
 
@@ -259,6 +267,12 @@ Currently supported argument `--model` / `-m`:
 
 **Swin Transformer V2**  
 `swinv2_tiny_window8_256`, `swinv2_tiny_window16_256`, `swinv2_small_window8_256`, `swinv2_small_window16_256`, `swinv2_base_window8_256`, `swinv2_base_window16_256`, `swinv2_base_window12_192_22k`, `swinv2_base_window12to16_192to256_22kft1k`, `swinv2_base_window12to24_192to384_22kft1k`, `swinv2_large_window12_192_22k`, `swinv2_large_window12to16_192to256_22kft1k`, `swinv2_large_window12to24_192to384_22kft1k`
+
+**TNT**  
+`tnt_s_patch4_32`, `tnt_s_patch16_224`, `tnt_b_patch16_224`
+
+**Twins**  
+`twins_pcpvt_small`, `twins_pcpvt_base`, `twins_pcpvt_large`, `twins_svt_small`, `twins_svt_base`, `twins_svt_large`
 
 **VGG**  
 `vgg11`, `vgg11_bn`, `vgg13`, `vgg13_bn`, `vgg16`, `vgg16_bn`, `vgg19`, `vgg19_bn`
@@ -296,7 +310,7 @@ If you find QTClassification Toolbox useful in your research, please consider ci
 ```bibtex
 @misc{2023QTClassification,
     title={QTClassification},
-    author={QTClassification Contributors},
+    author={Qiu, Tian},
     howpublished = {\url{https://github.com/horrible-dong/QTClassification}},
     year={2023}
 }

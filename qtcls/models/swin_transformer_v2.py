@@ -10,7 +10,6 @@ from typing import Tuple, Optional
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.utils.checkpoint as checkpoint
 from timm.models.fx_features import register_notrace_function
 from timm.models.layers import PatchEmbed, Mlp, DropPath, to_2tuple, trunc_normal_, _assert
 
@@ -366,7 +365,6 @@ class BasicLayer(nn.Module):
         self.dim = dim
         self.input_resolution = input_resolution
         self.depth = depth
-        self.grad_checkpointing = False
 
         # build blocks
         self.blocks = nn.ModuleList([
@@ -390,10 +388,7 @@ class BasicLayer(nn.Module):
 
     def forward(self, x):
         for blk in self.blocks:
-            if self.grad_checkpointing and not torch.jit.is_scripting():
-                x = checkpoint.checkpoint(blk, x)
-            else:
-                x = blk(x)
+            x = blk(x)
         x = self.downsample(x)
         return x
 
@@ -426,7 +421,6 @@ class SwinTransformerV2(nn.Module):
         norm_layer (nn.Module): Normalization layer. Default: nn.LayerNorm.
         ape (bool): If True, add absolute position embedding to the patch embedding. Default: False
         patch_norm (bool): If True, add normalization after patch embedding. Default: True
-        use_checkpoint (bool): Whether to use checkpointing to save memory. Default: False
         pretrained_window_sizes (tuple(int)): Pretrained window sizes of each layer.
     """
 
@@ -498,41 +492,6 @@ class SwinTransformerV2(nn.Module):
             trunc_normal_(m.weight, std=.02)
             if isinstance(m, nn.Linear) and m.bias is not None:
                 nn.init.constant_(m.bias, 0)
-
-    @torch.jit.ignore
-    def no_weight_decay(self):
-        nod = {'absolute_pos_embed'}
-        for n, m in self.named_modules():
-            if any([kw in n for kw in ("cpb_mlp", "logit_scale", 'relative_position_bias_table')]):
-                nod.add(n)
-        return nod
-
-    @torch.jit.ignore
-    def group_matcher(self, coarse=False):
-        return dict(
-            stem=r'^absolute_pos_embed|patch_embed',  # stem and embed
-            blocks=r'^layers\.(\d+)' if coarse else [
-                (r'^layers\.(\d+).downsample', (0,)),
-                (r'^layers\.(\d+)\.\w+\.(\d+)', None),
-                (r'^norm', (99999,)),
-            ]
-        )
-
-    @torch.jit.ignore
-    def set_grad_checkpointing(self, enable=True):
-        for l in self.layers:
-            l.grad_checkpointing = enable
-
-    @torch.jit.ignore
-    def get_classifier(self):
-        return self.head
-
-    def reset_classifier(self, num_classes, global_pool=None):
-        self.num_classes = num_classes
-        if global_pool is not None:
-            assert global_pool in ('', 'avg')
-            self.global_pool = global_pool
-        self.head = nn.Linear(self.num_features, num_classes) if num_classes > 0 else nn.Identity()
 
     def forward_features(self, x):
         x = self.patch_embed(x)

@@ -3,7 +3,7 @@ QTClassification
 
 **轻量可扩展的图像分类工具箱**
 
-[![version](https://img.shields.io/badge/Version-0.4.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.5.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README_zh-CN.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -131,7 +131,7 @@ python main.py \
 |:------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
 |      `--data_root`       |                                                             你的数据集存放的路径。                                                             |     `./data`     |
 |  `--dataset`<br />`-d`   |                数据集名称，在 [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py) 里定义，如 `cifar10` 和 `imagenet1k`。                 |        /         |
-|      `--model_lib`       |                              模型库，模型都取自模型库。我们的基础模型库由 `torchvision` 扩展而来 (我们的默认模型库)，同时我们也支持 `timm` 模型库。                               | `torchvision-ex` |
+|      `--model_lib`       |                            模型库，模型都取自模型库。我们的基础（默认）模型库由 `torchvision` 和 `timm` 扩展而来，同时我们也支持原生 `timm` 模型库。                             |    `default`     |
 |   `--model`<br />`-m`    | 模型名称，在 [qtcls/models/\_\_init\_\_.py ](qtcls/models/__init__.py) 里定义，如 `resnet50` 和 `vit_b_16`。目前支持的模型名称在<a href="#模型库">模型库</a>中列出。 |        /         |
 |      `--criterion`       |                        损失函数名称，在 [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py) 里定义，如 `ce`。                        |    `default`     |
 |      `--optimizer`       |                     优化器名称，在 [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py)，如 `sgd` 和 `adam`。                      |     `adamw`      |
@@ -163,7 +163,7 @@ python main.py -c configs/_demo_.py
 
 **如何放置你的数据集**
 
-目前，`mnist`、`cifar10`、`cifar100`、`stl10`、`svhn` 和 `pets` 数据集会自动下载到 `--data_root`
+目前，`mnist`、`cifar10`、`cifar100`、`stl10`、`svhn`、`pets`、`flowers` 和 `cars` 数据集会自动下载到 `--data_root`
 目录下。其余数据集请参考 [“如何放置你的数据集”](data/README_zh-CN.md) 。
 
 ### 如何自定义
@@ -187,16 +187,16 @@ python main.py -c configs/_demo_.py
 ## <span id="数据集">数据集</span>
 
 目前支持的 `--dataset` 参数：  
-`mnist`、`cifar10`、`cifar100`、`stl10`、`svhn`、`pets`、`imagenet1k`、`imagenet21k (也叫做 imagenet22k)`
+`mnist`、`cifar10`、`cifar100`、`stl10`、`svhn`, `pets`, `flowers`, `cars`, `imagenet1k`、`imagenet21k (也叫做 imagenet22k)`
 以及所有 `folder` 格式的数据集（与 `imagenet` 存储格式一致，即每个类别的图片存放在一个文件夹内，文件夹名称是类别名称）。
 
 ## <span id="模型库">模型库</span>
 
-我们的基础模型库由 `torchvision` 扩展而来（我们的默认模型库），同时我们也支持 `timm` 模型库。
+我们的基础（默认）模型库由 `torchvision` 和 `timm` 扩展而来，同时我们也支持原生 `timm` 模型库。
 
-### torchvision（经过我们扩展的）
+### 默认模型库
 
-把 `--model_lib` 赋值为 `torchvision-ex`。
+把 `--model_lib` 赋值为 `default`。
 
 目前支持的 `--model` 参数：
 
@@ -208,6 +208,9 @@ python main.py -c configs/_demo_.py
 
 **ConvNeXt**  
 `convnext_tiny`, `convnext_small`, `convnext_base`, `convnext_large`
+
+**DeiT**  
+`deit_tiny_patch16_224`, `deit_small_patch16_224`, `deit_base_patch16_224`, `deit_base_patch16_384`, `deit_tiny_distilled_patch16_224`, `deit_small_distilled_patch16_224`, `deit_base_distilled_patch16_224`, `deit_base_distilled_patch16_384`, `deit3_small_patch16_224`, `deit3_small_patch16_384`, `deit3_medium_patch16_224`, `deit3_base_patch16_224`, `deit3_base_patch16_384`, `deit3_large_patch16_224`, `deit3_large_patch16_384`, `deit3_huge_patch14_224`, `deit3_small_patch16_224_in21ft1k`, `deit3_small_patch16_384_in21ft1k`, `deit3_medium_patch16_224_in21ft1k`, `deit3_base_patch16_224_in21ft1k`, `deit3_base_patch16_384_in21ft1k`, `deit3_large_patch16_224_in21ft1k`, `deit3_large_patch16_384_in21ft1k`, `deit3_huge_patch14_224_in21ft1k`
 
 **DenseNet**  
 `densenet121`, `densenet169`, `densenet201`, `densenet161`
@@ -236,6 +239,9 @@ python main.py -c configs/_demo_.py
 **PoolFormer**   
 `poolformer_s12`, `poolformer_s24`, `poolformer_s36`, `poolformer_m36`, `poolformer_m48`
 
+**PVT**  
+`pvt_tiny`, `pvt_small`, `pvt_medium`, `pvt_large`, `pvt_huge_v2`
+
 **RegNet**  
 `regnet_y_400mf`, `regnet_y_800mf`, `regnet_y_1_6gf`, `regnet_y_3_2gf`, `regnet_y_8gf`, `regnet_y_16gf`, `regnet_y_32gf`, `regnet_y_128gf`, `regnet_x_400mf`, `regnet_x_800mf`, `regnet_x_1_6gf`, `regnet_x_3_2gf`, `regnet_x_8gf`, `regnet_x_16gf`, `regnet_x_32gf`
 
@@ -253,6 +259,12 @@ python main.py -c configs/_demo_.py
 
 **Swin Transformer V2**  
 `swinv2_tiny_window8_256`, `swinv2_tiny_window16_256`, `swinv2_small_window8_256`, `swinv2_small_window16_256`, `swinv2_base_window8_256`, `swinv2_base_window16_256`, `swinv2_base_window12_192_22k`, `swinv2_base_window12to16_192to256_22kft1k`, `swinv2_base_window12to24_192to384_22kft1k`, `swinv2_large_window12_192_22k`, `swinv2_large_window12to16_192to256_22kft1k`, `swinv2_large_window12to24_192to384_22kft1k`
+
+**TNT**  
+`tnt_s_patch4_32`, `tnt_s_patch16_224`, `tnt_b_patch16_224`
+
+**Twins**  
+`twins_pcpvt_small`, `twins_pcpvt_base`, `twins_pcpvt_large`, `twins_svt_small`, `twins_svt_base`, `twins_svt_large`
 
 **VGG**  
 `vgg11`, `vgg11_bn`, `vgg13`, `vgg13_bn`, `vgg16`, `vgg16_bn`, `vgg19`, `vgg19_bn`
@@ -285,7 +297,7 @@ QTClassification 基于 Apache 2.0 开源许可证. 具体请看[开源许可证
 ```bibtex
 @misc{2023QTClassification,
     title={QTClassification},
-    author={QTClassification Contributors},
+    author={Qiu, Tian},
     howpublished = {\url{https://github.com/horrible-dong/QTClassification}},
     year={2023}
 }

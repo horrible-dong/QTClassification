@@ -7,7 +7,6 @@ from functools import partial
 
 import torch
 import torch.nn as nn
-from timm.models.helpers import checkpoint_seq
 from timm.models.layers import PatchEmbed, Mlp, DropPath, trunc_normal_
 
 __all__ = [
@@ -177,7 +176,6 @@ class Cait(nn.Module):
         self.num_classes = num_classes
         self.global_pool = global_pool
         self.num_features = self.embed_dim = embed_dim
-        self.grad_checkpointing = False
 
         self.patch_embed = patch_layer(
             img_size=img_size, patch_size=patch_size, in_chans=in_chans, embed_dim=embed_dim)
@@ -222,51 +220,11 @@ class Cait(nn.Module):
             nn.init.constant_(m.bias, 0)
             nn.init.constant_(m.weight, 1.0)
 
-    @torch.jit.ignore
-    def no_weight_decay(self):
-        return {'pos_embed', 'cls_token'}
-
-    @torch.jit.ignore
-    def set_grad_checkpointing(self, enable=True):
-        self.grad_checkpointing = enable
-
-    @torch.jit.ignore
-    def group_matcher(self, coarse=False):
-        def _matcher(name):
-            if any([name.startswith(n) for n in ('cls_token', 'pos_embed', 'patch_embed')]):
-                return 0
-            elif name.startswith('blocks.'):
-                return int(name.split('.')[1]) + 1
-            elif name.startswith('blocks_token_only.'):
-                # overlap token only blocks with last blocks
-                to_offset = len(self.blocks) - len(self.blocks_token_only) + 1
-                return int(name.split('.')[1]) + to_offset
-            elif name.startswith('norm.'):
-                return len(self.blocks)
-            else:
-                return float('inf')
-
-        return _matcher
-
-    @torch.jit.ignore
-    def get_classifier(self):
-        return self.head
-
-    def reset_classifier(self, num_classes, global_pool=None):
-        self.num_classes = num_classes
-        if global_pool is not None:
-            assert global_pool in ('', 'token', 'avg')
-            self.global_pool = global_pool
-        self.head = nn.Linear(self.num_features, num_classes) if num_classes > 0 else nn.Identity()
-
     def forward_features(self, x):
         x = self.patch_embed(x)
         x = x + self.pos_embed
         x = self.pos_drop(x)
-        if self.grad_checkpointing and not torch.jit.is_scripting():
-            x = checkpoint_seq(self.blocks, x)
-        else:
-            x = self.blocks(x)
+        x = self.blocks(x)
         cls_tokens = self.cls_token.expand(x.shape[0], -1, -1)
         for i, blk in enumerate(self.blocks_token_only):
             cls_tokens = blk(x, cls_tokens)

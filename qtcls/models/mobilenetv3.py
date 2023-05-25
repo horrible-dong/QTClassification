@@ -13,7 +13,11 @@ from torchvision.models._utils import _make_divisible
 from torchvision.ops.misc import ConvNormActivation, SqueezeExcitation as SElayer
 from torchvision.utils import _log_api_usage_once
 
-__all__ = ["MobileNetV3", "mobilenet_v3_large", "mobilenet_v3_small"]
+__all__ = [
+    "MobileNetV3",
+    "mobilenet_v3_large",
+    "mobilenet_v3_small"
+]
 
 model_urls = {
     "mobilenet_v3_large": "https://download.pytorch.org/models/mobilenet_v3_large-8738ca79.pth",

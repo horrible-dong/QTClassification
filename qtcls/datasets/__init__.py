@@ -1,10 +1,12 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
 from .cifar import CIFAR10, CIFAR100
+from .flowers102 import Flowers102
 from .folder import ImageFolder
 from .imagenet import ImageNet
 from .mnist import MNIST
 from .oxford_iiit_pet import OxfordIIITPet
+from .stanford_cars import StanfordCars
 from .stl10 import STL10
 from .svhn import SVHN
 
@@ -19,6 +21,8 @@ num_classes = {
     'stl10': 10,
     'svhn': 10,
     'pets': 37,
+    'flowers': 102,
+    'cars': 196,
 }
 
 
@@ -35,7 +39,7 @@ def build_dataset(args, split, download=True):
     dataset_name = args.dataset.lower()
     dataset_path = os.path.join(args.data_root, dataset_name)
 
-    if dataset_name == 'mnist':  # 28 x 28, ** 1 channel **
+    if dataset_name == 'mnist':  # 28 x 28, ** 1 channel, set 'in_chans=1' in 'args.model_kwargs' **
         if split == 'val':
             split = 'test'
 
@@ -129,21 +133,20 @@ def build_dataset(args, split, download=True):
         if split == 'val':
             split = 'test'
 
+        image_size = 96 if args.image_size is None else args.image_size
+        mean, std = (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)
+
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
+
         transform = {
-            'train': tfs.Compose([
-                tfs.RandomHorizontalFlip(),
-                tfs.ToTensor(),
-                tfs.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-            ]),
-            'test': tfs.Compose([
-                tfs.ToTensor(),
-                tfs.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-            ])
+            'train': create_transform(**aug_kwargs['train_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
         }
 
         return STL10(root=dataset_path,
                      split=split,
                      transform=transform,
+                     batch_transform=None,
                      download=download)
 
     if dataset_name == 'svhn':  # 32 x 32
@@ -177,25 +180,56 @@ def build_dataset(args, split, download=True):
         if split == 'val':
             split = 'test'
 
+        image_size = 224 if args.image_size is None else args.image_size
+        mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
+
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
+
         transform = {
-            'trainval': tfs.Compose([
-                tfs.RandomResizedCrop(224),
-                tfs.RandomHorizontalFlip(),
-                tfs.ToTensor(),
-                tfs.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-            ]),
-            'test': tfs.Compose([
-                tfs.Resize(256),
-                tfs.CenterCrop(224),
-                tfs.ToTensor(),
-                tfs.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-            ])
+            'trainval': create_transform(**aug_kwargs['train_aug_kwargs']),
+            'val': create_transform(**aug_kwargs['eval_aug_kwargs']),
         }
 
         return OxfordIIITPet(root=dataset_path,
                              split=split,
                              transform=transform,
+                             batch_transform=None,
                              download=download)
+
+    if dataset_name == 'flowers':
+        image_size = 224 if args.image_size is None else args.image_size
+        mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
+
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
+
+        transform = {
+            'train': create_transform(**aug_kwargs['train_aug_kwargs']),
+            'val': create_transform(**aug_kwargs['eval_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
+        }
+
+        return Flowers102(root=dataset_path,
+                          split=split,
+                          transform=transform,
+                          batch_transform=None,
+                          download=download)
+
+    if dataset_name == 'cars':
+        image_size = 224 if args.image_size is None else args.image_size
+        mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
+
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
+
+        transform = {
+            'train': create_transform(**aug_kwargs['train_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
+        }
+
+        return Flowers102(root=dataset_path,
+                          split=split,
+                          transform=transform,
+                          batch_transform=None,
+                          download=download)
 
     raise ValueError(f"Dataset '{dataset_name}' is not found.")
 

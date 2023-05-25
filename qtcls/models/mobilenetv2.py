@@ -13,7 +13,10 @@ from torchvision.models._utils import _make_divisible
 from torchvision.ops.misc import ConvNormActivation
 from torchvision.utils import _log_api_usage_once
 
-__all__ = ["MobileNetV2", "mobilenet_v2"]
+__all__ = [
+    "MobileNetV2",
+    "mobilenet_v2"
+]
 
 model_urls = {
     "mobilenet_v2": "https://download.pytorch.org/models/mobilenet_v2-b0353104.pth",

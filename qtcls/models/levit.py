@@ -8,11 +8,18 @@ from typing import Dict
 
 import torch
 import torch.nn as nn
-from timm.models.helpers import checkpoint_seq
 from timm.models.layers import to_ntuple, get_act_layer
 from timm.models.vision_transformer import trunc_normal_
 
-__all__ = ['Levit', 'levit_128s', 'levit_128', 'levit_192', 'levit_256', 'levit_256d', 'levit_384']
+__all__ = [
+    'Levit',
+    'levit_128s',
+    'levit_128',
+    'levit_192',
+    'levit_256',
+    'levit_256d',
+    'levit_384'
+]
 
 
 class ConvNorm(nn.Sequential):
@@ -323,7 +330,6 @@ class Levit(nn.Module):
         self.global_pool = global_pool
         self.num_features = embed_dim[-1]
         self.embed_dim = embed_dim
-        self.grad_checkpointing = False
 
         num_stages = len(embed_dim)
         assert len(depth) == len(num_heads) == num_stages
@@ -380,40 +386,11 @@ class Levit(nn.Module):
         # Classifier head
         self.head = NormLinear(embed_dim[-1], num_classes) if num_classes > 0 else nn.Identity()
 
-    @torch.jit.ignore
-    def no_weight_decay(self):
-        return {x for x in self.state_dict().keys() if 'attention_biases' in x}
-
-    @torch.jit.ignore
-    def group_matcher(self, coarse=False):
-        matcher = dict(
-            stem=r'^cls_token|pos_embed|patch_embed',  # stem and embed
-            blocks=[(r'^blocks\.(\d+)', None), (r'^norm', (99999,))]
-        )
-        return matcher
-
-    @torch.jit.ignore
-    def set_grad_checkpointing(self, enable=True):
-        self.grad_checkpointing = enable
-
-    @torch.jit.ignore
-    def get_classifier(self):
-        return self.head
-
-    def reset_classifier(self, num_classes, global_pool=None, distillation=None):
-        self.num_classes = num_classes
-        if global_pool is not None:
-            self.global_pool = global_pool
-        self.head = NormLinear(self.embed_dim[-1], num_classes) if num_classes > 0 else nn.Identity()
-
     def forward_features(self, x):
         x = self.patch_embed(x)
         if not self.use_conv:
             x = x.flatten(2).transpose(1, 2)
-        if self.grad_checkpointing and not torch.jit.is_scripting():
-            x = checkpoint_seq(self.blocks, x)
-        else:
-            x = self.blocks(x)
+        x = self.blocks(x)
         return x
 
     def forward_head(self, x, pre_logits: bool = False):
@@ -432,21 +409,6 @@ class LevitDistilled(Levit):
         super().__init__(*args, **kwargs)
         self.head_dist = NormLinear(self.num_features, self.num_classes) if self.num_classes > 0 else nn.Identity()
         self.distilled_training = False  # must set this True to train w/ distillation token
-
-    @torch.jit.ignore
-    def get_classifier(self):
-        return self.head, self.head_dist
-
-    def reset_classifier(self, num_classes, global_pool=None, distillation=None):
-        self.num_classes = num_classes
-        if global_pool is not None:
-            self.global_pool = global_pool
-        self.head = NormLinear(self.num_features, num_classes) if num_classes > 0 else nn.Identity()
-        self.head_dist = NormLinear(self.num_features, num_classes) if num_classes > 0 else nn.Identity()
-
-    @torch.jit.ignore
-    def set_distilled_training(self, enable=True):
-        self.distilled_training = enable
 
     def forward_head(self, x):
         if self.global_pool == 'avg':

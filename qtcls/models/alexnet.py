@@ -9,7 +9,10 @@ import torch.nn as nn
 from torch.hub import load_state_dict_from_url
 from torchvision.utils import _log_api_usage_once
 
-__all__ = ["AlexNet", "alexnet"]
+__all__ = [
+    "AlexNet",
+    "alexnet"
+]
 
 model_urls = {
     "alexnet": "https://download.pytorch.org/models/alexnet-owt-7be5be79.pth",
