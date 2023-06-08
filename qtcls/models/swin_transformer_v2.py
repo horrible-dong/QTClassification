@@ -10,8 +10,8 @@ from typing import Tuple, Optional
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from timm.models.fx_features import register_notrace_function
-from timm.models.layers import PatchEmbed, Mlp, DropPath, to_2tuple, trunc_normal_, _assert
+from timm.layers import PatchEmbed, Mlp, DropPath, to_2tuple, trunc_normal_, _assert
+from timm.models import register_notrace_function
 
 __all__ = [
     'SwinTransformerV2',

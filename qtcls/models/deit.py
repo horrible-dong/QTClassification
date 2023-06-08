@@ -5,8 +5,10 @@
 # -------------------------------------------------------------------------------
 
 import torch
-from timm.models.vision_transformer import VisionTransformer, trunc_normal_
-from torch import nn as nn
+import torch.nn as nn
+from timm.layers import trunc_normal_
+
+from .vision_transformer_timm import VisionTransformer
 
 __all__ = [
     'VisionTransformerDistilled',

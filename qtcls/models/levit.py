@@ -8,8 +8,7 @@ from typing import Dict
 
 import torch
 import torch.nn as nn
-from timm.models.layers import to_ntuple, get_act_layer
-from timm.models.vision_transformer import trunc_normal_
+from timm.layers import to_ntuple, get_act_layer, trunc_normal_
 
 __all__ = [
     'Levit',

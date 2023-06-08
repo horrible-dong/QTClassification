@@ -8,8 +8,8 @@ from functools import partial
 
 import torch
 import torch.nn as nn
-from timm.models.helpers import named_apply
-from timm.models.layers import PatchEmbed, Mlp, GluMlp, GatedMlp, DropPath, lecun_normal_, to_2tuple
+from timm.layers import PatchEmbed, Mlp, GluMlp, GatedMlp, DropPath, lecun_normal_, to_2tuple
+from timm.models import named_apply
 
 __all__ = [
     'MlpMixer',

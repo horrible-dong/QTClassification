@@ -6,9 +6,7 @@ import math
 
 import torch
 import torch.nn as nn
-from timm.models.layers import DropPath, Mlp, trunc_normal_
-from timm.models.layers import _assert
-from timm.models.layers.helpers import to_2tuple
+from timm.layers import _assert, to_2tuple, DropPath, Mlp, trunc_normal_
 
 __all__ = [
     'TNT',

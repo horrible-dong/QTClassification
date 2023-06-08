@@ -8,10 +8,8 @@ from typing import Optional
 
 import torch
 import torch.nn as nn
-from timm.models.helpers import named_apply
-from timm.models.layers import trunc_normal_, lecun_normal_
-from timm.models.layers.helpers import to_2tuple
-from timm.models.layers.trace_utils import _assert
+from timm.layers import _assert, to_2tuple, trunc_normal_, lecun_normal_
+from timm.models import named_apply
 
 __all__ = [
     'VisionTransformer',
