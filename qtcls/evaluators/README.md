@@ -1,6 +1,8 @@
 # How to register your evaluators
 
-English | [简体中文](README_zh-CN.md)
+> Author: QIU, Tian  
+> Affiliate: Zhejiang University  
+> English | [简体中文](README_zh-CN.md)
 
 1. Create `your_evaluator.py`.
 2. In `your_evaluator.py`, define your evaluator. You are free to play, or you can refer to our default evaluator that

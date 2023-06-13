@@ -1,6 +1,8 @@
 # 如何注册你的模型
 
-[English](README.md) | 简体中文
+> 作者: QIU, Tian  
+> 机构: 浙江大学  
+> [English](README.md) | 简体中文
 
 1. 创建 `your_model.py`。
 2. 在 `your_model.py` 中，继承 `nn.Module` 来定义你的模型。每种模型结构分别通过一个函数返回。

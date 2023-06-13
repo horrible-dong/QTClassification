@@ -1,6 +1,8 @@
 # How to register your criterions
 
-English | [简体中文](README_zh-CN.md)
+> Author: QIU, Tian  
+> Affiliate: Zhejiang University  
+> English | [简体中文](README_zh-CN.md)
 
 1. Create `your_criterion.py`.
 2. In `your_criterion.py`, inherit `BaseCriterion` to define your criterion. **You only need to define every loss

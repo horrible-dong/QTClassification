@@ -1,6 +1,8 @@
 # 如何注册你的数据集
 
-[English](README.md) | 简体中文
+> 作者: QIU, Tian  
+> 机构: 浙江大学  
+> [English](README.md) | 简体中文
 
 1. 创建 `your_dataset.py`。
 2. 在 `your_dataset.py` 中，继承 `BaseDataset` 来定义你的数据集。
@@ -14,8 +16,8 @@ __all__ = ['YourDataset']
 
 
 class YourDataset(BaseDataset):
-    def __init__(self, root, split='train', loader=None, transform=None, target_transform=None):
-        super().__init__(root, split, loader, transform, target_transform)
+    def __init__(self, root, split='train', transform=None, target_transform=None, batch_transform=None, loader=None):
+        super().__init__(root, split, transform, target_transform, batch_transform, loader)
         ...
 
     def __getitem__(self, index):
@@ -24,8 +26,7 @@ class YourDataset(BaseDataset):
     def __len__(self):
         ...
 
-    @staticmethod
-    def collate_fn(batch):
+    def collate_fn(self, batch):
         ...
 ```
 

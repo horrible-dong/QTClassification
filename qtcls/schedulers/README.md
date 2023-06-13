@@ -1,6 +1,8 @@
 # How to register your schedulers
 
-English | [简体中文](README_zh-CN.md)
+> Author: QIU, Tian  
+> Affiliate: Zhejiang University  
+> English | [简体中文](README_zh-CN.md)
 
 1. Create `your_scheduler.py`.
 2. In `your_scheduler.py`, define your scheduler.

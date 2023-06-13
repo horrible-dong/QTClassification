@@ -1,6 +1,8 @@
 # How to register your datasets
 
-English | [简体中文](README_zh-CN.md)
+> Author: QIU, Tian  
+> Affiliate: Zhejiang University  
+> English | [简体中文](README_zh-CN.md)
 
 1. Create `your_dataset.py`.
 2. In `your_dataset.py`, inherit `BaseDataset` to define your criterion.
@@ -14,8 +16,8 @@ __all__ = ['YourDataset']
 
 
 class YourDataset(BaseDataset):
-    def __init__(self, root, split='train', loader=None, transform=None, target_transform=None):
-        super().__init__(root, split, loader, transform, target_transform)
+    def __init__(self, root, split='train', transform=None, target_transform=None, batch_transform=None, loader=None):
+        super().__init__(root, split, transform, target_transform, batch_transform, loader)
         ...
 
     def __getitem__(self, index):
@@ -24,8 +26,7 @@ class YourDataset(BaseDataset):
     def __len__(self):
         ...
 
-    @staticmethod
-    def collate_fn(batch):
+    def collate_fn(self, batch):
         ...
 ```
 

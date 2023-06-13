@@ -1,6 +1,8 @@
 # How to register your optimizers
 
-English | [简体中文](README_zh-CN.md)
+> Author: QIU, Tian  
+> Affiliate: Zhejiang University  
+> English | [简体中文](README_zh-CN.md)
 
 1. Create `your_optimizer.py`.
 2. In `your_optimizer.py`, define your optimizer.

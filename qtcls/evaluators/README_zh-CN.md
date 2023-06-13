@@ -1,6 +1,8 @@
 # 如何注册你的验证器
 
-[English](README.md) | 简体中文
+> 作者: QIU, Tian  
+> 机构: 浙江大学  
+> [English](README.md) | 简体中文
 
 1. 创建 `your_evaluator.py`。
 2. 在 `your_evaluator.py` 中定义你的验证器。你可以自由发挥，或者参考 [`default.py`](default.py)

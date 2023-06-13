@@ -215,6 +215,9 @@ def build_dataset(args, split, download=True):
                           download=download)
 
     if dataset_name == 'cars':
+        if split == 'val':
+            split = 'test'
+
         image_size = 224 if args.image_size is None else args.image_size
         mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
 
@@ -225,11 +228,11 @@ def build_dataset(args, split, download=True):
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
         }
 
-        return Flowers102(root=dataset_path,
-                          split=split,
-                          transform=transform,
-                          batch_transform=None,
-                          download=download)
+        return StanfordCars(root=dataset_path,
+                            split=split,
+                            transform=transform,
+                            batch_transform=None,
+                            download=download)
 
     raise ValueError(f"Dataset '{dataset_name}' is not found.")
 

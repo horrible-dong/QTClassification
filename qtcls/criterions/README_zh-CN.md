@@ -1,6 +1,8 @@
 # 如何注册你的损失函数
 
-[English](README.md) | 简体中文
+> 作者: QIU, Tian  
+> 机构: 浙江大学  
+> [English](README.md) | 简体中文
 
 1. 创建 `your_criterion.py`。
 2. 在 `your_criterion.py` 中，继承 `BaseCriterion` 来定义你的损失函数。**你只需要定义每一个子损失函数，它们均以字典形式返回，

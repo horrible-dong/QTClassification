@@ -1,6 +1,8 @@
 # 如何编写和导入你的配置文件
 
-[English](README.md) | 简体中文
+> 作者: QIU, Tian  
+> 机构: 浙江大学  
+> [English](README.md) | 简体中文
 
 如果需要的话，仿照 [`_demo_.py`](_demo_.py) 编写你的参数。
 

@@ -1,6 +1,8 @@
 # 如何注册你的优化器
 
-[English](README.md) | 简体中文
+> 作者: QIU, Tian  
+> 机构: 浙江大学  
+> [English](README.md) | 简体中文
 
 1. 创建 `your_optimizer.py`。
 2. 在 `your_optimizer.py` 中，定义你的优化器。

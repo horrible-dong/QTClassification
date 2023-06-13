@@ -1,6 +1,8 @@
 # 如何放置你的数据集
 
-[English](README.md) | 简体中文
+> 作者: QIU, Tian  
+> 机构: 浙江大学  
+> [English](README.md) | 简体中文
 
 **默认的 `--data_root` 为 `./data`。 把你的数据集放在该目录下。**
 

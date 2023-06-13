@@ -1,6 +1,8 @@
 # 如何注册你的学习率调整策略
 
-[English](README.md) | 简体中文
+> 作者: QIU, Tian  
+> 机构: 浙江大学  
+> [English](README.md) | 简体中文
 
 1. 创建 `your_scheduler.py`。
 2. 在 `your_scheduler.py` 中，定义你的学习率调整策略。

@@ -1,6 +1,8 @@
 # How to register your models
 
-English | [简体中文](README_zh-CN.md)
+> Author: QIU, Tian  
+> Affiliate: Zhejiang University  
+> English | [简体中文](README_zh-CN.md)
 
 1. Create `your_model.py`.
 2. In `your_model.py`, inherit `nn.Module` to define your model. **Each of your model architecture returns with a
