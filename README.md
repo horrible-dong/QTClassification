@@ -195,8 +195,8 @@ Our toolbox is flexible enough to be extended. Please follow the instructions be
 Currently supported argument `--dataset` / `-d`:  
 `mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars`, `imagenet1k`,
 `imagenet21k (also called imagenet22k)`,
-and all datasets in `folder` format (consistent with `imagenet` storage format, that is, images of each category are
-stored in a folder/directory, and the folder/directory name is the category name).
+and all datasets in `folder` format (consistent with `imagenet` storage format,
+see ["How to put your dataset - About the folder dataset format"](data/README.md) for details).
 
 ## <span id="model_zoo">Model Zoo</span>
 

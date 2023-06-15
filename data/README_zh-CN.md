@@ -26,3 +26,39 @@ data/
 注意：数据集文件夹名称**全部小写**。
 
 如果你想改变存放数据集的根目录，请修改 `--data_root` 参数。
+
+### 关于 `folder` 数据集格式
+
+`folder` 数据集格式常用于图像分类。`ImageNet` 是典型的 `folder` 格式数据集。数据集文件夹/目录包含 split
+子文件夹（`train`、`val` 等）。对于每个 split，同一类别的图像存储在与该类别同名的子文件夹中。这是一个样例：
+
+```
+dataset_name/
+    ├── train/
+        ├── category1/
+            ├── image1
+            ├── image2
+            ├── image3
+            ├── ...
+        ├── category2/
+            ├── image1
+            ├── image2
+            ├── image3
+            ├── ...  
+        ├── category3/ 
+        ├── .../
+    ├── val/
+        ├── category1/
+            ├── image1
+            ├── image2
+            ├── image3
+            ├── ...
+        ├── category2/
+            ├── image1
+            ├── image2
+            ├── image3
+            ├── ...  
+        ├── category3/ 
+        ├── .../
+    ├── .../
+```

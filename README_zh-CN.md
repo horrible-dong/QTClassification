@@ -188,7 +188,8 @@ python main.py -c configs/_demo_.py
 
 目前支持的 `--dataset` 参数：  
 `mnist`、`cifar10`、`cifar100`、`stl10`、`svhn`, `pets`, `flowers`, `cars`, `imagenet1k`、`imagenet21k (也叫做 imagenet22k)`
-以及所有 `folder` 格式的数据集（与 `imagenet` 存储格式一致，即每个类别的图片存放在一个文件夹内，文件夹名称是类别名称）。
+以及所有 `folder` 格式的数据集（与 `imagenet`
+存储格式一致，详见 [“如何放置你的数据集 - 关于 folder 数据集格式”](data/README_zh-CN.md) ）。
 
 ## <span id="模型库">模型库</span>
 

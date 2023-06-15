@@ -107,7 +107,7 @@ def get_args_parser():
 def main(args):
     init_seeds(args.seed)
     init_distributed_mode(args)
-    cprint(f'QTClassification v{__version__}', 'light_green', attrs=['bold'])
+    cprint(f'QTClassification {__version__}', 'light_green', attrs=['bold'])
     device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
     if device.type == 'cpu' or args.eval:
         args.amp = False
