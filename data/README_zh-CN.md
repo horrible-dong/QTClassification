@@ -27,9 +27,10 @@ data/
 
 如果你想改变存放数据集的根目录，请修改 `--data_root` 参数。
 
-### 关于 `folder` 数据集格式
+### 关于 `folder` 格式数据集
 
-`folder` 数据集格式常用于图像分类。`ImageNet` 是典型的 `folder` 格式数据集。数据集文件夹/目录包含 split
+`folder` 格式数据集常用于图像分类，可以使用 [`qtcls/datasets/folder.py`](../qtcls/datasets/folder.py)
+中的 `ImageFolder` 类进行读取。`ImageNet` 是典型的 `folder` 格式数据集。数据集文件夹/目录包含 split
 子文件夹（`train`、`val` 等）。对于每个 split，同一类别的图像存储在与该类别同名的子文件夹中。这是一个样例：
 
 ```

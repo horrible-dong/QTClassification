@@ -27,11 +27,12 @@ Note that directory names are all **lowercase**.
 
 If you want to change the data root, please set the argument `--data_root`.
 
-### About the `folder` dataset format
+### About `folder` format datasets
 
-`folder` dataset format is commonly used in image classification. `ImageNet` is of the typical `folder` format. The
-dataset folder/directory contains the split subfolders (`train`, `val`, etc.). For each split, images belonging to a
-particular category are stored in a subfolder with the same name as the category. Here is an example:
+The `folder` format dataset is commonly used in image classification and can be loaded by `ImageFolder` implemented
+in [`qtcls/datasets/folder.py`](../qtcls/datasets/folder.py). `ImageNet` is of the typical `folder` format. The dataset
+folder/directory contains the split subfolders (`train`, `val`, etc.). For each split, images belonging to a particular
+category are stored in a subfolder with the same name as the category. Here is an example:
 
 ```
 dataset_name/
