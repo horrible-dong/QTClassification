@@ -24,15 +24,17 @@ class OxfordIIITPet(BaseDataset):
 
     def __init__(self, root, split, target_types: Union[Sequence[str], str] = "category", transform=None,
                  target_transform=None, batch_transform=None, loader=None, download=False):
+        split = verify_str_arg(split, "split", ("trainval", "test"))
+
         super().__init__(root, split, transform, target_transform, batch_transform, loader)
-        self._split = verify_str_arg(split, "split", ("trainval", "test"))
+
         if isinstance(target_types, str):
             target_types = [target_types]
         self._target_types = [
             verify_str_arg(target_type, "target_types", self._VALID_TARGET_TYPES) for target_type in target_types
         ]
 
-        self._base_folder = pathlib.Path(self.root) / "oxford-iiit-pet"
+        self._base_folder = pathlib.Path(self.root)
         self._images_folder = self._base_folder / "images"
         self._anns_folder = self._base_folder / "annotations"
         self._segs_folder = self._anns_folder / "trimaps"
@@ -45,7 +47,7 @@ class OxfordIIITPet(BaseDataset):
 
         image_ids = []
         self._labels = []
-        with open(self._anns_folder / f"{self._split}.txt") as file:
+        with open(self._anns_folder / f"{self.split}.txt") as file:
             for line in file:
                 image_id, label, *_ = line.strip().split()
                 image_ids.append(image_id)

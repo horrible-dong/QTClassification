@@ -24,9 +24,11 @@ class Flowers102(BaseDataset):
 
     def __init__(self, root, split, transform=None, target_transform=None, batch_transform=None, loader=None,
                  download=False):
+        split = verify_str_arg(split, "split", ("train", "val", "test"))
+
         super().__init__(root, split, transform, target_transform, batch_transform, loader)
-        self._split = verify_str_arg(split, "split", ("train", "val", "test"))
-        self._base_folder = Path(self.root) / "flowers-102"
+
+        self._base_folder = Path(self.root)
         self._images_folder = self._base_folder / "jpg"
 
         if download:
@@ -38,7 +40,7 @@ class Flowers102(BaseDataset):
         from scipy.io import loadmat
 
         set_ids = loadmat(self._base_folder / self._file_dict["setid"][0], squeeze_me=True)
-        image_ids = set_ids[self._splits_map[self._split]].tolist()
+        image_ids = set_ids[self._splits_map[self.split]].tolist()
 
         labels = loadmat(self._base_folder / self._file_dict["label"][0], squeeze_me=True)
         image_id_to_label = dict(enumerate(labels["labels"].tolist(), 1))
@@ -65,7 +67,7 @@ class Flowers102(BaseDataset):
         return image, label
 
     def extra_repr(self) -> str:
-        return f"split={self._split}"
+        return f"split={self.split}"
 
     def _check_integrity(self):
         if not (self._images_folder.exists() and self._images_folder.is_dir()):

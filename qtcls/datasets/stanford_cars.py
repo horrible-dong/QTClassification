@@ -21,13 +21,14 @@ class StanfordCars(BaseDataset):
         except ImportError:
             raise RuntimeError("Scipy is not found. This dataset needs to have scipy installed: pip install scipy")
 
+        split = verify_str_arg(split, "split", ("train", "test"))
+
         super().__init__(root, split, transform, target_transform, batch_transform, loader)
 
-        self._split = verify_str_arg(split, "split", ("train", "test"))
-        self._base_folder = pathlib.Path(root) / "stanford_cars"
+        self._base_folder = pathlib.Path(root)
         devkit = self._base_folder / "devkit"
 
-        if self._split == "train":
+        if self.split == "train":
             self._annotations_mat_path = devkit / "cars_train_annos.mat"
             self._images_base_path = self._base_folder / "cars_train"
         else:
@@ -76,7 +77,7 @@ class StanfordCars(BaseDataset):
             download_root=str(self._base_folder),
             md5="c3b158d763b6e2245038c8ad08e45376",
         )
-        if self._split == "train":
+        if self.split == "train":
             download_and_extract_archive(
                 url="https://ai.stanford.edu/~jkrause/car196/cars_train.tgz",
                 download_root=str(self._base_folder),

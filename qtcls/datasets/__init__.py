@@ -3,13 +3,13 @@
 from .cifar import CIFAR10, CIFAR100
 from .flowers102 import Flowers102
 from .folder import ImageFolder
+from .food import Food101
 from .imagenet import ImageNet
 from .mnist import MNIST
 from .oxford_iiit_pet import OxfordIIITPet
 from .stanford_cars import StanfordCars
 from .stl10 import STL10
 from .svhn import SVHN
-from .food import Food101
 
 num_classes = {
     # all in lowercase !!!
@@ -189,7 +189,7 @@ def build_dataset(args, split, download=True):
 
         transform = {
             'trainval': create_transform(**aug_kwargs['train_aug_kwargs']),
-            'val': create_transform(**aug_kwargs['eval_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
         }
 
         return OxfordIIITPet(root=dataset_path,

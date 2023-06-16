@@ -7,7 +7,7 @@ from qtcls import __version__, __git_url__
 
 
 def check_for_updates(current_version: str, git_url: str):
-    print(f'\nFetching the latest release version from {git_url} ...\n')
+    print(f'\nFetching the latest release version from {git_url}\n')
     user, repo = git_url.split('/')[-2:]
     api_url = f'https://api.github.com/repos/{user}/{repo}/releases/latest'
     response = requests.get(api_url)

@@ -4,9 +4,7 @@
 
 import json
 from pathlib import Path
-from typing import Any, Tuple, Callable, Optional
-
-import PIL.Image
+from typing import Any, Tuple
 
 from torchvision.datasets.utils import verify_str_arg, download_and_extract_archive
 
@@ -23,8 +21,10 @@ class Food101(BaseDataset):
     def __init__(self, root, split, transform=None, target_transform=None, batch_transform=None, loader=None,
                  download=False):
         split = verify_str_arg(split, "split", ("train", "test"))
+
         super().__init__(root, split, transform, target_transform, batch_transform, loader)
-        self._base_folder = Path(self.root) / "food-101"
+
+        self._base_folder = Path(self.root)
         self._meta_folder = self._base_folder / "meta"
         self._images_folder = self._base_folder / "images"
 
@@ -66,7 +66,6 @@ class Food101(BaseDataset):
     def extra_repr(self) -> str:
         return f"split={self.split}"
 
-    @main_process_only
     def _check_exists(self) -> bool:
         return all(folder.exists() and folder.is_dir() for folder in (self._meta_folder, self._images_folder))
 
@@ -75,3 +74,16 @@ class Food101(BaseDataset):
         if self._check_exists():
             return
         download_and_extract_archive(self._URL, download_root=self.root, md5=self._MD5)
+
+        import os
+        import shutil
+
+        src_dir = self._base_folder / "food-101"
+        dst_dir = self._base_folder
+
+        for filename in os.listdir(src_dir):
+            src_file = src_dir / str(filename)
+            dst_file = dst_dir / str(filename)
+            shutil.move(src_file, dst_file)
+
+        shutil.rmtree(src_dir)

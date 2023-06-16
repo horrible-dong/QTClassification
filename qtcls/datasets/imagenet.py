@@ -36,7 +36,7 @@ class ImageNet(ImageFolder):
     """
 
     def __init__(self, root, split, transform=None, target_transform=None, batch_transform=None, loader=None) -> None:
-        self.split = verify_str_arg(split, "split", ("train", "val"))
+        split = verify_str_arg(split, "split", ("train", "val"))
         self.parse_archives()
         wnid_to_classes = load_meta_file(self.root)[0]
 

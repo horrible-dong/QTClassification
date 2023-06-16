@@ -34,11 +34,13 @@ class BaseDataset(Dataset):
             transform: Union[Optional[Callable], Dict[str, Optional[Callable]]] = None,
             target_transform: Union[Optional[Callable], Dict[str, Optional[Callable]]] = None,
             batch_transform: Union[Optional[Callable], Dict[str, Optional[Callable]]] = None,
-            loader: Optional[Callable] = default_loader,
+            loader: Optional[Callable] = None,
             verbose: bool = True
     ):
         if root is None:
             root = f'./data/{self.__class__.__name__.lower()}'
+        if loader is None:
+            loader = default_loader
         self.root = os.path.expanduser(root)
         self.split = split.lower()
         self.transform = transform
