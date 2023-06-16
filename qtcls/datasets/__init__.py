@@ -9,6 +9,7 @@ from .oxford_iiit_pet import OxfordIIITPet
 from .stanford_cars import StanfordCars
 from .stl10 import STL10
 from .svhn import SVHN
+from .food import Food101
 
 num_classes = {
     # all in lowercase !!!
@@ -23,6 +24,7 @@ num_classes = {
     'pets': 37,
     'flowers': 102,
     'cars': 196,
+    'food': 101,
 }
 
 
@@ -233,6 +235,26 @@ def build_dataset(args, split, download=True):
                             transform=transform,
                             batch_transform=None,
                             download=download)
+
+    if dataset_name == 'food':
+        if split == 'val':
+            split = 'test'
+
+        image_size = 224 if args.image_size is None else args.image_size
+        mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
+
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
+
+        transform = {
+            'train': create_transform(**aug_kwargs['train_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
+        }
+
+        return Food101(root=dataset_path,
+                       split=split,
+                       transform=transform,
+                       batch_transform=None,
+                       download=download)
 
     raise ValueError(f"Dataset '{dataset_name}' is not found.")
 
