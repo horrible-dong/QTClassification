@@ -1,5 +1,7 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
+from typing import List, Dict
+
 import torch
 import torch.nn.functional as F
 
@@ -10,7 +12,7 @@ __all__ = ['DemoCriterion']
 
 
 class DemoCriterion(BaseCriterion):
-    def __init__(self, losses: list, weight_dict: dict):
+    def __init__(self, losses: List[str], weight_dict: Dict[str, float]):
         super().__init__(losses, weight_dict)
 
     def loss_labels(self, outputs, targets, **kwargs):
@@ -26,11 +28,13 @@ class DemoCriterion(BaseCriterion):
 
 
 if __name__ == '__main__':
-    criterion = DemoCriterion(losses=['labels', 'boxes'],
-                              weight_dict={'loss_ce': 1, 'loss_boxes': 2})
+    torch.manual_seed(42)
+
+    criterion = DemoCriterion(losses=['labels', 'boxes'], weight_dict={'loss_ce': 1, 'loss_boxes': 2})
 
     outputs = {'logits': torch.nn.Softmax(dim=1)(torch.randn([3, 10])), 'boxes': torch.randn([3, 4])}
     targets = {'logits': torch.tensor([1, 2, 3]), 'boxes': torch.randn([3, 4])}
 
     loss = criterion(outputs, targets)
-    print(loss)
+
+    print(loss)  # {'loss_ce': tensor(2.3039), 'class_error': tensor(100.), 'loss_boxes': tensor(1.1626)}

@@ -2,6 +2,7 @@
 
 import itertools
 import warnings
+from typing import List
 
 from sklearn import metrics as sklearn_metrics
 
@@ -11,7 +12,7 @@ warnings.filterwarnings('ignore')
 
 
 class DefaultEvaluator:
-    def __init__(self, metrics: list):
+    def __init__(self, metrics: List[str]):
         self.metrics = metrics
         self.outputs = []
         self.targets = []

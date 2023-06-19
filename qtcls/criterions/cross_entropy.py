@@ -1,5 +1,7 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
+from typing import List, Dict
+
 import torch
 import torch.nn.functional as F
 
@@ -10,7 +12,7 @@ __all__ = ['CrossEntropy', 'LabelSmoothingCrossEntropy', 'SoftTargetCrossEntropy
 
 
 class CrossEntropy(BaseCriterion):
-    def __init__(self, losses: list, weight_dict: dict):
+    def __init__(self, losses: List[str], weight_dict: Dict[str, float]):
         super().__init__(losses, weight_dict)
 
     def loss_labels(self, outputs, targets, **kwargs):
@@ -27,7 +29,7 @@ class CrossEntropy(BaseCriterion):
 
 
 class LabelSmoothingCrossEntropy(BaseCriterion):
-    def __init__(self, losses: list, weight_dict: dict, smoothing: float = 0.1):
+    def __init__(self, losses: List[str], weight_dict: Dict[str, float], smoothing: float = 0.1):
         super().__init__(losses, weight_dict)
         self.smoothing = smoothing
         self.confidence = 1. - smoothing
@@ -54,7 +56,7 @@ class LabelSmoothingCrossEntropy(BaseCriterion):
 
 
 class SoftTargetCrossEntropy(BaseCriterion):  # Compatible with 'CrossEntropy'
-    def __init__(self, losses: list, weight_dict: dict):
+    def __init__(self, losses: List[str], weight_dict: Dict[str, float]):
         super().__init__(losses, weight_dict)
 
     def loss_labels(self, outputs, targets, **kwargs):

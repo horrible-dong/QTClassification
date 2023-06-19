@@ -1,12 +1,14 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
+from typing import List, Dict
+
 from torch import nn
 
 __all__ = ['BaseCriterion']
 
 
 class BaseCriterion(nn.Module):
-    def __init__(self, losses: list, weight_dict: dict):
+    def __init__(self, losses: List[str], weight_dict: Dict[str, float]):
         super().__init__()
         self.losses = losses
         self.weight_dict = weight_dict
