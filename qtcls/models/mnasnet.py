@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by Qiu, Tian
+# ---------------------------------------
 
 import warnings
 from typing import Any, Dict, List

@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by Qiu, Tian
+# ---------------------------------------
 
 from typing import Union, List, Dict, Any, cast
 

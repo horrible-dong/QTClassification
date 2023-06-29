@@ -3,8 +3,28 @@
 # https://github.com/microsoft/Swin-Transformer/blob/main/models/swin_transformer.py
 # https://github.com/WZMIAOMIAO/deep-learning-for-image-processing
 # timm
+# by QIU, Tian
 # FIXME 384
 # ------------------------------------------------------------------------------------------
+
+""" Swin Transformer
+A PyTorch impl of : `Swin Transformer: Hierarchical Vision Transformer using Shifted Windows`
+    - https://arxiv.org/pdf/2103.14030
+
+Code/weights from https://github.com/microsoft/Swin-Transformer, original copyright/license info below
+
+S3 (AutoFormerV2, https://arxiv.org/abs/2111.14725) Swin weights from
+    - https://github.com/microsoft/Cream/tree/main/AutoFormerV2
+
+Modifications and additions for timm hacked together by / Copyright 2021, Ross Wightman
+"""
+
+# ---------------------------------------------------------
+# Swin Transformer
+# Copyright (c) 2021 Microsoft
+# Licensed under The MIT License [see LICENSE for details]
+# Written by Ze Liu
+# ---------------------------------------------------------
 
 import torch
 import torch.nn as nn

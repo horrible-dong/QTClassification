@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by QIU, Tian
+# ---------------------------------------
 
 import codecs
 import os
@@ -21,6 +21,8 @@ __all__ = ['MNIST']
 
 
 class MNIST(BaseDataset):
+    """`MNIST <http://yann.lecun.com/exdb/mnist/>`_ Dataset."""
+
     mirrors = [
         "http://yann.lecun.com/exdb/mnist/",
         "https://ossci-datasets.s3.amazonaws.com/mnist/",

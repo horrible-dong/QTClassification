@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by QIU, Tian
+# ---------------------------------------
 
 import os
 import pickle
@@ -16,6 +16,8 @@ __all__ = ["CIFAR10", "CIFAR100"]
 
 
 class CIFAR10(BaseDataset):
+    """`CIFAR10 <https://www.cs.toronto.edu/~kriz/cifar.html>`_ Dataset."""
+
     classes = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
     base_folder = "cifar-10-batches-py"
     url = "https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz"
@@ -120,6 +122,11 @@ class CIFAR10(BaseDataset):
 
 
 class CIFAR100(CIFAR10):
+    """`CIFAR100 <https://www.cs.toronto.edu/~kriz/cifar.html>`_ Dataset.
+
+        This is a subclass of the `CIFAR10` Dataset.
+    """
+
     classes = [
         'apple', 'aquarium_fish', 'baby', 'bear', 'beaver', 'bed', 'bee', 'beetle', 'bicycle', 'bottle', 'bowl', 'boy',
         'bridge', 'bus', 'butterfly', 'camel', 'can', 'castle', 'caterpillar', 'cattle', 'chair', 'chimpanzee', 'clock',

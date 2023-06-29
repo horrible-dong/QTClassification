@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by Qiu, Tian
+# ---------------------------------------
 
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Sequence

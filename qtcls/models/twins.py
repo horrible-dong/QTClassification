@@ -1,6 +1,21 @@
-# -------------------------------------------------------------------------------
-# Modified from timm
-# -------------------------------------------------------------------------------
+# --------------------------------
+# Modified from timm by QIU, Tian
+# --------------------------------
+
+""" Twins
+A PyTorch impl of : `Twins: Revisiting the Design of Spatial Attention in Vision Transformers`
+    - https://arxiv.org/pdf/2104.13840.pdf
+
+Code/weights from https://github.com/Meituan-AutoML/Twins, original copyright/license info below
+
+"""
+
+# ----------------------------------------------------------------
+# Twins
+# Copyright (c) 2021 Meituan
+# Licensed under The Apache 2.0 License [see LICENSE for details]
+# Written by Xinjie Li, Xiangxiang Chu
+# ----------------------------------------------------------------
 
 import math
 from functools import partial

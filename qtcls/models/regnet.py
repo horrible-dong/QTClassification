@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by Qiu, Tian
+# ---------------------------------------
 
 # Modified from
 # https://github.com/facebookresearch/ClassyVision/blob/main/classy_vision/models/anynet.py

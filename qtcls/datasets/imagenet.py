@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by QIU, Tian
+# ---------------------------------------
 
 import os
 import shutil
@@ -31,7 +31,7 @@ class ImageNet(ImageFolder):
         class_to_idx (dict): Dict with items (class_name, class_index).
         wnids (list): List of the WordNet IDs.
         wnid_to_idx (dict): Dict with items (wordnet_id, class_index).
-        imgs (list): List of (image path, class_index) tuples
+        samples (list): List of (image path, class_index) tuples
         targets (list): The class_index value for each image in the dataset
     """
 

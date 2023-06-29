@@ -1,8 +1,22 @@
-# -------------------------------------------------------------------------------
-# Modified from timm
+# --------------------------------
+# Modified from timm by QIU, Tian
+# --------------------------------
+
+""" Swin Transformer V2
+A PyTorch impl of : `Swin Transformer V2: Scaling Up Capacity and Resolution`
+    - https://arxiv.org/abs/2111.09883
+
+Code/weights from https://github.com/microsoft/Swin-Transformer, original copyright/license info below
+
+Modifications and additions for timm hacked together by / Copyright 2022, Ross Wightman
+"""
+
+# --------------------------------------------------------
+# Swin Transformer V2
 # Copyright (c) 2022 Microsoft
 # Licensed under The MIT License [see LICENSE for details]
-# -------------------------------------------------------------------------------
+# Written by Ze Liu
+# --------------------------------------------------------
 
 import math
 from typing import Tuple, Optional

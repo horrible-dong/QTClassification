@@ -1,7 +1,47 @@
-# -------------------------------------------------------------------------------
-# Modified from timm
-# Copyright (c) 2015-present, Facebook, Inc. All rights reserved.
-# -------------------------------------------------------------------------------
+# --------------------------------
+# Modified from timm by QIU, Tian
+# --------------------------------
+
+""" MLP-Mixer, ResMLP, and gMLP in PyTorch
+
+This impl originally based on MLP-Mixer paper.
+
+Official JAX impl: https://github.com/google-research/vision_transformer/blob/linen/vit_jax/models_mixer.py
+
+Paper: 'MLP-Mixer: An all-MLP Architecture for Vision' - https://arxiv.org/abs/2105.01601
+
+@article{tolstikhin2021,
+  title={MLP-Mixer: An all-MLP Architecture for Vision},
+  author={Tolstikhin, Ilya and Houlsby, Neil and Kolesnikov, Alexander and Beyer, Lucas and Zhai, Xiaohua and Unterthiner,
+        Thomas and Yung, Jessica and Keysers, Daniel and Uszkoreit, Jakob and Lucic, Mario and Dosovitskiy, Alexey},
+  journal={arXiv preprint arXiv:2105.01601},
+  year={2021}
+}
+
+Also supporting ResMlp, and a preliminary (not verified) implementations of gMLP
+
+Code: https://github.com/facebookresearch/deit
+Paper: `ResMLP: Feedforward networks for image classification...` - https://arxiv.org/abs/2105.03404
+@misc{touvron2021resmlp,
+      title={ResMLP: Feedforward networks for image classification with data-efficient training},
+      author={Hugo Touvron and Piotr Bojanowski and Mathilde Caron and Matthieu Cord and Alaaeldin El-Nouby and
+        Edouard Grave and Armand Joulin and Gabriel Synnaeve and Jakob Verbeek and Hervé Jégou},
+      year={2021},
+      eprint={2105.03404},
+}
+
+Paper: `Pay Attention to MLPs` - https://arxiv.org/abs/2105.08050
+@misc{liu2021pay,
+      title={Pay Attention to MLPs},
+      author={Hanxiao Liu and Zihang Dai and David R. So and Quoc V. Le},
+      year={2021},
+      eprint={2105.08050},
+}
+
+A thank you to paper authors for releasing code and weights.
+
+Hacked together by / Copyright 2021 Ross Wightman
+"""
 
 import math
 from functools import partial

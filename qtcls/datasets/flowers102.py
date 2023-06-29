@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by QIU, Tian
+# ---------------------------------------
 
 from pathlib import Path
 from typing import Any, Tuple
@@ -14,6 +14,20 @@ __all__ = ['Flowers102']
 
 
 class Flowers102(BaseDataset):
+    """`Oxford 102 Flower <https://www.robots.ox.ac.uk/~vgg/data/flowers/102/>`_ Dataset.
+
+        .. warning::
+
+            This class needs `scipy <https://docs.scipy.org/doc/>`_ to load target files from `.mat` format.
+
+        Oxford 102 Flower is an image classification dataset consisting of 102 flower categories. The
+        flowers were chosen to be flowers commonly occurring in the United Kingdom. Each class consists of
+        between 40 and 258 images.
+
+        The images have large scale, pose and light variations. In addition, there are categories that
+        have large variations within the category, and several very similar categories.
+    """
+
     _download_url_prefix = "https://www.robots.ox.ac.uk/~vgg/data/flowers/102/"
     _file_dict = {  # filename, md5
         "image": ("102flowers.tgz", "52808999861908f626f3c1f4e79d11fa"),

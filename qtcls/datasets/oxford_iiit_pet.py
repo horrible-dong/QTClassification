@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by QIU, Tian
+# ---------------------------------------
 
 import os
 import pathlib
@@ -16,6 +16,8 @@ __all__ = ['OxfordIIITPet']
 
 
 class OxfordIIITPet(BaseDataset):
+    """`Oxford-IIIT Pet <https://www.robots.ox.ac.uk/~vgg/data/pets/>`_."""
+
     _RESOURCES = (
         ("https://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz", "5c4f3ee8e5d25df40f4fd59a7f44e54c"),
         ("https://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz", "95a8c909bbe2e81eed6a22bccdf3f68f"),

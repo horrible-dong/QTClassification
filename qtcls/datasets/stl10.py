@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by QIU, Tian
+# ---------------------------------------
 
 import os
 from typing import Optional, cast, Tuple
@@ -16,6 +16,8 @@ __all__ = ['STL10']
 
 
 class STL10(BaseDataset):
+    """`STL10 <https://cs.stanford.edu/~acoates/stl10/>`_ Dataset."""
+
     base_folder = "stl10_binary"
     url = "http://ai.stanford.edu/~acoates/stl10/stl10_binary.tar.gz"
     filename = "stl10_binary.tar.gz"

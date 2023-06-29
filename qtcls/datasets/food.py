@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by QIU, Tian
+# ---------------------------------------
 
 import json
 from pathlib import Path
@@ -15,6 +15,15 @@ __all__ = ['Food101']
 
 
 class Food101(BaseDataset):
+    """`Food-101 <https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/>`_.
+
+        The Food-101 is a challenging data set of 101 food categories, with 101'000 images.
+        For each class, 250 manually reviewed test images are provided as well as 750 training images.
+        On purpose, the training images were not cleaned, and thus still contain some amount of noise.
+        This comes mostly in the form of intense colors and sometimes wrong labels. All images were
+        rescaled to have a maximum side length of 512 pixels.
+    """
+
     _URL = "https://data.vision.ee.ethz.ch/cvl/food-101.tar.gz"
     _MD5 = "85eeb15f3717b99a5da872d97d918f87"
 

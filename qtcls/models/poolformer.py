@@ -1,6 +1,8 @@
+# --------------------------------
+# Modified from timm by QIU, Tian
+# --------------------------------
+
 # -------------------------------------------------------------------------------
-# Modified from timm
-#
 # Copyright 2021 Garena Online Private Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");

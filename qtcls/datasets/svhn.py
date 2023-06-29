@@ -1,6 +1,6 @@
-# ----------------------------------
-# Modified from torchvision
-# ----------------------------------
+# ---------------------------------------
+# Modified from torchvision by QIU, Tian
+# ---------------------------------------
 
 import os
 
@@ -15,6 +15,8 @@ __all__ = ['SVHN']
 
 
 class SVHN(BaseDataset):
+    """`STL10 <https://cs.stanford.edu/~acoates/stl10/>`_ Dataset."""
+
     split_list = {
         "train": [
             "http://ufldl.stanford.edu/housenumbers/train_32x32.mat",

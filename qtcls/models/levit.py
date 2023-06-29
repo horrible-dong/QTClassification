@@ -1,7 +1,32 @@
-# -------------------------------------------------------------------------------
-# Modified from timm
-# Copyright (c) 2015-present, Facebook, Inc. All rights reserved.
-# -------------------------------------------------------------------------------
+# --------------------------------
+# Modified from timm by QIU, Tian
+# --------------------------------
+
+""" LeViT
+
+Paper: `LeViT: a Vision Transformer in ConvNet's Clothing for Faster Inference`
+    - https://arxiv.org/abs/2104.01136
+
+@article{graham2021levit,
+  title={LeViT: a Vision Transformer in ConvNet's Clothing for Faster Inference},
+  author={Benjamin Graham and Alaaeldin El-Nouby and Hugo Touvron and Pierre Stock and Armand Joulin and Herv\'e J\'egou and Matthijs Douze},
+  journal={arXiv preprint arXiv:22104.01136},
+  year={2021}
+}
+
+Adapted from official impl at https://github.com/facebookresearch/LeViT, original copyright bellow.
+
+This version combines both conv/linear models and fixes torchscript compatibility.
+
+Modifications and additions for timm hacked together by / Copyright 2021, Ross Wightman
+"""
+
+# Modified from
+# https://github.com/rwightman/pytorch-image-models/blob/master/timm/models/vision_transformer.py
+# Copyright 2020 Ross Wightman, Apache-2.0 License
+
+# Copyright (c) 2015-present, Facebook, Inc.
+# All rights reserved.
 
 from functools import partial
 from typing import Dict

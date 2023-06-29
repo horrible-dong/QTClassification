@@ -1,8 +1,20 @@
-# -------------------------------------------------------------------------------
-# Modified from timm
+# --------------------------------
+# Modified from timm by QIU, Tian
+# --------------------------------
+
+""" DeiT - Data-efficient Image Transformers
+
+DeiT model defs and weights from https://github.com/facebookresearch/deit, original copyright below
+
+paper: `DeiT: Data-efficient Image Transformers` - https://arxiv.org/abs/2012.12877
+
+paper: `DeiT III: Revenge of the ViT` - https://arxiv.org/abs/2204.07118
+
+Modifications copyright 2021, Ross Wightman
+"""
+
 # Copyright (c) 2015-present, Facebook, Inc.
 # All rights reserved.
-# -------------------------------------------------------------------------------
 
 import torch
 import torch.nn as nn
