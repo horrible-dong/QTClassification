@@ -1,6 +1,7 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
 from .cifar import CIFAR10, CIFAR100
+from .fakedata import FakeData
 from .flowers102 import Flowers102
 from .folder import ImageFolder
 from .food import Food101
@@ -25,6 +26,8 @@ num_classes = {
     'flowers': 102,
     'cars': 196,
     'food': 101,
+
+    'fake_data': 1000,
 }
 
 
@@ -34,8 +37,7 @@ def build_dataset(args, split, download=True):
     """
     import os
     from torchvision import transforms as tfs
-    from timm.data import create_transform
-    from timm.data import Mixup
+    from timm.data import create_transform, Mixup
 
     split = split.lower()
     dataset_name = args.dataset.lower()
@@ -255,6 +257,16 @@ def build_dataset(args, split, download=True):
                        transform=transform,
                        batch_transform=None,
                        download=download)
+
+    if dataset_name == 'fake_data':
+        in_chans = 3
+        image_size = 224 if args.image_size is None else args.image_size
+
+        return FakeData(size=1281167 if split == 'train' else 50000,
+                        image_size=(in_chans, image_size, image_size),
+                        num_classes=num_classes[dataset_name],
+                        transform=tfs.ToTensor(),
+                        batch_transform=None)
 
     raise ValueError(f"Dataset '{dataset_name}' is not found.")
 

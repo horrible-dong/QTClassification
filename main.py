@@ -51,6 +51,7 @@ def get_args_parser():
     # dataset
     parser.add_argument('--data_root', type=str, default='./data')
     parser.add_argument('--dataset', '-d', type=str, default='cifar10')
+    parser.add_argument('--dummy', action='store_true', help='use fake data')
 
     # data augmentation
     parser.add_argument('--image_size', type=int)
@@ -117,6 +118,8 @@ def main(args):
         args.no_pretrain = True
     if args.note is None:
         args.note = f'dataset: {args.dataset} | model: {args.model} | output_dir: {args.output_dir}'
+    if args.dummy:
+        args.dataset = 'fake_data'
     output_dir = Path(args.output_dir)
 
     print(args)
