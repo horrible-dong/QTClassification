@@ -3,7 +3,7 @@
 # ---------------------------------------
 
 import os
-from typing import Optional, cast, Tuple
+from typing import Optional, cast, Tuple, Any
 
 import numpy as np
 from PIL import Image
@@ -83,7 +83,7 @@ class STL10(BaseDataset):
             msg = "Expected type None or int for argument folds, but got type {}."
             raise ValueError(msg.format(type(folds)))
 
-    def __getitem__(self, index):
+    def __getitem__(self, index) -> Tuple[Any, Any]:
         """
         Args:
             index (int): Index
@@ -109,7 +109,7 @@ class STL10(BaseDataset):
 
         return img, target
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.data.shape[0]
 
     def __loadfile(self, data_file: str, labels_file: Optional[str] = None) -> Tuple[np.ndarray, Optional[np.ndarray]]:

@@ -4,6 +4,7 @@
 
 import os
 import pickle
+from typing import Any, Tuple
 
 import numpy as np
 from PIL import Image
@@ -82,7 +83,7 @@ class CIFAR10(BaseDataset):
             self.classes = data[self.meta["key"]]
         self.class_to_idx = {_class: i for i, _class in enumerate(self.classes)}
 
-    def __getitem__(self, index):
+    def __getitem__(self, index) -> Tuple[Any, Any]:
         image, target = self.data[index], self.targets[index]
 
         # doing this so that it is consistent with all other datasets
@@ -97,7 +98,7 @@ class CIFAR10(BaseDataset):
 
         return image, target
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.data)
 
     def _check_integrity(self):

@@ -4,7 +4,7 @@
 
 import os
 import pathlib
-from typing import Union, Sequence, Any
+from typing import Union, Sequence, Any, Tuple
 
 from PIL import Image
 from torchvision.datasets.utils import verify_str_arg, download_and_extract_archive
@@ -67,10 +67,10 @@ class OxfordIIITPet(BaseDataset):
         self._images = [self._images_folder / f"{image_id}.jpg" for image_id in image_ids]
         self._segs = [self._segs_folder / f"{image_id}.png" for image_id in image_ids]
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._images)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx) -> Tuple[Any, Any]:
         image = self.loader(self._images[idx], format="RGB")
 
         target: Any = []

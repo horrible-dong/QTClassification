@@ -3,6 +3,7 @@
 # ---------------------------------------
 
 import os
+from typing import Tuple, Any
 
 import numpy as np
 from PIL import Image
@@ -69,7 +70,7 @@ class SVHN(BaseDataset):
         np.place(self.labels, self.labels == 10, 0)
         self.data = np.transpose(self.data, (3, 2, 0, 1))
 
-    def __getitem__(self, index):
+    def __getitem__(self, index) -> Tuple[Any, Any]:
         """
         Args:
             index (int): Index
@@ -91,7 +92,7 @@ class SVHN(BaseDataset):
 
         return img, target
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.data)
 
     def _check_integrity(self):

@@ -6,6 +6,7 @@ import codecs
 import os
 import sys
 import warnings
+from typing import Any, Tuple
 from typing import Dict
 from urllib.error import URLError
 
@@ -111,7 +112,7 @@ class MNIST(BaseDataset):
 
         return data, targets
 
-    def __getitem__(self, index: int):
+    def __getitem__(self, index: int) -> Tuple[Any, Any]:
         """
         Args:
             index (int): Index
