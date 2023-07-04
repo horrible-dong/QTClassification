@@ -30,7 +30,7 @@ def train_one_epoch(model, criterion, data_loader, optimizer, lr_scheduler, devi
             else:
                 outputs = model(samples)
 
-            loss_dict = criterion(outputs, targets, training=True)
+            loss_dict = criterion(outputs, targets)
             weight_dict = criterion.weight_dict
             losses = sum(loss_dict[k] * weight_dict[k] for k in loss_dict.keys() if k in weight_dict)
 
@@ -87,7 +87,7 @@ def evaluate(model, data_loader, criterion, device, args, print_freq=10, need_ta
             else:
                 outputs = model(samples)
 
-            loss_dict = criterion(outputs, targets, training=False)
+            loss_dict = criterion(outputs, targets)
 
         weight_dict = criterion.weight_dict
         loss_dict_reduced = reduce_dict(loss_dict)

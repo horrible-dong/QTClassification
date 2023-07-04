@@ -34,14 +34,14 @@ class LabelSmoothingCrossEntropy(BaseCriterion):
         self.smoothing = smoothing
         self.confidence = 1. - smoothing
 
-    def loss_labels(self, outputs, targets, training, **kwargs):
+    def loss_labels(self, outputs, targets, **kwargs):
         if isinstance(outputs, dict):
             assert 'logits' in outputs.keys(), \
                 f"When using 'loss_labels(self, outputs, targets, **kwargs)' in '{self.__class__.__name__}', " \
                 f"if 'outputs' is a dict, 'logits' MUST be the key."
             outputs = outputs["logits"]
 
-        if training:
+        if self.training:
             logprobs = F.log_softmax(outputs, dim=-1)
             nll_loss = -logprobs.gather(dim=-1, index=targets.unsqueeze(1))
             nll_loss = nll_loss.squeeze(1)
