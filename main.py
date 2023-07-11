@@ -72,7 +72,6 @@ def get_args_parser():
     # optimizer
     parser.add_argument('--optimizer', default='adamw', type=str, help='optimizer name')
     parser.add_argument('--lr', type=float, default=1e-4)
-    parser.add_argument('--lr_drop', default=-1, type=int)
     parser.add_argument('--momentum', default=0.9, type=float, help='for SGD')
     parser.add_argument('--weight_decay', default=5e-2, type=float)
 
@@ -89,12 +88,12 @@ def get_args_parser():
     # evaluator
     parser.add_argument('--evaluator', default='default', type=str, help='evaluator name')
 
-    # loading weights
+    # loading
     parser.add_argument('--no_pretrain', action='store_true')
     parser.add_argument('--resume', '-r', type=str)
     parser.add_argument('--load_pos', type=str)
 
-    # saving weights
+    # saving
     parser.add_argument('--output_dir', '-o', type=str, default='./runs/__tmp__')
     parser.add_argument('--save_interval', type=int, default=1)
     parser.add_argument('--save_pos', type=str)
@@ -222,9 +221,8 @@ def main(args):
             args.print_freq, args.need_targets
         )
         if args.output_dir and (epoch + 1) % args.save_interval == 0:
-            checkpoint_paths = [output_dir / 'checkpoint.pth']
-            if (epoch + 1) % args.lr_drop == 0 or (epoch + 1) % 1 == 0:
-                checkpoint_paths.append(output_dir / f'checkpoint{epoch:04}.pth')
+            # TODO: Create symbolic link instead of saving 'checkpoint.pth'
+            checkpoint_paths = [output_dir / 'checkpoint.pth', output_dir / f'checkpoint{epoch:04}.pth']
             for checkpoint_path in checkpoint_paths:
                 checkpoint = {
                     'model': model_without_ddp.state_dict(),
