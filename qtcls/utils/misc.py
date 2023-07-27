@@ -421,6 +421,11 @@ def makedirs(path, mode=0o777, exist_ok=False):
             raise
 
 
+def symlink(src_path, symlink_path, mode=0o777):
+    os.symlink(src_path, symlink_path)
+    os.chmod(symlink_path, mode)
+
+
 def update(optimizer, loss, model, max_norm, scaler=None):
     optimizer.zero_grad()
     if scaler:

@@ -6,7 +6,7 @@ from .flowers102 import Flowers102
 from .folder import ImageFolder
 from .food import Food101
 from .imagenet import ImageNet
-from .mnist import MNIST
+from .mnist import MNIST, FashionMNIST
 from .oxford_iiit_pet import OxfordIIITPet
 from .stanford_cars import StanfordCars
 from .stl10 import STL10
@@ -15,6 +15,7 @@ from .svhn import SVHN
 num_classes = {
     # all in lowercase !!!
     'mnist': 10,
+    'fashion_mnist': 10,
     'cifar10': 10,
     'cifar100': 100,
     'imagenet1k': 1000,
@@ -66,6 +67,30 @@ def build_dataset(args, split, download=True):
                      split=split,
                      transform=transform,
                      download=download)
+
+    if dataset_name == 'fashion_mnist':  # 28 x 28, ** 1 channel, set 'in_chans=1' in 'args.model_kwargs' **
+        if split == 'val':
+            split = 'test'
+
+        image_size = 28 if args.image_size is None else args.image_size
+
+        transform = {
+            'train': tfs.Compose([
+                tfs.Resize(image_size),
+                tfs.ToTensor(),
+                tfs.Normalize([0.5], [0.5])
+            ]),
+            'test': tfs.Compose([
+                tfs.Resize(image_size),
+                tfs.ToTensor(),
+                tfs.Normalize([0.5], [0.5])
+            ])
+        }
+
+        return FashionMNIST(root=dataset_path,
+                            split=split,
+                            transform=transform,
+                            download=download)
 
     if dataset_name == 'cifar10':  # 32 x 32
         if split == 'val':
