@@ -54,5 +54,5 @@ class DefaultEvaluator:
         for metric in self.metrics:
             value = getattr(self, f'metric_{metric}')(self.outputs, self.targets)
             self.eval[metric] = value
-            print('{}: {:.3f}'.format(metric, value), end='    ')
+            print(f'{metric}: {value:.3f}', end='    ')
         print('\n')
