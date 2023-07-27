@@ -26,9 +26,10 @@ class FakeData(BaseDataset):
 
     """
 
-    def __init__(self, size: int, image_size: Tuple[int, int, int] = (3, 224, 224), num_classes: int = 1000,
-                 random_offset: int = 0, transform=None, target_transform=None, batch_transform=None):
-        super().__init__('not required', 'not required', transform, target_transform, batch_transform, verbose=False)
+    def __init__(self, size: int, split: str = 'train', image_size: Tuple[int, int, int] = (3, 224, 224),
+                 num_classes: int = 1000, random_offset: int = 0, transform=None, target_transform=None,
+                 batch_transform=None):
+        super().__init__('(no root required)', split, transform, target_transform, batch_transform)
         self.size = size
         self.num_classes = num_classes
         self.image_size = image_size

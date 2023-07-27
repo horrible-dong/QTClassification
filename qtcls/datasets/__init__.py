@@ -288,6 +288,7 @@ def build_dataset(args, split, download=True):
         image_size = 224 if args.image_size is None else args.image_size
 
         return FakeData(size=1281167 if split == 'train' else 50000,
+                        split=split,
                         image_size=(in_chans, image_size, image_size),
                         num_classes=num_classes[dataset_name],
                         transform=tfs.ToTensor(),
