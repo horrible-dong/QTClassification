@@ -12,9 +12,9 @@
 ```python
 # your_criterion.py
 
-from ._base_ import BaseCriterion
-
 __all__ = ['YourCriterion']
+
+from ._base_ import BaseCriterion
 
 
 class YourCriterion(BaseCriterion):
@@ -77,6 +77,8 @@ def build_criterion(args):
 # _demo_.py
 # Copyright (c) QIU, Tian. All rights reserved.
 
+__all__ = ['DemoCriterion']
+
 from typing import List, Dict
 
 import torch
@@ -84,8 +86,6 @@ import torch.nn.functional as F
 
 from qtcls.criterions._base_ import BaseCriterion
 from qtcls.utils.misc import accuracy
-
-__all__ = ['DemoCriterion']
 
 
 class DemoCriterion(BaseCriterion):

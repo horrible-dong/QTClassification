@@ -10,9 +10,9 @@
 ```python
 # your_scheduler.py
 
-...
-
 __all__ = ['YourScheduler']
+
+...
 
 
 class YourScheduler(...):

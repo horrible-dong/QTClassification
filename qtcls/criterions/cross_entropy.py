@@ -1,5 +1,7 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
+__all__ = ['CrossEntropy', 'LabelSmoothingCrossEntropy', 'SoftTargetCrossEntropy']
+
 from typing import List, Dict
 
 import torch
@@ -7,8 +9,6 @@ import torch.nn.functional as F
 
 from ._base_ import BaseCriterion
 from ..utils.misc import accuracy
-
-__all__ = ['CrossEntropy', 'LabelSmoothingCrossEntropy', 'SoftTargetCrossEntropy']
 
 
 class CrossEntropy(BaseCriterion):

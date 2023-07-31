@@ -18,11 +18,6 @@
 # limitations under the License.
 # -------------------------------------------------------------------------------
 
-import torch
-import torch.nn as nn
-
-from timm.models.layers import DropPath, trunc_normal_, to_2tuple, ConvMlp, GroupNorm1
-
 __all__ = [
     'PoolFormer',
     'poolformer_s12',
@@ -31,6 +26,11 @@ __all__ = [
     'poolformer_m36',
     'poolformer_m48'
 ]
+
+import torch
+import torch.nn as nn
+
+from timm.models.layers import DropPath, trunc_normal_, to_2tuple, ConvMlp, GroupNorm1
 
 
 class PatchEmbed(nn.Module):

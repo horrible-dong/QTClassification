@@ -2,6 +2,14 @@
 # Modified from torchvision by Qiu, Tian
 # ---------------------------------------
 
+__all__ = [
+    # "VisionTransformer",
+    "vit_b_16",
+    "vit_b_32",
+    "vit_l_16",
+    "vit_l_32",
+]
+
 import math
 from collections import OrderedDict
 from functools import partial
@@ -12,14 +20,6 @@ import torch.nn as nn
 from torch.hub import load_state_dict_from_url
 from torchvision.ops.misc import ConvNormActivation
 from torchvision.utils import _log_api_usage_once
-
-__all__ = [
-    # "VisionTransformer",
-    "vit_b_16",
-    "vit_b_32",
-    "vit_l_16",
-    "vit_l_32",
-]
 
 model_urls = {
     "vit_b_16": "https://download.pytorch.org/models/vit_b_16-c867db91.pth",

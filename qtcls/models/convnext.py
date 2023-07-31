@@ -2,6 +2,14 @@
 # Modified from torchvision by Qiu, Tian
 # ---------------------------------------
 
+__all__ = [
+    "ConvNeXt",
+    "convnext_tiny",
+    "convnext_small",
+    "convnext_base",
+    "convnext_large",
+]
+
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Sequence
 
@@ -12,14 +20,6 @@ from torch.nn import functional as F
 from torchvision.ops import StochasticDepth
 from torchvision.ops.misc import ConvNormActivation
 from torchvision.utils import _log_api_usage_once
-
-__all__ = [
-    "ConvNeXt",
-    "convnext_tiny",
-    "convnext_small",
-    "convnext_base",
-    "convnext_large",
-]
 
 _MODELS_URLS: Dict[str, Optional[str]] = {
     "convnext_tiny": "https://download.pytorch.org/models/convnext_tiny-983f1562.pth",

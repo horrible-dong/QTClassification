@@ -2,6 +2,18 @@
 # Modified from torchvision by Qiu, Tian
 # ---------------------------------------
 
+__all__ = [
+    "EfficientNet",
+    "efficientnet_b0",
+    "efficientnet_b1",
+    "efficientnet_b2",
+    "efficientnet_b3",
+    "efficientnet_b4",
+    "efficientnet_b5",
+    "efficientnet_b6",
+    "efficientnet_b7",
+]
+
 import copy
 import math
 from functools import partial
@@ -14,18 +26,6 @@ from torchvision.models._utils import _make_divisible
 from torchvision.ops import StochasticDepth
 from torchvision.ops.misc import ConvNormActivation, SqueezeExcitation
 from torchvision.utils import _log_api_usage_once
-
-__all__ = [
-    "EfficientNet",
-    "efficientnet_b0",
-    "efficientnet_b1",
-    "efficientnet_b2",
-    "efficientnet_b3",
-    "efficientnet_b4",
-    "efficientnet_b5",
-    "efficientnet_b6",
-    "efficientnet_b7",
-]
 
 model_urls = {
     # Weights ported from https://github.com/rwightman/pytorch-image-models/

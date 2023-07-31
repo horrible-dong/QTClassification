@@ -17,15 +17,6 @@ Code/weights from https://github.com/Meituan-AutoML/Twins, original copyright/li
 # Written by Xinjie Li, Xiangxiang Chu
 # ----------------------------------------------------------------
 
-import math
-from functools import partial
-from typing import Tuple
-
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from timm.layers import DropPath, Mlp, to_2tuple, trunc_normal_
-
 __all__ = [
     'Twins',
     'twins_pcpvt_small',
@@ -35,6 +26,15 @@ __all__ = [
     'twins_svt_base',
     'twins_svt_large'
 ]
+
+import math
+from functools import partial
+from typing import Tuple
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from timm.layers import DropPath, Mlp, to_2tuple, trunc_normal_
 
 Size_ = Tuple[int, int]
 

@@ -11,9 +11,9 @@
 ```python
 # your_evaluator.py
 
-...
-
 __all__ = ['YourEvaluator']
+
+...
 
 
 class YourEvaluator(...):

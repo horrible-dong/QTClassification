@@ -2,6 +2,8 @@
 # Modified from torchvision by QIU, Tian
 # ---------------------------------------
 
+__all__ = ['SVHN']
+
 import os
 from typing import Tuple, Any
 
@@ -11,8 +13,6 @@ from torchvision.datasets.utils import verify_str_arg, check_integrity, download
 
 from ._base_ import BaseDataset
 from ..utils.decorators import main_process_only
-
-__all__ = ['SVHN']
 
 
 class SVHN(BaseDataset):

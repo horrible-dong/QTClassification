@@ -2,6 +2,8 @@
 # Modified from torchvision by QIU, Tian
 # ---------------------------------------
 
+__all__ = ['StanfordCars']
+
 import pathlib
 from typing import Any, Tuple
 
@@ -9,8 +11,6 @@ from torchvision.datasets.utils import download_and_extract_archive, download_ur
 
 from ._base_ import BaseDataset
 from ..utils.decorators import main_process_only
-
-__all__ = ['StanfordCars']
 
 
 class StanfordCars(BaseDataset):

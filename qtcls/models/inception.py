@@ -2,6 +2,13 @@
 # Modified from torchvision by Qiu, Tian
 # ---------------------------------------
 
+__all__ = [
+    "Inception3",
+    "inception_v3",
+    "InceptionOutputs",
+    "_InceptionOutputs"
+]
+
 import warnings
 from collections import namedtuple
 from typing import Callable, Any, Optional, Tuple, List
@@ -11,13 +18,6 @@ import torch.nn.functional as F
 from torch import nn, Tensor
 from torch.hub import load_state_dict_from_url
 from torchvision.utils import _log_api_usage_once
-
-__all__ = [
-    "Inception3",
-    "inception_v3",
-    "InceptionOutputs",
-    "_InceptionOutputs"
-]
 
 model_urls = {
     # Inception v3 ported from TensorFlow

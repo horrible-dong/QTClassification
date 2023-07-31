@@ -10,9 +10,9 @@
 ```python
 # your_dataset.py
 
-from ._base_ import BaseDataset
-
 __all__ = ['YourDataset']
+
+from ._base_ import BaseDataset
 
 
 class YourDataset(BaseDataset):

@@ -2,13 +2,6 @@
 # Modified from https://github.com/whai362/PVT/blob/v2/classification/pvt.py by QIU, Tian
 # ----------------------------------------------------------------------------------------
 
-from functools import partial
-
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from timm.layers import DropPath, to_2tuple, trunc_normal_
-
 __all__ = [
     'PyramidVisionTransformer',
     'pvt_tiny',
@@ -17,6 +10,13 @@ __all__ = [
     'pvt_large',
     'pvt_huge_v2'
 ]
+
+from functools import partial
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from timm.layers import DropPath, to_2tuple, trunc_normal_
 
 
 class Mlp(nn.Module):

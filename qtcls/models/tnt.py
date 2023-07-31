@@ -11,18 +11,18 @@ The official mindspore code is released and available at
 https://gitee.com/mindspore/mindspore/tree/master/model_zoo/research/cv/TNT
 """
 
-import math
-
-import torch
-import torch.nn as nn
-from timm.layers import _assert, to_2tuple, DropPath, Mlp, trunc_normal_
-
 __all__ = [
     'TNT',
     'tnt_s_patch4_32',
     'tnt_s_patch16_224',
     'tnt_b_patch16_224'
 ]
+
+import math
+
+import torch
+import torch.nn as nn
+from timm.layers import _assert, to_2tuple, DropPath, Mlp, trunc_normal_
 
 
 class Attention(nn.Module):

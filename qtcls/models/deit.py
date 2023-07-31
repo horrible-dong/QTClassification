@@ -16,12 +16,6 @@ Modifications copyright 2021, Ross Wightman
 # Copyright (c) 2015-present, Facebook, Inc.
 # All rights reserved.
 
-import torch
-import torch.nn as nn
-from timm.layers import trunc_normal_
-
-from .vision_transformer_timm import VisionTransformer
-
 __all__ = [
     'VisionTransformerDistilled',
     'deit_tiny_patch16_224',
@@ -49,6 +43,12 @@ __all__ = [
     'deit3_large_patch16_384_in21ft1k',
     'deit3_huge_patch14_224_in21ft1k'
 ]
+
+import torch
+import torch.nn as nn
+from timm.layers import trunc_normal_
+
+from .vision_transformer_timm import VisionTransformer
 
 
 class VisionTransformerDistilled(VisionTransformer):

@@ -28,13 +28,6 @@ Modifications and additions for timm hacked together by / Copyright 2021, Ross W
 # Copyright (c) 2015-present, Facebook, Inc.
 # All rights reserved.
 
-from functools import partial
-from typing import Dict
-
-import torch
-import torch.nn as nn
-from timm.layers import to_ntuple, get_act_layer, trunc_normal_
-
 __all__ = [
     'Levit',
     'levit_128s',
@@ -44,6 +37,13 @@ __all__ = [
     'levit_256d',
     'levit_384'
 ]
+
+from functools import partial
+from typing import Dict
+
+import torch
+import torch.nn as nn
+from timm.layers import to_ntuple, get_act_layer, trunc_normal_
 
 
 class ConvNorm(nn.Sequential):

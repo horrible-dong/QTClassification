@@ -2,6 +2,8 @@
 # Modified from torchvision by QIU, Tian
 # ---------------------------------------
 
+__all__ = ['ImageNet']
+
 import os
 import shutil
 import tempfile
@@ -12,8 +14,6 @@ import torch
 from torchvision.datasets.utils import check_integrity, extract_archive, verify_str_arg
 
 from .folder import ImageFolder
-
-__all__ = ['ImageNet']
 
 ARCHIVE_META = {
     "train": ("ILSVRC2012_img_train.tar", "1d675b47d978889d74fa0da5fadfb00e"),

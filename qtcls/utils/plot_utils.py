@@ -9,6 +9,7 @@
 """
 Plotting utilities to visualize training logs.
 """
+
 import math
 from pathlib import Path, PurePath
 

@@ -2,14 +2,6 @@
 # Modified from torchvision by Qiu, Tian
 # ---------------------------------------
 
-from typing import Callable, Any, List
-
-import torch
-import torch.nn as nn
-from torch import Tensor
-from torch.hub import load_state_dict_from_url
-from torchvision.utils import _log_api_usage_once
-
 __all__ = [
     "ShuffleNetV2",
     "shufflenet_v2_x0_5",
@@ -17,6 +9,14 @@ __all__ = [
     "shufflenet_v2_x1_5",
     "shufflenet_v2_x2_0"
 ]
+
+from typing import Callable, Any, List
+
+import torch
+import torch.nn as nn
+from torch import Tensor
+from torch.hub import load_state_dict_from_url
+from torchvision.utils import _log_api_usage_once
 
 model_urls = {
     "shufflenetv2_x0.5": "https://download.pytorch.org/models/shufflenetv2_x0.5-f707e7126e.pth",

@@ -1,10 +1,10 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
+__all__ = ['BaseCriterion']
+
 from typing import List, Dict
 
 from torch import nn
-
-__all__ = ['BaseCriterion']
 
 
 class BaseCriterion(nn.Module):

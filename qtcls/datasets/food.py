@@ -2,6 +2,8 @@
 # Modified from torchvision by QIU, Tian
 # ---------------------------------------
 
+__all__ = ['Food101']
+
 import json
 from pathlib import Path
 from typing import Any, Tuple
@@ -10,8 +12,6 @@ from torchvision.datasets.utils import verify_str_arg, download_and_extract_arch
 
 from ._base_ import BaseDataset
 from ..utils.decorators import main_process_only
-
-__all__ = ['Food101']
 
 
 class Food101(BaseDataset):

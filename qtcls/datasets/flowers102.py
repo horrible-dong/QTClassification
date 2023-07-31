@@ -2,6 +2,8 @@
 # Modified from torchvision by QIU, Tian
 # ---------------------------------------
 
+__all__ = ['Flowers102']
+
 from pathlib import Path
 from typing import Any, Tuple
 
@@ -9,8 +11,6 @@ from torchvision.datasets.utils import check_integrity, download_and_extract_arc
 
 from ._base_ import BaseDataset
 from ..utils.decorators import main_process_only
-
-__all__ = ['Flowers102']
 
 
 class Flowers102(BaseDataset):

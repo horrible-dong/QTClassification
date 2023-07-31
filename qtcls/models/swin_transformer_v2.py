@@ -18,15 +18,6 @@ Modifications and additions for timm hacked together by / Copyright 2022, Ross W
 # Written by Ze Liu
 # --------------------------------------------------------
 
-import math
-from typing import Tuple, Optional
-
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from timm.layers import PatchEmbed, Mlp, DropPath, to_2tuple, trunc_normal_, _assert
-from timm.models import register_notrace_function
-
 __all__ = [
     'SwinTransformerV2',
     'swinv2_tiny_window8_256',
@@ -42,6 +33,15 @@ __all__ = [
     'swinv2_large_window12to16_192to256_22kft1k',
     'swinv2_large_window12to24_192to384_22kft1k'
 ]
+
+import math
+from typing import Tuple, Optional
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from timm.layers import PatchEmbed, Mlp, DropPath, to_2tuple, trunc_normal_, _assert
+from timm.models import register_notrace_function
 
 
 def window_partition(x, window_size: Tuple[int, int]):

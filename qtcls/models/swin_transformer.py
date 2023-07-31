@@ -26,10 +26,6 @@ Modifications and additions for timm hacked together by / Copyright 2021, Ross W
 # Written by Ze Liu
 # ---------------------------------------------------------
 
-import torch
-import torch.nn as nn
-from timm.layers import DropPath, to_2tuple, trunc_normal_
-
 __all__ = [
     'SwinTransformer',
     "swin_tiny_patch4_window7_224",
@@ -43,6 +39,10 @@ __all__ = [
     "swin_large_patch4_window7_224_in22k",
     "swin_large_patch4_window12_384_in22k"
 ]
+
+import torch
+import torch.nn as nn
+from timm.layers import DropPath, to_2tuple, trunc_normal_
 
 WindowProcess = None
 WindowProcessReverse = None

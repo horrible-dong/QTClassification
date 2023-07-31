@@ -2,13 +2,6 @@
 # Modified from torchvision by Qiu, Tian
 # ---------------------------------------
 
-from typing import Union, List, Dict, Any, cast
-
-import torch
-import torch.nn as nn
-from torch.hub import load_state_dict_from_url
-from torchvision.utils import _log_api_usage_once
-
 __all__ = [
     "VGG",
     "vgg11",
@@ -20,6 +13,13 @@ __all__ = [
     "vgg19_bn",
     "vgg19",
 ]
+
+from typing import Union, List, Dict, Any, cast
+
+import torch
+import torch.nn as nn
+from torch.hub import load_state_dict_from_url
+from torchvision.utils import _log_api_usage_once
 
 model_urls = {
     "vgg11": "https://download.pytorch.org/models/vgg11-8a719046.pth",

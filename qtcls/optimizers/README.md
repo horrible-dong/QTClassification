@@ -10,9 +10,9 @@
 ```python
 # your_optimizer.py
 
-...
-
 __all__ = ['YourOptimizer']
+
+...
 
 
 class YourOptimizer(Optimizer):

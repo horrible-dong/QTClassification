@@ -2,6 +2,8 @@
 # Modified from torchvision by QIU, Tian
 # ---------------------------------------
 
+__all__ = ["CIFAR10", "CIFAR100"]
+
 import os
 import pickle
 from typing import Any, Tuple
@@ -12,8 +14,6 @@ from torchvision.datasets.utils import download_and_extract_archive, check_integ
 
 from ._base_ import BaseDataset
 from ..utils.decorators import main_process_only
-
-__all__ = ["CIFAR10", "CIFAR100"]
 
 
 class CIFAR10(BaseDataset):

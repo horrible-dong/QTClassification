@@ -31,12 +31,6 @@ Acknowledgments:
 Hacked together by / Copyright 2020, Ross Wightman
 """
 
-from collections import OrderedDict
-from functools import partial
-
-import torch
-import torch.nn as nn
-
 __all__ = [
     'VisionTransformer',
     'vit_tiny_patch4_32',
@@ -60,6 +54,12 @@ __all__ = [
     'vit_huge_patch14_224',
     'vit_giant_patch14_224'
 ]
+
+from collections import OrderedDict
+from functools import partial
+
+import torch
+import torch.nn as nn
 
 
 def drop_path(x, drop_prob: float = 0., training: bool = False):

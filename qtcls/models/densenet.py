@@ -2,6 +2,14 @@
 # Modified from torchvision by Qiu, Tian
 # ---------------------------------------
 
+__all__ = [
+    "DenseNet",
+    "densenet121",
+    "densenet169",
+    "densenet201",
+    "densenet161"
+]
+
 import re
 from collections import OrderedDict
 from typing import Any, List, Tuple
@@ -13,14 +21,6 @@ import torch.utils.checkpoint as cp
 from torch import Tensor
 from torch.hub import load_state_dict_from_url
 from torchvision.utils import _log_api_usage_once
-
-__all__ = [
-    "DenseNet",
-    "densenet121",
-    "densenet169",
-    "densenet201",
-    "densenet161"
-]
 
 model_urls = {
     "densenet121": "https://download.pytorch.org/models/densenet121-a639ec97.pth",

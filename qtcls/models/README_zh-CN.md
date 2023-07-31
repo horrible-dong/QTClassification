@@ -10,10 +10,10 @@
 ```python
 # your_model.py
 
-from torch import nn
-
 # 我们推荐你申明 '__all__' 变量。
 __all__ = ['your_model_architecture_1', 'your_model_architecture_2', 'your_model_architecture_3']
+
+from torch import nn
 
 
 class YourModel(nn.Module):

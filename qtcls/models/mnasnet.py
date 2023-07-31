@@ -2,6 +2,14 @@
 # Modified from torchvision by Qiu, Tian
 # ---------------------------------------
 
+__all__ = [
+    "MNASNet",
+    "mnasnet0_5",
+    "mnasnet0_75",
+    "mnasnet1_0",
+    "mnasnet1_3"
+]
+
 import warnings
 from typing import Any, Dict, List
 
@@ -10,14 +18,6 @@ import torch.nn as nn
 from torch import Tensor
 from torch.hub import load_state_dict_from_url
 from torchvision.utils import _log_api_usage_once
-
-__all__ = [
-    "MNASNet",
-    "mnasnet0_5",
-    "mnasnet0_75",
-    "mnasnet1_0",
-    "mnasnet1_3"
-]
 
 _MODEL_URLS = {
     "mnasnet0_5": "https://download.pytorch.org/models/mnasnet0.5_top1_67.823-3ffadce67e.pth",

@@ -2,14 +2,14 @@
 # Modified from torchvision by QIU, Tian
 # ---------------------------------------
 
+__all__ = ['ImageFolder']
+
 import os
 import os.path
 from typing import Any, Callable, cast, Dict, List, Optional, Tuple
 from typing import Union
 
 from ._base_ import BaseDataset
-
-__all__ = ['ImageFolder']
 
 IMG_EXTENSIONS = ('.jpg', '.jpeg', '.png', '.ppm', '.bmp', '.pgm', '.tif', '.tiff', '.webp')
 

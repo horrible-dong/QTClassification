@@ -2,14 +2,14 @@
 # Modified from torchvision by QIU, Tian
 # ---------------------------------------
 
+__all__ = ['FakeData']
+
 from typing import Any, Tuple
 
 import torch
 from torchvision.transforms import ToPILImage
 
 from ._base_ import BaseDataset
-
-__all__ = ['FakeData']
 
 
 class FakeData(BaseDataset):

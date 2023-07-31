@@ -43,14 +43,6 @@ A thank you to paper authors for releasing code and weights.
 Hacked together by / Copyright 2021 Ross Wightman
 """
 
-import math
-from functools import partial
-
-import torch
-import torch.nn as nn
-from timm.layers import PatchEmbed, Mlp, GluMlp, GatedMlp, DropPath, lecun_normal_, to_2tuple
-from timm.models import named_apply
-
 __all__ = [
     'MlpMixer',
     'mixer_s32_224',
@@ -80,6 +72,14 @@ __all__ = [
     'gmlp_s16_224',
     'gmlp_b16_224',
 ]
+
+import math
+from functools import partial
+
+import torch
+import torch.nn as nn
+from timm.layers import PatchEmbed, Mlp, GluMlp, GatedMlp, DropPath, lecun_normal_, to_2tuple
+from timm.models import named_apply
 
 
 class MixerBlock(nn.Module):

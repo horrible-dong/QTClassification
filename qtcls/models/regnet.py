@@ -6,19 +6,6 @@
 # https://github.com/facebookresearch/ClassyVision/blob/main/classy_vision/models/anynet.py
 # https://github.com/facebookresearch/ClassyVision/blob/main/classy_vision/models/regnet.py
 
-
-import math
-from collections import OrderedDict
-from functools import partial
-from typing import Any, Callable, List, Optional, Tuple
-
-import torch
-from torch import nn, Tensor
-from torch.hub import load_state_dict_from_url
-from torchvision.models._utils import _make_divisible
-from torchvision.ops.misc import ConvNormActivation, SqueezeExcitation
-from torchvision.utils import _log_api_usage_once
-
 __all__ = [
     "RegNet",
     "regnet_y_400mf",
@@ -37,6 +24,18 @@ __all__ = [
     "regnet_x_16gf",
     "regnet_x_32gf",
 ]
+
+import math
+from collections import OrderedDict
+from functools import partial
+from typing import Any, Callable, List, Optional, Tuple
+
+import torch
+from torch import nn, Tensor
+from torch.hub import load_state_dict_from_url
+from torchvision.models._utils import _make_divisible
+from torchvision.ops.misc import ConvNormActivation, SqueezeExcitation
+from torchvision.utils import _log_api_usage_once
 
 model_urls = {
     "regnet_y_400mf": "https://download.pytorch.org/models/regnet_y_400mf-c65dace8.pth",

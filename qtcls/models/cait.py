@@ -14,12 +14,6 @@ Modifications and additions for timm hacked together by / Copyright 2021, Ross W
 # Copyright (c) 2015-present, Facebook, Inc.
 # All rights reserved.
 
-from functools import partial
-
-import torch
-import torch.nn as nn
-from timm.layers import PatchEmbed, Mlp, DropPath, trunc_normal_
-
 __all__ = [
     'Cait',
     'cait_xxs24_224',
@@ -33,6 +27,12 @@ __all__ = [
     'cait_m36_384',
     'cait_m48_448'
 ]
+
+from functools import partial
+
+import torch
+import torch.nn as nn
+from timm.layers import PatchEmbed, Mlp, DropPath, trunc_normal_
 
 
 class ClassAttn(nn.Module):

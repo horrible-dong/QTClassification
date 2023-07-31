@@ -28,15 +28,6 @@ Acknowledgments:
 Hacked together by / Copyright 2020, Ross Wightman
 """
 
-import math
-from functools import partial
-from typing import Optional
-
-import torch
-import torch.nn as nn
-from timm.layers import _assert, to_2tuple, trunc_normal_, lecun_normal_
-from timm.models import named_apply
-
 __all__ = [
     'VisionTransformer',
     'vit_tiny_patch4_32',
@@ -60,6 +51,15 @@ __all__ = [
     'vit_huge_patch14_224',
     'vit_giant_patch14_224'
 ]
+
+import math
+from functools import partial
+from typing import Optional
+
+import torch
+import torch.nn as nn
+from timm.layers import _assert, to_2tuple, trunc_normal_, lecun_normal_
+from timm.models import named_apply
 
 
 class Mlp(nn.Module):

@@ -2,6 +2,13 @@
 # Modified from torchvision by Qiu, Tian
 # ---------------------------------------
 
+__all__ = [
+    "GoogLeNet",
+    "googlenet",
+    "GoogLeNetOutputs",
+    "_GoogLeNetOutputs"
+]
+
 import warnings
 from collections import namedtuple
 from typing import Optional, Tuple, List, Callable, Any
@@ -12,13 +19,6 @@ import torch.nn.functional as F
 from torch import Tensor
 from torch.hub import load_state_dict_from_url
 from torchvision.utils import _log_api_usage_once
-
-__all__ = [
-    "GoogLeNet",
-    "googlenet",
-    "GoogLeNetOutputs",
-    "_GoogLeNetOutputs"
-]
 
 model_urls = {
     # GoogLeNet ported from TensorFlow

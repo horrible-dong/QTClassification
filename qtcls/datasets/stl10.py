@@ -2,6 +2,8 @@
 # Modified from torchvision by QIU, Tian
 # ---------------------------------------
 
+__all__ = ['STL10']
+
 import os
 from typing import Optional, cast, Tuple, Any
 
@@ -11,8 +13,6 @@ from torchvision.datasets.utils import verify_str_arg, download_and_extract_arch
 
 from ._base_ import BaseDataset
 from ..utils.decorators import main_process_only
-
-__all__ = ['STL10']
 
 
 class STL10(BaseDataset):

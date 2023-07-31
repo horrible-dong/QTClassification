@@ -2,6 +2,12 @@
 # Modified from torchvision by Qiu, Tian
 # ---------------------------------------
 
+__all__ = [
+    "MobileNetV3",
+    "mobilenet_v3_large",
+    "mobilenet_v3_small"
+]
+
 import warnings
 from functools import partial
 from typing import Any, Callable, List, Optional, Sequence
@@ -12,12 +18,6 @@ from torch.hub import load_state_dict_from_url
 from torchvision.models._utils import _make_divisible
 from torchvision.ops.misc import ConvNormActivation, SqueezeExcitation as SElayer
 from torchvision.utils import _log_api_usage_once
-
-__all__ = [
-    "MobileNetV3",
-    "mobilenet_v3_large",
-    "mobilenet_v3_small"
-]
 
 model_urls = {
     "mobilenet_v3_large": "https://download.pytorch.org/models/mobilenet_v3_large-8738ca79.pth",

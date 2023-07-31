@@ -2,14 +2,6 @@
 # Modified from torchvision by Qiu, Tian
 # ---------------------------------------
 
-from typing import Type, Any, Callable, Union, List, Optional
-
-import torch
-import torch.nn as nn
-from torch import Tensor
-from torch.hub import load_state_dict_from_url
-from torchvision.utils import _log_api_usage_once
-
 __all__ = [
     "ResNet",
     "resnet18",
@@ -22,6 +14,14 @@ __all__ = [
     "wide_resnet50_2",
     "wide_resnet101_2",
 ]
+
+from typing import Type, Any, Callable, Union, List, Optional
+
+import torch
+import torch.nn as nn
+from torch import Tensor
+from torch.hub import load_state_dict_from_url
+from torchvision.utils import _log_api_usage_once
 
 model_urls = {
     "resnet18": "https://download.pytorch.org/models/resnet18-f37072fd.pth",

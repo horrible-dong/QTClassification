@@ -11,10 +11,10 @@
 ```python
 # your_model.py
 
-from torch import nn
-
 # We recommend you to declear '__all__'.
 __all__ = ['your_model_architecture_1', 'your_model_architecture_2', 'your_model_architecture_3']
+
+from torch import nn
 
 
 class YourModel(nn.Module):

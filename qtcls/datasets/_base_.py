@@ -1,5 +1,7 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
+__all__ = ["BaseDataset"]
+
 import os.path
 from typing import Optional, Callable, Dict, Union
 
@@ -7,8 +9,6 @@ import torch
 from torch.utils.data import Dataset
 
 from ..utils.io import pil_loader
-
-__all__ = ["BaseDataset"]
 
 
 def default_loader(path, format="RGB"):
