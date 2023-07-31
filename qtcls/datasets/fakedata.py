@@ -17,6 +17,7 @@ class FakeData(BaseDataset):
 
     Args:
         size (int): Size of the dataset. Default: 1000 images
+        split (str): The dataset split. E.g. ``train``, ``val``, ``test``...
         image_size(tuple, optional): Size if the returned images. Default: (3, 224, 224)
         num_classes(int, optional): Number of classes in the dataset. Default: 1000
         random_offset (int): Offsets the index-based random seed used to generate each image. Default: 0

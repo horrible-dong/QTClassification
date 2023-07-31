@@ -193,7 +193,7 @@ Our toolbox is flexible enough to be extended. Please follow the instructions be
 ## <span id="dataset_zoo">Dataset Zoo</span>
 
 Currently supported argument `--dataset` / `-d`:  
-`mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars`, `food`, `fake_data`, 
+`mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars`, `food`, 
 `imagenet1k`, `imagenet21k (also called imagenet22k)`,
 and all datasets in `folder` format (consistent with `imagenet` storage format,
 see ["How to put your dataset - About folder format datasets"](data/README.md) for details).

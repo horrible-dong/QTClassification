@@ -187,7 +187,7 @@ python main.py -c configs/_demo_.py
 ## <span id="数据集">数据集</span>
 
 目前支持的 `--dataset` 参数：  
-`mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars`, `food`, `fake_data`, 
+`mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars`, `food`, 
 `imagenet1k`, `imagenet21k (也叫做 imagenet22k)` 以及所有 `folder` 格式的数据集（与 `imagenet`
 存储格式一致，详见 [“如何放置你的数据集 - 关于 folder 格式数据集”](data/README_zh-CN.md) ）。
 
