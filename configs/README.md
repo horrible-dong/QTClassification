@@ -6,7 +6,7 @@
 
 If needed, refer to [`_demo_.py`](_demo_.py) and write your arguments in a config file (.py).
 
-Starting from v0.2.0, if you want to use your config file,, set `--config` / `-c` to your **_config file path_**,
+Starting from v0.2.0, if you want to use your config file, set `--config` / `-c` to your **_config file path_**,
 like `configs/_demo_.py`.
 
 For example,
