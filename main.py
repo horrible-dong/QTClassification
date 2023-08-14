@@ -5,6 +5,7 @@ import copy
 import datetime
 import json
 import os
+import sys
 import time
 from pathlib import Path
 
@@ -119,6 +120,10 @@ def main(args):
         args.note = f'dataset: {args.dataset} | model: {args.model} | output_dir: {args.output_dir}'
     if args.dummy:
         args.dataset = 'fake_data'
+    if args.data_root:
+        makedirs(args.data_root, exist_ok=True)
+    if args.output_dir:
+        makedirs(args.output_dir, exist_ok=True)
     output_dir = Path(args.output_dir)
 
     print(args)
@@ -265,6 +270,13 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('QTClassification', parents=[get_args_parser()])
+    argv = sys.argv[1:]
+
+    idx = argv.index('-c') if '-c' in argv else (argv.index('--config') if '--config' in argv else -1)
+    if idx not in [-1, len(argv) - 1] and not argv[idx + 1].startswith('-'):
+        idx += 1
+
+    sys.argv[1:] = argv[:idx + 1]
     args = parser.parse_args()
 
     if args.config:
@@ -272,9 +284,7 @@ if __name__ == '__main__':
         for k, v in cfg.items():
             setattr(args, k, v)
 
-    if args.data_root:
-        makedirs(args.data_root, exist_ok=True)
-    if args.output_dir:
-        makedirs(args.output_dir, exist_ok=True)
+    sys.argv[1:] = argv[idx + 1:]
+    args = parser.parse_args(namespace=args)
 
     main(args)

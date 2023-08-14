@@ -25,3 +25,5 @@ python main.py -c configs/_demo_.py
 
 然后，这些参数会和 [`main.py`](../main.py) 中的命令行参数 `args` 进行合并。
 **如果参数名相同，配置文件参数会覆盖命令行参数。**
+
+从 v0.7.0 开始，`--config xxx` / `-c xxx` 之后的命令行参数会覆盖配置文件参数。

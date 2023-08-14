@@ -128,9 +128,9 @@ python main.py \
 When using our toolbox for training and evaluation, you may run the commands we provided above *with your own
 arguments*.
 
-**Frequently-used command line arguments**
+**Frequently-used command-line arguments**
 
-|  Command Line Argument   |                                                                                             Description                                                                                              |  Default Value   |
+|  command-line Argument   |                                                                                             Description                                                                                              |  Default Value   |
 |:------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
 |      `--data_root`       |                                                                               Directory where your datasets is stored.                                                                               |     `./data`     |
 |  `--dataset`<br />`-d`   |                                      Dataset name defined in [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py), such as `cifar10` and `imagenet1k`.                                       |        /         |
@@ -148,7 +148,7 @@ arguments*.
 |         `--amp`          |                                                                              Enable automatic mixed precision training.                                                                              |     `False`      |
 |         `--eval`         |                                                                                            Evaluate only.                                                                                            |     `False`      |
 |         `--note`         |                                                       Note. The note content prints after each epoch, in case you forget what you are running.                                                       |        /         |
-|   `--config`<br />`-c`   |                                       Config file path. See [configs](configs). Arguments in the config file merge or override command line arguments `args`.                                        |        /         |
+|   `--config`<br />`-c`   |                                       Config file path. See [configs](configs). Arguments in the config file merge or override command-line arguments `args`.                                        |        /         |
 
 **(Recommended)** Or you can write the arguments into a config file (.py) and directly use `--config` / `-c`
 to import it. For example,
@@ -163,7 +163,7 @@ or
 python main.py -c configs/_demo_.py
 ```
 
-Arguments in the config file merge or override command line arguments `args`. For more details, please see
+Arguments in the config file merge or override command-line arguments `args`. For more details, please see
 ["How to write and import your configs"](configs/README.md).
 
 **How to put your dataset**

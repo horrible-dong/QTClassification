@@ -6,8 +6,8 @@
 
 If needed, refer to [`_demo_.py`](_demo_.py) and write your arguments in a config file (.py).
 
-Since v0.2.0, when using your config file, set `--config` / `-c` to your **_config file path_**,
-such as `configs/_demo_.py`.
+Starting from v0.2.0, if you want to use your config file,, set `--config` / `-c` to your **_config file path_**,
+like `configs/_demo_.py`.
 
 For example,
 
@@ -24,5 +24,7 @@ python main.py -c configs/_demo_.py
 Note that `--config` / `-c` supports any file system path, such as `configs/_demo_.py`,
 `D:\\QTClassification\\configs\\_demo_.py`, `../../other_project/cfg.py`.
 
-Then, the config arguments will be merged with the command line arguments `args` in [`main.py`](../main.py).
-**Config arguments _override_ command line arguments if the name is duplicated.**
+Then, the config arguments will be merged with the command-line arguments `args` in [`main.py`](../main.py).
+**Config arguments _override_ command-line arguments if the name is duplicated.**
+
+Starting from v0.7.0, command-line arguments **after** `--config xxx` / `-c xxx` _override_ the config arguments. 
