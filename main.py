@@ -138,31 +138,6 @@ def main(args):
     __args__ = {k: v for k, v in sorted(__args__.items(), key=lambda item: item[0])}
     variables_saver(__args__, os.path.join(args.output_dir, 'config.py'))
 
-    # ** model **
-    model = build_model(args)
-    model.to(device)
-
-    if args.distributed and args.sync_bn:
-        model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
-
-    model_without_ddp = model
-    if args.distributed:
-        model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.gpu],
-                                                          find_unused_parameters=args.find_unused_params)
-        model_without_ddp = model.module
-
-    n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    print(f'Number of params: {n_parameters}')
-
-    # ** optimizer **
-    param_dicts = [
-        {'params': [p for n, p in model_without_ddp.named_parameters() if p.requires_grad]},
-    ]
-    optimizer = build_optimizer(args, param_dicts)
-
-    # ** criterion **
-    criterion = build_criterion(args)
-
     # ** dataset **
     dataset_train = build_dataset(args, split='train')
     dataset_val = build_dataset(args, split='val')
@@ -188,6 +163,31 @@ def main(args):
                                       pin_memory=args.pin_memory,
                                       num_workers=args.num_workers,
                                       collate_fn=dataset_val.collate_fn)
+
+    # ** model **
+    model = build_model(args)
+    model.to(device)
+
+    if args.distributed and args.sync_bn:
+        model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
+
+    model_without_ddp = model
+    if args.distributed:
+        model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.gpu],
+                                                          find_unused_parameters=args.find_unused_params)
+        model_without_ddp = model.module
+
+    n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    print(f'Number of params: {n_parameters}')
+
+    # ** optimizer **
+    param_dicts = [
+        {'params': [p for n, p in model_without_ddp.named_parameters() if p.requires_grad]},
+    ]
+    optimizer = build_optimizer(args, param_dicts)
+
+    # ** criterion **
+    criterion = build_criterion(args)
 
     # ** scheduler **
     lr_scheduler = build_scheduler(args, optimizer, len(data_loader_train))
