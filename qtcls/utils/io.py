@@ -77,7 +77,7 @@ def json_saver(obj, path, mode=0o777, overwrite=True, **kwargs):
     os.chmod(path, mode)
 
 
-def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=False, verbose=True, load_on_main=False):
+def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=False, verbose=True):
     obj_state_dict = obj.state_dict()
     new_checkpoint = {}
     incompatible_value_shape = []
@@ -160,3 +160,12 @@ def variables_saver(variables: dict, save_path, mode=0o777):
         for k, v in variables.items():
             f.write(f'{k} = {repr(v)}\n')
     os.chmod(save_path, mode)
+
+
+@main_process_only
+def log_writer(log_path, content: str, mode=0o777):
+    log_exists = True if os.path.exists(log_path) else False
+    with open(log_path, 'a') as f:
+        f.write(content + '\n')
+    if not log_exists:
+        os.chmod(log_path, mode)

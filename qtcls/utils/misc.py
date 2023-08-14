@@ -22,8 +22,10 @@ import torch.distributed as dist
 # needed due to empty tensor bug in pytorch and torchvision 0.5
 import torchvision
 from packaging import version
-from torch import Tensor, distributed as dist
+from torch import Tensor
 from torch.backends import cudnn
+
+from .dist import is_dist_avail_and_initialized, get_world_size, get_rank
 
 if version.parse(torchvision.__version__) < version.parse('0.7'):
     from torchvision.ops import _new_empty_tensor
@@ -283,72 +285,6 @@ def _max_by_axis(the_list):
     return maxes
 
 
-def setup_for_distributed(is_main):
-    """disables printing when not in main process"""
-    import builtins as __builtin__
-
-    builtin_print = __builtin__.print
-
-    def print(*args, **kwargs):
-        force = kwargs.pop("force", False)
-        if is_main or force:
-            builtin_print(*args, **kwargs)
-
-    __builtin__.print = print
-
-
-def is_dist_avail_and_initialized():
-    if not dist.is_available():
-        return False
-    if not dist.is_initialized():
-        return False
-    return True
-
-
-def get_world_size():
-    if not is_dist_avail_and_initialized():
-        return 1
-    return dist.get_world_size()
-
-
-def get_rank():
-    if not is_dist_avail_and_initialized():
-        return 0
-    return dist.get_rank()
-
-
-def is_main_process():
-    return get_rank() == 0
-
-
-def init_distributed_mode(args):
-    if args.no_dist:
-        args.distributed = False
-        return
-
-    if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
-        args.rank = int(os.environ["RANK"])
-        args.world_size = int(os.environ['WORLD_SIZE'])
-        args.gpu = int(os.environ['LOCAL_RANK'])
-    elif 'SLURM_PROCID' in os.environ:
-        args.rank = int(os.environ['SLURM_PROCID'])
-        args.gpu = args.rank % torch.cuda.device_count()
-    else:
-        print('Not using distributed mode')
-        args.distributed = False
-        return
-
-    args.distributed = True
-
-    torch.cuda.set_device(args.gpu)
-    print('Distributed init (rank {}): {}'.format(args.rank, args.dist_url), flush=True)
-
-    torch.distributed.init_process_group(backend=args.dist_backend, init_method=args.dist_url,
-                                         world_size=args.world_size, rank=args.rank)
-    torch.distributed.barrier()
-    setup_for_distributed(is_main=args.rank == 0)
-
-
 @torch.no_grad()
 def accuracy(output, target, topk=(1,)):
     """Computes the precision@k for the specified values of k"""
@@ -392,38 +328,6 @@ def async_exec(target, args=(), kwargs=None):
     if kwargs is None:
         kwargs = {}
     threading.Thread(target=target, args=args, kwargs=kwargs).start()
-
-
-def mkdir(path, mode=0o777):
-    if not os.path.exists(path):
-        os.mkdir(path)
-        os.chmod(path, mode)
-
-
-def makedirs(path, mode=0o777, exist_ok=False):
-    head, tail = os.path.split(path)
-    if not tail:
-        head, tail = os.path.split(head)
-    if head and tail and not os.path.exists(head):
-        try:
-            makedirs(head, exist_ok=exist_ok)
-        except FileExistsError:
-            pass
-        cdir = os.path.curdir
-        if isinstance(tail, bytes):
-            cdir = bytes(os.path.curdir, 'ASCII')
-        if tail == cdir:
-            return
-    try:
-        mkdir(path, mode)
-    except OSError:
-        if not exist_ok or not os.path.isdir(path):
-            raise
-
-
-def symlink(src_path, symlink_path, mode=0o777):
-    os.symlink(src_path, symlink_path)
-    os.chmod(symlink_path, mode)
 
 
 def update(optimizer, loss, model, max_norm, scaler=None):

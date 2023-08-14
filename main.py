@@ -7,7 +7,6 @@ import json
 import os
 import sys
 import time
-from pathlib import Path
 
 import torch
 import torch.distributed as dist
@@ -16,8 +15,10 @@ from termcolor import cprint
 
 from engine import evaluate, train_one_epoch
 from qtcls import __info__, build_criterion, build_dataset, build_model, build_optimizer, build_scheduler
-from qtcls.utils.io import checkpoint_saver, checkpoint_loader, variables_loader, variables_saver
-from qtcls.utils.misc import makedirs, init_distributed_mode, init_seeds, is_main_process
+from qtcls.utils.dist import init_distributed_mode
+from qtcls.utils.io import checkpoint_saver, checkpoint_loader, variables_loader, variables_saver, log_writer
+from qtcls.utils.misc import init_seeds
+from qtcls.utils.os import makedirs
 
 
 def get_args_parser():
@@ -76,7 +77,7 @@ def get_args_parser():
     parser.add_argument('--momentum', default=0.9, type=float, help='for SGD')
     parser.add_argument('--weight_decay', default=5e-2, type=float)
 
-    # lr_scheduler
+    # scheduler
     parser.add_argument('--scheduler', default='cosine', type=str, help='scheduler name')
     parser.add_argument('--warmup_epochs', default=0, type=int)
     parser.add_argument('--warmup_steps', default=0, type=int)
@@ -107,9 +108,11 @@ def get_args_parser():
 
 def main(args):
     init_distributed_mode(args)
-    init_seeds(args.seed)
     cprint(__info__, 'light_green', attrs=['bold'])
+
+    init_seeds(args.seed)
     device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
+
     if device.type == 'cpu' or args.eval:
         args.amp = False
     if args.num_workers is None:
@@ -124,7 +127,6 @@ def main(args):
         makedirs(args.data_root, exist_ok=True)
     if args.output_dir:
         makedirs(args.output_dir, exist_ok=True)
-    output_dir = Path(args.output_dir)
 
     print(args)
     __args__ = copy.deepcopy(vars(args))
@@ -136,7 +138,8 @@ def main(args):
         if pop_info is KeyError:
             cprint(f"Warning: The argument '{ignored_arg}' to be ignored is not in 'args'.", 'light_yellow')
     __args__ = {k: v for k, v in sorted(__args__.items(), key=lambda item: item[0])}
-    variables_saver(__args__, os.path.join(args.output_dir, 'config.py'))
+    if args.output_dir:
+        variables_saver(__args__, os.path.join(args.output_dir, 'config.py'))
 
     # ** dataset **
     dataset_train = build_dataset(args, split='train')
@@ -190,7 +193,7 @@ def main(args):
     criterion = build_criterion(args)
 
     # ** scheduler **
-    lr_scheduler = build_scheduler(args, optimizer, len(data_loader_train))
+    scheduler = build_scheduler(args, optimizer, len(data_loader_train))
 
     # ** scaler **
     scaler = torch.cuda.amp.GradScaler() if args.amp else None
@@ -198,9 +201,9 @@ def main(args):
     if args.resume:
         checkpoint = torch.load(args.resume, map_location='cpu')
         checkpoint_loader(model_without_ddp, checkpoint['model'], delete_keys=())
-        if not args.eval and 'optimizer' in checkpoint and 'lr_scheduler' in checkpoint and 'epoch' in checkpoint:
+        if not args.eval and 'optimizer' in checkpoint and 'scheduler' in checkpoint and 'epoch' in checkpoint:
             checkpoint_loader(optimizer, checkpoint['optimizer'])
-            checkpoint_loader(lr_scheduler, checkpoint['lr_scheduler'])
+            checkpoint_loader(scheduler, checkpoint['scheduler'])
             args.start_epoch = checkpoint['epoch'] + 1
             if args.drop_lr_now:  # only works when using StepLR or MultiStepLR
                 for param_group in optimizer.param_groups:
@@ -222,17 +225,20 @@ def main(args):
         if args.distributed:
             sampler_train.set_epoch(epoch)
         train_stats = train_one_epoch(
-            model, criterion, data_loader_train, optimizer, lr_scheduler, device, epoch, args.clip_max_norm, scaler,
+            model, criterion, data_loader_train, optimizer, scheduler, device, epoch, args.clip_max_norm, scaler,
             args.print_freq, args.need_targets
         )
         if args.output_dir and (epoch + 1) % args.save_interval == 0:
-            # TODO: Create symbolic link instead of saving 'checkpoint.pth'
-            checkpoint_paths = [output_dir / 'checkpoint.pth', output_dir / f'checkpoint{epoch:04}.pth']
+            # TODO?: Create symbolic link instead of saving 'checkpoint.pth'
+            checkpoint_paths = [
+                os.path.join(args.output_dir, f'checkpoint.pth'),
+                os.path.join(args.output_dir, f'checkpoint{epoch:04}.pth')
+            ]
             for checkpoint_path in checkpoint_paths:
                 checkpoint = {
                     'model': model_without_ddp.state_dict(),
                     'optimizer': optimizer.state_dict(),
-                    'lr_scheduler': lr_scheduler.state_dict(),
+                    'scheduler': scheduler.state_dict(),
                     'epoch': epoch,
                     'args': args,
                 }
@@ -249,13 +255,8 @@ def main(args):
                      'epoch': epoch,
                      'n_parameters': n_parameters}
 
-        if args.output_dir and is_main_process():
-            log_path = output_dir / 'log.txt'
-            log_exists = True if log_path.exists() else False
-            with log_path.open('a') as f:
-                f.write(json.dumps(log_stats) + '\n')
-            if not log_exists:
-                log_path.chmod(mode=0o777)
+        if args.output_dir:
+            log_writer(os.path.join(args.output_dir, 'log.txt'), json.dumps(log_stats))
 
         if args.note:
             print(f'Note: {args.note}\n')

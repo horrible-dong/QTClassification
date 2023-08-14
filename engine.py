@@ -9,7 +9,7 @@ from qtcls import build_evaluator
 from qtcls.utils.misc import update, reduce_dict, MetricLogger, SmoothedValue
 
 
-def train_one_epoch(model, criterion, data_loader, optimizer, lr_scheduler, device, epoch: int, max_norm: float = 0,
+def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device, epoch: int, max_norm: float = 0,
                     scaler=None, print_freq: int = 10, need_targets: bool = False):
     model.train()
     criterion.train()
@@ -48,15 +48,15 @@ def train_one_epoch(model, criterion, data_loader, optimizer, lr_scheduler, devi
 
         update(optimizer, losses, model, max_norm, scaler)
 
-        if hasattr(lr_scheduler, 'step_update'):
-            lr_scheduler.step_update(epoch * n_steps + batch_idx)
+        if hasattr(scheduler, 'step_update'):
+            scheduler.step_update(epoch * n_steps + batch_idx)
 
         metric_logger.update(loss=loss_value, **loss_dict_reduced_scaled, **loss_dict_reduced_unscaled)
         metric_logger.update(lr=optimizer.param_groups[0]['lr'])
         if 'class_error' in loss_dict_reduced.keys():
             metric_logger.update(class_error=loss_dict_reduced['class_error'])
 
-    lr_scheduler.step(epoch)
+    scheduler.step(epoch)
 
     metric_logger.synchronize_between_processes()
     print('Averaged stats:', metric_logger)

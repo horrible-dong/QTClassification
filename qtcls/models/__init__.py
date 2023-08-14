@@ -35,8 +35,8 @@ def build_model(args):
     from torch.hub import load_state_dict_from_url
     from termcolor import cprint
     from .. import datasets
+    from ..utils.dist import is_main_process
     from ..utils.io import checkpoint_loader
-    from ..utils.misc import is_main_process
 
     model_lib = args.model_lib.lower()
     model_name = args.model.lower()
