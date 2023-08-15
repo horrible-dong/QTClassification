@@ -24,7 +24,8 @@ python main.py -c configs/_demo_.py
 Note that `--config` / `-c` supports any file system path, such as `configs/_demo_.py`,
 `D:\\QTClassification\\configs\\_demo_.py`, `../../other_project/cfg.py`.
 
-Then, the config arguments will be merged with the command-line arguments `args` in [`main.py`](../main.py).
-**Config arguments _override_ command-line arguments if the name is duplicated.**
+Then, the config arguments **override or merge with** the command-line arguments `args` 
+in [`main.py`](../main.py).
 
-Starting from v0.7.0, command-line arguments **after** `--config xxx` / `-c xxx` _override_ the config arguments. 
+Starting from v0.7.0, command-line arguments **_after_** `--config xxx` / `-c xxx` **override** the config arguments if 
+the name is duplicated. 
