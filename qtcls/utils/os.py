@@ -2,7 +2,7 @@
 
 import os
 
-from qtcls.utils.decorators import main_process_only
+from .decorators import main_process_only
 
 
 @main_process_only
