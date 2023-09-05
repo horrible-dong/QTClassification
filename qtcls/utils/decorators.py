@@ -1,5 +1,7 @@
 # Copyright (c) QIU, Tian. All rights reserved.
 
+import warnings
+
 import torch.distributed as dist
 
 from .dist import is_main_process
@@ -37,3 +39,39 @@ def main_process_only(func):
             dist.barrier()
 
     return wrapper
+
+
+def info(msg):
+    """
+    @info("This is an information.")
+    def example_function():
+        print("This is the decorated function.")
+    """
+
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            print(msg)
+            ret = func(*args, **kwargs)
+            return ret
+
+        return wrapper
+
+    return decorator
+
+
+def warning(msg):
+    """
+    @warning("This is a warning.")
+    def example_function():
+        print("This is the decorated function.")
+    """
+
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            warnings.warn(msg, Warning)
+            ret = func(*args, **kwargs)
+            return ret
+
+        return wrapper
+
+    return decorator

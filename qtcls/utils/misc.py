@@ -14,7 +14,7 @@ import subprocess
 import threading
 import time
 from collections import defaultdict, deque
-from typing import Optional, List
+from typing import Optional, List, Tuple
 
 import numpy as np
 import torch
@@ -25,6 +25,7 @@ from packaging import version
 from torch import Tensor
 from torch.backends import cudnn
 
+from .decorators import warning
 from .dist import is_dist_avail_and_initialized, get_world_size, get_rank
 
 if version.parse(torchvision.__version__) < version.parse('0.7'):
@@ -374,6 +375,7 @@ def flatten_list(lst):
     return [ele for sublst in lst for ele in flatten_list(sublst)] if isinstance(lst, list) else [lst]
 
 
+@warning("It's an experimental function.")
 def partial_class_init(cls, *partial_init_args, **partial_init_kwargs):
     class PartialClassInit(cls):
         def __init__(self, *init_args, **init_kwargs):
@@ -382,6 +384,7 @@ def partial_class_init(cls, *partial_init_args, **partial_init_kwargs):
     return PartialClassInit
 
 
+@warning("It's an experimental function.")
 def partial_class_call(cls, *partial_call_args, **partial_call_kwargs):
     class PartialClassCall(cls):
         def __init__(self, *init_args, **init_kwargs):
@@ -406,3 +409,33 @@ def current_time():
     date_time = datetime.datetime.now()
     return f'{date_time.year:04d}-{date_time.month:02d}-{date_time.day:02d}_' \
            f'{date_time.hour:02d}-{date_time.minute:02d}-{date_time.second:02d}'
+
+
+def gaussian_vector(size: int, center: int, std: float):
+    """
+    gaussian_tensor = gaussian_vector(size=100, center=30, std=10)
+    gaussian_tensor = gaussian_tensor[None].expand(10, -1)
+    plt.imshow(gaussian_tensor, cmap='viridis')
+    plt.yticks([])
+    plt.colorbar()
+    plt.show()
+    """
+    cx = center
+    x = torch.linspace(0, size - 1, size)
+    gaussian_tensor = torch.exp(-(x - cx) ** 2 / (2 * std ** 2)) / (std * (2 * torch.pi) ** 0.5)
+    return gaussian_tensor
+
+
+def gaussian_matrix(size: Tuple[int, int], center: Tuple[int, int], std: float):
+    """
+    gaussian_tensor = gaussian_matrix(size=(100, 100), center=(30, 70), std=10)
+    plt.imshow(gaussian_tensor, cmap='viridis')
+    plt.colorbar()
+    plt.show()
+    """
+    cx, cy = center
+    x = torch.linspace(0, size[0] - 1, size[0])
+    y = torch.linspace(0, size[1] - 1, size[1])
+    x, y = torch.meshgrid(x, y)
+    gaussian_tensor = torch.exp(-((x - cx) ** 2 + (y - cy) ** 2) / (2 * std ** 2)) / (2 * torch.pi * std ** 2)
+    return gaussian_tensor
