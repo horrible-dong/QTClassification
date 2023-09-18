@@ -405,7 +405,7 @@ def inverse_sigmoid(x, eps=1e-3):
     return torch.log(x1 / x2)
 
 
-def current_time():
+def current_time() -> str:
     date_time = datetime.datetime.now()
     return f'{date_time.year:04d}-{date_time.month:02d}-{date_time.day:02d}_' \
            f'{date_time.hour:02d}-{date_time.minute:02d}-{date_time.second:02d}'
