@@ -3,17 +3,17 @@ QTClassification
 
 **轻量可扩展的图像分类工具箱**
 
-[![version](https://img.shields.io/badge/Version-0.7.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.8.0--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README_zh-CN.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
 > 作者: QIU, Tian  
 > 机构: 浙江大学  
-> <a href="#安装">🛠️ 安装</a> | <a href="#使用教程">📘 使用教程</a> | <a href="#数据集">🌱 数据集</a> | <a href="#模型库">
+> <a href="#安装教程">🛠️ 安装教程</a> | <a href="#使用教程">📘 使用教程</a> | <a href="#数据集">🌱 数据集</a> | <a href="#模型库">
 > 👀 模型库</a>  
 > [English](README.md) | 简体中文
 
-## 安装
+## <span id="安装教程">安装教程</span>
 
 我们的开发环境是 `python 3.7 & pytorch 1.11.0+cu113`。
 
@@ -43,7 +43,7 @@ pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url http
 pip install -r requirements.txt
 ```
 
-## 使用教程
+## <span id="使用教程">使用教程</span>
 
 想要快速体验，你可以直接执行以下命令：
 
@@ -130,11 +130,11 @@ python main.py \
 |          命令行参数           |                                                                 描述                                                                  |       默认值        |
 |:------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
 |      `--data_root`       |                                                             你的数据集存放的路径。                                                             |     `./data`     |
-|  `--dataset`<br />`-d`   |                数据集名称，在 [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py) 里定义，如 `cifar10` 和 `imagenet1k`。                 |        /         |
+|  `--dataset`<br />`-d`   |                数据集名称，在 [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py) 中定义，如 `cifar10` 和 `imagenet1k`。                 |        /         |
 |      `--model_lib`       |                            模型库，模型都取自模型库。我们的基础（默认）模型库由 `torchvision` 和 `timm` 扩展而来，同时我们也支持原生 `timm` 模型库。                             |    `default`     |
-|   `--model`<br />`-m`    | 模型名称，在 [qtcls/models/\_\_init\_\_.py ](qtcls/models/__init__.py) 里定义，如 `resnet50` 和 `vit_b_16`。目前支持的模型名称在<a href="#模型库">模型库</a>中列出。 |        /         |
-|      `--criterion`       |                        损失函数名称，在 [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py) 里定义，如 `ce`。                        |    `default`     |
-|      `--optimizer`       |                     优化器名称，在 [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py)，如 `sgd` 和 `adam`。                      |     `adamw`      |
+|   `--model`<br />`-m`    | 模型名称，在 [qtcls/models/\_\_init\_\_.py ](qtcls/models/__init__.py) 中定义，如 `resnet50` 和 `vit_b_16`。目前支持的模型名称在<a href="#模型库">模型库</a>中列出。 |        /         |
+|      `--criterion`       |                        损失函数名称，在 [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py) 中定义，如 `ce`。                        |    `default`     |
+|      `--optimizer`       |                     优化器名称，在 [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py) 中定义，如 `sgd` 和 `adam`。                     |     `adamw`      |
 |      `--scheduler`       |                    学习率调整策略名称，在 [qtcls/schedulers/\_\_init\_\_.py](qtcls/schedulers/__init__.py) 中定义，如 `cosine`。                     |     `cosine`     |
 |      `--evaluator`       |               验证器名称，在 [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py) 中定义。默认的验证器会计算准确率、召回率、精确率和f1分数。               |    `default`     |
 |   `--resume`<br />`-r`   |                                                         要从中恢复的checkpoint路径。                                                         |        /         |
