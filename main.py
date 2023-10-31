@@ -146,11 +146,11 @@ def main(args):
     dataset_val = build_dataset(args, split='val')
 
     if args.distributed:
-        sampler_train = Data.distributed.DistributedSampler(dataset=dataset_train, shuffle=True)
-        sampler_val = Data.distributed.DistributedSampler(dataset=dataset_val, shuffle=False)
+        sampler_train = Data.distributed.DistributedSampler(dataset_train, shuffle=True)
+        sampler_val = Data.distributed.DistributedSampler(dataset_val, shuffle=False)
     else:
-        sampler_train = torch.utils.data.RandomSampler(dataset_train)
-        sampler_val = torch.utils.data.SequentialSampler(dataset_val)
+        sampler_train = Data.RandomSampler(dataset_train)
+        sampler_val = Data.SequentialSampler(dataset_val)
 
     data_loader_train = Data.DataLoader(dataset=dataset_train,
                                         sampler=sampler_train,

@@ -1,13 +1,12 @@
 .idea/
 .vscode/
-_test_.py
+__MACOSX/
+*.DS_Store
 *.nfs*
 *.ipynb
 *.pyc
 *.pyo
 *.pyd
-__MACOSX/
-*.DS_Store
 *.swp
 *.swo
 *.pt
@@ -16,6 +15,8 @@ __MACOSX/
 *.tmp
 *.temp
 *.sub
+_test_.py
+submit.sh
 work_dir/
 work_dirs/
 runs/
