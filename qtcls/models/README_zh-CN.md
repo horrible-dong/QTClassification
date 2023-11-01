@@ -73,4 +73,9 @@ model_urls = {
 }
 ```
 
-4. 当使用你的模型时，把 `--model` / `-m` 赋值为你的模型架构名称 `your_model_architecture_{1/2/3}`. 
+**提示：**
+若是临时使用某个预训练权重路径，可以通过命令行参数 `--pretrain` / `-p`
+来指定它。若要长期使用某个预训练权重路径，建议将其写进 [`_pretrain_.py`](_pretrain_.py)
+。优先级：`--pretrain` > `model_local_paths` > `model_urls`。
+
+5. 当使用你的模型时，把 `--model` / `-m` 赋值为你的模型架构名称 `your_model_architecture_{1/2/3}`. 

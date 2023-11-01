@@ -15,7 +15,7 @@ QTClassification
 
 ## <span id="Installation">Installation</span>
 
-Our development environment is `python 3.7 & pytorch 1.11.0+cu113`.
+The development environment of this project is `python 3.7 & pytorch 1.11.0+cu113`.
 
 1. Create your conda environment if needed.
 
@@ -125,33 +125,42 @@ python main.py \
 
 ### How to use
 
-When using our toolbox for training and evaluation, you may run the commands we provided above *with your own
+When using the toolbox for training and evaluation, you may run the commands we provided above *with your own
 arguments*.
 
 **Frequently-used command-line arguments**
 
-|  command-line Argument   |                                                                                             Description                                                                                              |  Default Value   |
-|:------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
-|      `--data_root`       |                                                                               Directory where your datasets is stored.                                                                               |     `./data`     |
-|  `--dataset`<br />`-d`   |                                      Dataset name defined in [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py), such as `cifar10` and `imagenet1k`.                                       |        /         |
-|      `--model_lib`       |                      Model library where models come from. Our basic (default) model library is extended from `torchvision` and `timm`, and also supports the original `timm`.                       |    `default`     |
-|   `--model`<br />`-m`    | Model name defined in [qtcls/models/\_\_init\_\_.py](qtcls/models/__init__.py), such as `resnet50` and `vit_b_16`. Currently supported model names are listed in <a href="#model_zoo">Model Zoo</a>. |        /         |
-|      `--criterion`       |                                              Criterion name defined in [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py), such as `ce`.                                               |    `default`     |
-|      `--optimizer`       |                                        Optimizer name defined in [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py), such as `sgd` and `adam`.                                         |     `adamw`      |
-|      `--scheduler`       |                                            Scheduler name defined in [qtcls/schedulers/\_\_init\_\_.py](qtcls/schedulers/__init__.py), such as `cosine`.                                             |     `cosine`     |
-|      `--evaluator`       |             Evaluator name defined in [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py). The `default` evaluator computes the accuracy, recall, precision, and f1_score.              |    `default`     |
-|   `--resume`<br />`-r`   |                                                                                   Checkpoint path to resume from.                                                                                    |        /         |
-| `--output_dir`<br />`-o` |                                                                       Path to store your checkpoints, logs, and other outputs.                                                                       | `./runs/__tmp__` |
-|          `--lr`          |                                                                                            Learning rate.                                                                                            |      `1e-4`      |
-|        `--epochs`        |                                                                                                  /                                                                                                   |      `300`       |
-| `--batch_size`<br />`-b` |                                                                                                  /                                                                                                   |       `8`        |
-|         `--amp`          |                                                                              Enable automatic mixed precision training.                                                                              |     `False`      |
-|         `--eval`         |                                                                                            Evaluate only.                                                                                            |     `False`      |
-|         `--note`         |                                                       Note. The note content prints after each epoch, in case you forget what you are running.                                                       |        /         |
-|   `--config`<br />`-c`   |                                       Config file path. See [configs](configs). Arguments in the config file merge or override command-line arguments `args`.                                        |        /         |
+|  Command-Line Argument   |                                                                                                                                           Description                                                                                                                                           |  Default Value   |
+|:------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
+|      `--data_root`       |                                                                                                                            Directory where your datasets is stored.                                                                                                                             |     `./data`     |
+|  `--dataset`<br />`-d`   |                                                                                    Dataset name defined in [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py), such as `cifar10` and `imagenet1k`.                                                                                    |        /         |
+|      `--model_lib`       |                                                         Model library where models come from. The toolbox's basic (default) model library is extended from `torchvision` and `timm`, and the toolbox also supports the original `timm`.                                                         |    `default`     |
+|   `--model`<br />`-m`    |                                              Model name defined in [qtcls/models/\_\_init\_\_.py](qtcls/models/__init__.py), such as `resnet50` and `vit_b_16`. Currently supported model names are listed in <a href="#model_zoo">Model Zoo</a>.                                               |        /         |
+|      `--criterion`       |                                                                                            Criterion name defined in [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py), such as `ce`.                                                                                            |    `default`     |
+|      `--optimizer`       |                                                                                      Optimizer name defined in [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py), such as `sgd` and `adam`.                                                                                      |     `adamw`      |
+|      `--scheduler`       |                                                                                          Scheduler name defined in [qtcls/schedulers/\_\_init\_\_.py](qtcls/schedulers/__init__.py), such as `cosine`.                                                                                          |     `cosine`     |
+|      `--evaluator`       |                                                           Evaluator name defined in [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py). The `default` evaluator computes the accuracy, recall, precision, and f1_score.                                                           |    `default`     |
+|  `--pretrain`<br />`-p`  | Path to the pre-trained weights, which is of the higher priority than the path stored in [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py). For long-term use of a pretrained weight path, it is preferable to write it in [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py). |        /         |
+|     `--no_pretrain`      |                                                                                                                            Force to not use the pre-trained weights.                                                                                                                            |     `False`      |
+|   `--resume`<br />`-r`   |                                                                                                                                 Checkpoint path to resume from.                                                                                                                                 |        /         |
+| `--output_dir`<br />`-o` |                                                                                                                       Path to save checkpoints, logs, and other outputs.                                                                                                                        | `./runs/__tmp__` |
+|    `--save_interval`     |                                                                                                                                Interval for saving checkpoints.                                                                                                                                 |       `1`        |
+| `--batch_size`<br />`-b` |                                                                                                                                                /                                                                                                                                                |       `8`        |
+|        `--epochs`        |                                                                                                                                                /                                                                                                                                                |      `300`       |
+|          `--lr`          |                                                                                                                                         Learning rate.                                                                                                                                          |      `1e-4`      |
+|         `--amp`          |                                                                                                                           Enable automatic mixed precision training.                                                                                                                            |     `False`      |
+|         `--eval`         |                                                                                                                                         Evaluate only.                                                                                                                                          |     `False`      |
+|         `--note`         |                                                                                                    Note. The note content prints after each epoch, in case you forget what you are running.                                                                                                     |        /         |
 
-**(Recommended)** Or you can write the arguments into a config file (.py) and directly use `--config` / `-c`
-to import it. For example,
+**Using the config file (Recommended)**
+
+Or you can write the arguments into a config file (.py) and directly use `--config` / `-c`
+to import it.
+
+`--config` / `-c`: Config file path. See [configs](configs). Arguments in the config file merge or override command-line
+arguments `args`.
+
+For example,
 
 ```bash
 python main.py --config configs/_demo_.py
@@ -163,10 +172,9 @@ or
 python main.py -c configs/_demo_.py
 ```
 
-Arguments in the config file merge or override command-line arguments `args`. For more details, please see
-["How to write and import your configs"](configs/README.md).
+For more details, please see ["How to write and import your configs"](configs/README.md).
 
-**How to put your dataset**
+**Dataset placement**
 
 Currently, `mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars` and `food`
 datasets will be automatically downloaded to the `--data_root` directory. For other datasets, please refer
@@ -174,7 +182,7 @@ to ["How to put your dataset"](data/README.md).
 
 ### How to customize
 
-Our toolbox is flexible enough to be extended. Please follow the instructions below:
+The toolbox is flexible enough to be extended. Please follow the instructions below:
 
 [How to register your datasets](qtcls/datasets/README.md)
 
@@ -200,7 +208,8 @@ see ["How to put your dataset - About folder format datasets"](data/README.md) f
 
 ## <span id="model_zoo">Model Zoo</span>
 
-Our basic (default) model library is extended from `torchvision` and `timm`, and also supports the original `timm`.
+The toolbox's basic (default) model library is extended from `torchvision` and `timm`, and the toolbox also supports the
+original `timm`.
 
 ### default
 

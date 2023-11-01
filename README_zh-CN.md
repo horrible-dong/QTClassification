@@ -9,13 +9,14 @@ QTClassification
 
 > 作者: QIU, Tian  
 > 机构: 浙江大学  
-> <a href="#安装教程">🛠️ 安装教程</a> | <a href="#使用教程">📘 使用教程</a> | <a href="#数据集">🌱 数据集</a> | <a href="#模型库">
+> <a href="#安装教程">🛠️ 安装教程</a> | <a href="#使用教程">📘 使用教程</a> | <a href="#数据集">🌱
+> 数据集</a> | <a href="#模型库">
 > 👀 模型库</a>  
 > [English](README.md) | 简体中文
 
 ## <span id="安装教程">安装教程</span>
 
-我们的开发环境是 `python 3.7 & pytorch 1.11.0+cu113`。
+本项目的开发环境是 `python 3.7 & pytorch 1.11.0+cu113`。
 
 1. 如果需要的话，创建你的conda环境。
 
@@ -123,31 +124,39 @@ python main.py \
 
 ### 如何使用
 
-使用我们的工具箱进行训练和验证时，你可以参照上述命令执行，不过你需要修改命令行参数。
+使用本工具箱进行训练和验证时，你可以参照上述命令执行，不过你需要根据具体任务来修改命令行参数。
 
 **常用的命令行参数**
 
-|          命令行参数           |                                                                 描述                                                                  |       默认值        |
-|:------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
-|      `--data_root`       |                                                             你的数据集存放的路径。                                                             |     `./data`     |
-|  `--dataset`<br />`-d`   |                数据集名称，在 [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py) 中定义，如 `cifar10` 和 `imagenet1k`。                 |        /         |
-|      `--model_lib`       |                            模型库，模型都取自模型库。我们的基础（默认）模型库由 `torchvision` 和 `timm` 扩展而来，同时我们也支持原生 `timm` 模型库。                             |    `default`     |
-|   `--model`<br />`-m`    | 模型名称，在 [qtcls/models/\_\_init\_\_.py ](qtcls/models/__init__.py) 中定义，如 `resnet50` 和 `vit_b_16`。目前支持的模型名称在<a href="#模型库">模型库</a>中列出。 |        /         |
-|      `--criterion`       |                        损失函数名称，在 [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py) 中定义，如 `ce`。                        |    `default`     |
-|      `--optimizer`       |                     优化器名称，在 [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py) 中定义，如 `sgd` 和 `adam`。                     |     `adamw`      |
-|      `--scheduler`       |                    学习率调整策略名称，在 [qtcls/schedulers/\_\_init\_\_.py](qtcls/schedulers/__init__.py) 中定义，如 `cosine`。                     |     `cosine`     |
-|      `--evaluator`       |               验证器名称，在 [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py) 中定义。默认的验证器会计算准确率、召回率、精确率和f1分数。               |    `default`     |
-|   `--resume`<br />`-r`   |                                                         要从中恢复的checkpoint路径。                                                         |        /         |
-| `--output_dir`<br />`-o` |                                           输出目录，用来存放checkpoint文件（包含模型权重、优化器权重等）、日志文件和其他输出。                                           | `./runs/__tmp__` |
-|          `--lr`          |                                                                学习率。                                                                 |      `1e-4`      |
-|        `--epochs`        |                                                                  /                                                                  |      `300`       |
-| `--batch_size`<br />`-b` |                                                                  /                                                                  |       `8`        |
-|         `--amp`          |                                                             启用自动混合精度训练。                                                             |     `False`      |
-|         `--eval`         |                                                              只验证，不训练。                                                               |     `False`      |
-|         `--note`         |                                              备忘笔记。 笔记内容会在每个epoch之后打印一次，以防你记不清自己正在跑什么。                                               |        /         |
-|   `--config`<br />`-c`   |                                      配置文件路径。详见 [configs](configs)。配置文件中的参数会合并或覆盖命令行参数 `args`。                                       |        /         |
+|          命令行参数           |                                                                                  描述                                                                                  |       默认值        |
+|:------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
+|      `--data_root`       |                                                                             你的数据集存放的路径。                                                                              |     `./data`     |
+|  `--dataset`<br />`-d`   |                                 数据集名称，在 [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py) 中定义，如 `cifar10` 和 `imagenet1k`。                                 |        /         |
+|      `--model_lib`       |                                           模型库，模型都取自模型库。本工具箱的基础（默认）模型库由 `torchvision` 和 `timm` 扩展而来，同时本工具箱也支持原生 `timm` 模型库。                                           |    `default`     |
+|   `--model`<br />`-m`    |                 模型名称，在 [qtcls/models/\_\_init\_\_.py ](qtcls/models/__init__.py) 中定义，如 `resnet50` 和 `vit_b_16`。目前支持的模型名称在<a href="#模型库">模型库</a>中列出。                  |        /         |
+|      `--criterion`       |                                        损失函数名称，在 [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py) 中定义，如 `ce`。                                         |    `default`     |
+|      `--optimizer`       |                                    优化器名称，在 [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py) 中定义，如 `sgd` 和 `adam`。                                    |     `adamw`      |
+|      `--scheduler`       |                                     学习率调整策略名称，在 [qtcls/schedulers/\_\_init\_\_.py](qtcls/schedulers/__init__.py) 中定义，如 `cosine`。                                     |     `cosine`     |
+|      `--evaluator`       |                               验证器名称，在 [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py) 中定义。默认的验证器会计算准确率、召回率、精确率和f1分数。                                |    `default`     |
+|  `--pretrain`<br />`-p`  | 预训练权重路径，其优先级高于存储在 [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py) 中的路径。若要长期使用某个预训练权重路径，建议将其写进 [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py)。 |        /         |
+|     `--no_pretrain`      |                                                                             强制不使用预训练权重。                                                                              |     `False`      |
+|   `--resume`<br />`-r`   |                                                                        要从中恢复的 checkpoint 路径。                                                                         |        /         |
+| `--output_dir`<br />`-o` |                                                          输出目录，用来存放 checkpoint 文件（包含模型权重、优化器权重等）、日志文件和其他输出。                                                           | `./runs/__tmp__` |
+|    `--save_interval`     |                                                                          保存 checkpoint 的间隔.                                                                          |       `1`        |
+| `--batch_size`<br />`-b` |                                                                                  /                                                                                   |       `8`        |
+|        `--epochs`        |                                                                                  /                                                                                   |      `300`       |
+|          `--lr`          |                                                                                 学习率。                                                                                 |      `1e-4`      |
+|         `--amp`          |                                                                             启用自动混合精度训练。                                                                              |     `False`      |
+|         `--eval`         |                                                                               只验证，不训练。                                                                               |     `False`      |
+|         `--note`         |                                                              备忘笔记。 笔记内容会在每个 epoch 之后打印一次，以防你记不清自己正在跑什么。                                                              |        /         |
 
-**（推荐）** 或者你可以把参数写进配置文件（.py）中，并直接使用 `--config` / `-c` 来导入配置文件。例如：
+**使用配置文件（推荐）**
+
+或者你可以把参数写进配置文件（.py）中，并直接使用 `--config` / `-c` 来导入配置文件。
+
+`--config` / `-c`: 配置文件路径。详见 [configs](configs)。配置文件中的参数会合并或覆盖命令行参数 `args`。
+
+例如：
 
 ```bash
 python main.py --config configs/_demo_.py
@@ -159,16 +168,16 @@ python main.py --config configs/_demo_.py
 python main.py -c configs/_demo_.py
 ```
 
-配置文件中的参数会合并或覆盖命令行参数 `args`。更多细节请看 [“如何编写和导入你的配置文件”](configs/README_zh-CN.md) 。
+更多细节请看 [“如何编写和导入你的配置文件”](configs/README_zh-CN.md) 。
 
-**如何放置你的数据集**
+**数据集放置**
 
 目前，`mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars` 和 `food`
 数据集会自动下载到 `--data_root` 目录下。其余数据集请参考 [“如何放置你的数据集”](data/README_zh-CN.md) 。
 
 ### 如何自定义
 
-你可以很轻松地对我们的工具箱进行扩展，请参考以下文档：
+你可以很轻松地对本工具箱进行扩展，请参考以下文档：
 
 [如何注册你的数据集](qtcls/datasets/README_zh-CN.md)
 
@@ -193,7 +202,7 @@ python main.py -c configs/_demo_.py
 
 ## <span id="模型库">模型库</span>
 
-我们的基础（默认）模型库由 `torchvision` 和 `timm` 扩展而来，同时我们也支持原生 `timm` 模型库。
+本工具箱的基础（默认）模型库由 `torchvision` 和 `timm` 扩展而来，同时本工具箱也支持原生 `timm` 模型库。
 
 ### 默认模型库
 
@@ -293,7 +302,7 @@ QTClassification 基于 Apache 2.0 开源许可证. 具体请看[开源许可证
 
 ## 引用
 
-如果你觉得我们的 “QTClassification工具箱” 对你有帮助，欢迎引用：
+如果你觉得 “QTClassification工具箱” 对你有帮助，欢迎引用：
 
 ```bibtex
 @misc{2023QTClassification,

@@ -64,19 +64,24 @@ def build_model(args):
             exit(1)
 
         if pretrained:
+            found_specified_path = args.pretrain
             found_local_path = search_pretrained_from_local_paths(model_name)
             found_url = search_pretrained_from_urls(model_name)
 
-            if found_local_path:
+            # priority: high -> low
+            if found_specified_path:
+                state_dict = torch.load(found_specified_path)
+            elif found_local_path:
                 state_dict = torch.load(found_local_path)
             elif found_url:
                 state_dict = load_state_dict_from_url(found_url, progress=True)
-                if 'model' in state_dict.keys():
-                    state_dict = state_dict['model']
             else:
                 raise FileNotFoundError(f"Pretrained model for '{model_name}' is not found. "
                                         f"Please register your pretrained path in 'qtcls/datasets/_pretrain_.py' "
                                         f"or set the argument '--no_pretrain'.")
+
+            if 'model' in state_dict.keys():
+                state_dict = state_dict['model']
 
             checkpoint_loader(model, state_dict, strict=False)
 

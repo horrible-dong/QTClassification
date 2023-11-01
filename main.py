@@ -91,14 +91,13 @@ def get_args_parser():
     parser.add_argument('--evaluator', default='default', type=str, help='evaluator name')
 
     # loading
-    parser.add_argument('--no_pretrain', action='store_true')
-    parser.add_argument('--resume', '-r', type=str)
-    parser.add_argument('--load_pos', type=str)
+    parser.add_argument('--pretrain', '-p', type=str, help='path to the pre-trained weights (highest priority)')
+    parser.add_argument('--no_pretrain', action='store_true', help='force to not use the pre-trained weights.')
+    parser.add_argument('--resume', '-r', type=str, help='checkpoint path to resume from.')
 
     # saving
-    parser.add_argument('--output_dir', '-o', type=str, default='./runs/__tmp__')
+    parser.add_argument('--output_dir', '-o', type=str, default='./runs/__tmp__', help='path to save checkpoints, etc.')
     parser.add_argument('--save_interval', type=int, default=1)
-    parser.add_argument('--save_pos', type=str)
 
     # remarks
     parser.add_argument('--note', type=str)
@@ -119,6 +118,8 @@ def main(args):
         args.num_workers = min([os.cpu_count(), args.batch_size if args.batch_size > 1 else 0, 8])
     if args.resume:
         args.no_pretrain = True
+    if args.no_pretrain:
+        args.pretrain = None
     if args.note is None:
         args.note = f'dataset: {args.dataset} | model: {args.model} | output_dir: {args.output_dir}'
     if args.dummy:
