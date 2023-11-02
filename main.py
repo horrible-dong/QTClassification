@@ -40,15 +40,15 @@ def get_args_parser():
     parser.add_argument('--sync_bn', type=bool, default=False)
     parser.add_argument('--find_unused_params', action='store_true')
     parser.add_argument('--world_size', default=1, type=int, help='number of distributed processes')
+    parser.add_argument('--local_rank', type=int, default=-1, help='process rank on the local machine')
     parser.add_argument('--dist_url', default='env://', help='url used to set up distributed training')
     parser.add_argument('--dist_backend', default='nccl', help='backend used to set up distributed training')
-    parser.add_argument('--local_rank', type=int, default=-1)
+    parser.add_argument('--no_dist', action='store_true', help='forcibly disable distributed mode')
     parser.add_argument('--print_freq', type=int, default=50)
     parser.add_argument('--need_targets', action='store_true', help='need targets for training')
     parser.add_argument('--drop_lr_now', action='store_true')
     parser.add_argument('--drop_last', action='store_true')
     parser.add_argument('--amp', action='store_true', help='automatic mixed precision training')
-    parser.add_argument('--no_dist', action='store_true', help='forcibly disable distributed mode')
 
     # dataset
     parser.add_argument('--data_root', type=str, default='./data')
@@ -92,11 +92,11 @@ def get_args_parser():
 
     # loading
     parser.add_argument('--pretrain', '-p', type=str, help='path to the pre-trained weights (highest priority)')
-    parser.add_argument('--no_pretrain', action='store_true', help='force to not use the pre-trained weights.')
-    parser.add_argument('--resume', '-r', type=str, help='checkpoint path to resume from.')
+    parser.add_argument('--no_pretrain', action='store_true', help='forcibly not use the pre-trained weights')
+    parser.add_argument('--resume', '-r', type=str, help='checkpoint path to resume from')
 
     # saving
-    parser.add_argument('--output_dir', '-o', type=str, default='./runs/__tmp__', help='path to save checkpoints, etc.')
+    parser.add_argument('--output_dir', '-o', type=str, default='./runs/__tmp__', help='path to save checkpoints, etc')
     parser.add_argument('--save_interval', type=int, default=1)
 
     # remarks
