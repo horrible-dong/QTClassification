@@ -47,4 +47,3 @@ def build_evaluator(args):
 
 4. When using your evaluator, set `--evaluator` to `your_evaluator`. Note that `your_evaluator` does not have to be
    consistent with the evaluator class name `YourEvaluator`.
-

@@ -74,4 +74,3 @@ class SoftTargetCrossEntropy(BaseCriterion):  # Compatible with 'CrossEntropy'
             losses = {'loss_ce': loss_ce}
 
         return losses
-

@@ -23,4 +23,3 @@ def check_for_updates(current_version: str, git_url: str):
 
 if __name__ == '__main__':
     check_for_updates(__version__, __git_url__)
-

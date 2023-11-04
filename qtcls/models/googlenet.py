@@ -317,4 +317,3 @@ def googlenet(pretrained: bool = False, progress: bool = True, **kwargs: Any) ->
         return model
 
     return GoogLeNet(**kwargs)
-

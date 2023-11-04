@@ -18,4 +18,3 @@ class BaseCriterion(nn.Module):
         for loss in self.losses:
             losses.update(getattr(self, f'loss_{loss}')(outputs, targets, **kwargs))
         return losses
-

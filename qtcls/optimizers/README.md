@@ -46,4 +46,3 @@ def build_optimizer(args, params):
 
 4. When using your optimizer, set `--optimizer` to `your_optimizer`. Note that `your_optimizer` does not have to be
    consistent with the optimizer class name `YourOptimizer`.
-

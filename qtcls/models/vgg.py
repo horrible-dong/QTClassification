@@ -201,4 +201,3 @@ def vgg19_bn(pretrained: bool = False, progress: bool = True, **kwargs: Any) -> 
         progress (bool): If True, displays a progress bar of the download to stderr
     """
     return _vgg("vgg19_bn", "E", True, pretrained, progress, **kwargs)
-

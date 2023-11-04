@@ -70,4 +70,3 @@ def init_distributed_mode(args):
                             world_size=args.world_size, rank=args.rank)
     dist.barrier()
     setup_for_distributed(is_main=args.rank == 0)
-

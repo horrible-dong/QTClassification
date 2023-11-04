@@ -81,4 +81,3 @@ long-term use of a pre-trained weight path, it is preferable to write it in [`_p
 Priority: `--pretrain` > `model_local_paths` > `model_urls`.
 
 5. When using your model, set `--model` / `-m` to `your_model_architecture_{1/2/3}`. 
-

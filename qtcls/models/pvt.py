@@ -322,4 +322,3 @@ def pvt_huge_v2(**kwargs):
                                      sr_ratios=[8, 4, 2, 1],
                                      **kwargs)
     return model
-

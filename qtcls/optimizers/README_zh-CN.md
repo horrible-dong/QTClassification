@@ -46,4 +46,3 @@ def build_optimizer(args, params):
 
 4. 当使用你的优化器时，把 `--optimizer` 赋值为你的优化器名称 `your_optimizer`。注意 `your_optimizer`
    不需要和你的优化器类名 `YourOptimizer` 保持一致。
-

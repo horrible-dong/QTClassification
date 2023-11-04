@@ -756,4 +756,3 @@ def swin_large_patch4_window12_384_in22k(**kwargs):
                             num_heads=(6, 12, 24, 48),
                             **kwargs)
     return model
-

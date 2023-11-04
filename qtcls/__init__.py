@@ -26,4 +26,3 @@ def _get_info() -> str:
 
 
 __info__ = _get_info()
-

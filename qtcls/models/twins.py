@@ -406,4 +406,3 @@ def twins_svt_large(**kwargs):
                   wss=[7, 7, 7, 7],
                   sr_ratios=[8, 4, 2, 1], **kwargs)
     return model
-

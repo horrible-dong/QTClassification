@@ -111,4 +111,3 @@ class StanfordCars(BaseDataset):
             return False
 
         return self._annotations_mat_path.exists() and self._images_base_path.is_dir()
-

@@ -449,4 +449,3 @@ def inception_v3(pretrained: bool = False, progress: bool = True, **kwargs: Any)
         return model
 
     return Inception3(**kwargs)
-

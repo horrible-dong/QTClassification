@@ -700,4 +700,3 @@ def swinv2_large_window12to24_192to384_22kft1k(**kwargs):
                               pretrained_window_sizes=(12, 12, 12, 6),
                               **kwargs)
     return model
-

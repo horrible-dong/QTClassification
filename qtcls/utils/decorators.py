@@ -74,4 +74,3 @@ def warning(msg):
         return wrapper
 
     return decorator
-

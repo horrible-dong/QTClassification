@@ -271,4 +271,3 @@ def convnext_large(*, pretrained: bool = False, progress: bool = True, **kwargs:
     ]
     stochastic_depth_prob = kwargs.pop("stochastic_depth_prob", 0.5)
     return _convnext("convnext_large", block_setting, stochastic_depth_prob, pretrained, progress, **kwargs)
-

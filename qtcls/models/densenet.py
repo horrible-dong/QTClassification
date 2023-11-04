@@ -319,4 +319,3 @@ def densenet201(pretrained: bool = False, progress: bool = True, **kwargs: Any) 
           but slower. Default: *False*. See `"paper" <https://arxiv.org/pdf/1707.06990.pdf>`_.
     """
     return _densenet("densenet201", 32, (6, 12, 48, 32), 64, pretrained, progress, **kwargs)
-

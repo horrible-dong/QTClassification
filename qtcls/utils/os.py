@@ -33,4 +33,3 @@ def makedirs(path, mode=0o777, exist_ok=False):  # CANNOT be decorated by '@main
 def symlink(src_path, symlink_path, mode=0o777):
     os.symlink(src_path, symlink_path)
     os.chmod(symlink_path, mode)
-

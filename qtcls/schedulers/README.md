@@ -46,4 +46,3 @@ def build_scheduler(args, optimizer):
 
 4. When using your scheduler, set `--scheduler` to `your_scheduler`. Note that `your_scheduler` does not have to be
    consistent with the scheduler class name `YourScheduler`.
-

@@ -56,4 +56,3 @@ output_dir = f'./runs/{model}-{dataset}'
 
 # remarks
 note = f"Using the demo config in 'configs/_demo_.py'. | dataset: {dataset} | model: {model} | output_dir: {output_dir}"
-

@@ -229,4 +229,3 @@ def shufflenet_v2_x2_0(pretrained: bool = False, progress: bool = True, **kwargs
         progress (bool): If True, displays a progress bar of the download to stderr
     """
     return _shufflenetv2("shufflenetv2_x2.0", pretrained, progress, [4, 8, 4], [24, 244, 488, 976, 2048], **kwargs)
-

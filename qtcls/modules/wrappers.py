@@ -26,4 +26,3 @@ class MultiInputModuleListWrapper(nn.ModuleList):
         for module in self:
             x = module(x, *args, **kwargs)
         return x
-

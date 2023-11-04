@@ -159,4 +159,3 @@ class STL10(BaseDataset):
             self.data = self.data[list_idx, :, :, :]
             if self.labels is not None:
                 self.labels = self.labels[list_idx]
-

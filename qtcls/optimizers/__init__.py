@@ -19,4 +19,3 @@ def build_optimizer(args, params):
         return RMSprop(params, lr=args.lr, weight_decay=args.weight_decay, momentum=args.momentum)
 
     raise ValueError(f"Optimizer '{optimizer_name}' is not found.")
-

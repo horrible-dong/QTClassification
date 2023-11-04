@@ -109,4 +109,3 @@ class OxfordIIITPet(BaseDataset):
 
         for url, md5 in self._RESOURCES:
             download_and_extract_archive(url, download_root=str(self._base_folder), md5=md5)
-

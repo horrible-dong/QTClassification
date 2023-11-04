@@ -324,4 +324,3 @@ If you find QTClassification Toolbox useful in your research, please consider ci
     year={2023}
 }
 ```
-

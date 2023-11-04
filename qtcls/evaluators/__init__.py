@@ -10,4 +10,3 @@ def build_evaluator(args):
         return DefaultEvaluator(metrics=['acc', 'recall', 'precision', 'f1'])
 
     raise ValueError(f"Evaluator '{evaluator_name}' is not found.")
-

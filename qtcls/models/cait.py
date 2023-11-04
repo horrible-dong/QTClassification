@@ -372,4 +372,3 @@ def cait_m48_448(**kwargs):
                  init_values=1e-6,
                  **kwargs)
     return model
-

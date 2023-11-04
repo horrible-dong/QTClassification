@@ -243,4 +243,3 @@ model_urls = {
     'vit_huge_patch14_224': None,
     'vit_giant_patch14_224': None,
 }
-

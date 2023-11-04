@@ -470,4 +470,3 @@ def interpolate_embeddings(
             model_state = model_state_copy
 
     return model_state
-

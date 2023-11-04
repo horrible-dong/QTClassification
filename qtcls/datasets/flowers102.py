@@ -105,4 +105,3 @@ class Flowers102(BaseDataset):
         for id in ["label", "setid"]:
             filename, md5 = self._file_dict[id]
             download_url(self._download_url_prefix + filename, str(self._base_folder), md5=md5)
-

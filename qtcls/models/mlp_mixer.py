@@ -675,4 +675,3 @@ def gmlp_b16_224(**kwargs):
                      mlp_layer=GatedMlp,
                      **kwargs)
     return model
-
