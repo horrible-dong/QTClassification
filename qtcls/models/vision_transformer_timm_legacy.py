@@ -561,3 +561,4 @@ def vit_giant_patch14_224(has_logits: bool = True, **kwargs):
                               representation_size=1280 if has_logits else None,
                               **kwargs)
     return model
+

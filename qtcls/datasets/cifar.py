@@ -156,3 +156,4 @@ class CIFAR100(CIFAR10):
         "key": "fine_label_names",
         "md5": "7973b15100ade9c7d40fb424638fde48",
     }
+

@@ -16,3 +16,4 @@ def build_criterion(args):
         return SoftTargetCrossEntropy(losses=['labels'], weight_dict={'loss_ce': 1})
 
     raise ValueError(f"Criterion '{criterion_name}' is not found.")
+

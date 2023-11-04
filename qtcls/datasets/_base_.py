@@ -75,3 +75,4 @@ class BaseDataset(Dataset):
             self.target_transform = self.target_transform[self.split]
         if isinstance(self.batch_transform, dict):
             self.batch_transform = self.batch_transform[self.split]
+

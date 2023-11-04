@@ -96,3 +96,4 @@ class Food101(BaseDataset):
             shutil.move(src_file, dst_file)
 
         shutil.rmtree(src_dir)
+

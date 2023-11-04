@@ -108,3 +108,4 @@ class SVHN(BaseDataset):
 
     def extra_repr(self):
         return "Split: {split}".format(**self.__dict__)
+

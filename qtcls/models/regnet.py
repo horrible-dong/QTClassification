@@ -606,3 +606,4 @@ def regnet_x_32gf(pretrained: bool = False, progress: bool = True, **kwargs: Any
     return _regnet("regnet_x_32gf", params, pretrained, progress, **kwargs)
 
 # TODO(kazhang): Add RegNetZ_500MF and RegNetZ_4GF
+

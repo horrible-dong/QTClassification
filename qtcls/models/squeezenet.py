@@ -138,3 +138,4 @@ def squeezenet1_1(pretrained: bool = False, progress: bool = True, **kwargs: Any
         progress (bool): If True, displays a progress bar of the download to stderr
     """
     return _squeezenet("1_1", pretrained, progress, **kwargs)
+

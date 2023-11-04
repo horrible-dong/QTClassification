@@ -634,3 +634,4 @@ def vit_giant_patch14_224(**kwargs):
                               mlp_ratio=48 / 11,
                               **kwargs)
     return model
+

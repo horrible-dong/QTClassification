@@ -38,3 +38,4 @@ if __name__ == '__main__':
     loss = criterion(outputs, targets)
 
     print(loss)  # {'loss_ce': tensor(2.3039), 'class_error': tensor(100.), 'loss_boxes': tensor(1.1626)}
+

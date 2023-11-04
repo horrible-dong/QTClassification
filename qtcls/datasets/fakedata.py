@@ -64,3 +64,4 @@ class FakeData(BaseDataset):
 
     def __len__(self) -> int:
         return self.size
+

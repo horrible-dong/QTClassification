@@ -392,3 +392,4 @@ def deit3_huge_patch14_224_in21ft1k(**kwargs):
                                        init_values=1e-6,
                                        **kwargs)
     return model
+

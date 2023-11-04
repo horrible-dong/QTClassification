@@ -262,3 +262,4 @@ def poolformer_m48(**kwargs):
                        layer_scale_init_value=1e-6,
                        **kwargs)
     return model
+

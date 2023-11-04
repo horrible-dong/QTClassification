@@ -115,3 +115,4 @@ def search_pretrained_from_urls(model_name):
     if model_urls.get(model_name):
         found_url = model_urls[model_name]
     return found_url
+

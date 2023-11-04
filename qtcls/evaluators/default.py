@@ -58,3 +58,4 @@ class DefaultEvaluator:
             self.eval[metric] = value
             print(f'{metric}: {value:.3f}', end='    ')
         print('\n')
+

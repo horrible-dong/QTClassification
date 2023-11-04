@@ -269,3 +269,4 @@ def read_image_file(path: str) -> torch.Tensor:
     assert x.dtype == torch.uint8
     assert x.ndimension() == 3
     return x
+

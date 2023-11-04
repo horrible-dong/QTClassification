@@ -439,3 +439,4 @@ def gaussian_matrix(size: Tuple[int, int], center: Tuple[int, int], std: float):
     x, y = torch.meshgrid(x, y)
     gaussian_tensor = torch.exp(-((x - cx) ** 2 + (y - cy) ** 2) / (2 * std ** 2)) / (2 * torch.pi * std ** 2)
     return gaussian_tensor
+

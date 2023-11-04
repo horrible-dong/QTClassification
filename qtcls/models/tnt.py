@@ -260,3 +260,4 @@ def tnt_b_patch16_224(**kwargs):
                 qkv_bias=False,
                 **kwargs)
     return model
+

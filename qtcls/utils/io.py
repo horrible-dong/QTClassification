@@ -169,3 +169,4 @@ def log_writer(log_path, content: str, mode=0o777):
         f.write(content + '\n')
     if not log_exists:
         os.chmod(log_path, mode)
+

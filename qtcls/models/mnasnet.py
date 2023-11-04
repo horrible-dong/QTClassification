@@ -272,3 +272,4 @@ def mnasnet1_3(pretrained: bool = False, progress: bool = True, **kwargs: Any) -
     if pretrained:
         _load_pretrained("mnasnet1_3", model, progress)
     return model
+

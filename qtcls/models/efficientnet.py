@@ -420,3 +420,4 @@ def efficientnet_b7(pretrained: bool = False, progress: bool = True, **kwargs: A
         norm_layer=partial(nn.BatchNorm2d, eps=0.001, momentum=0.01),
         **kwargs,
     )
+

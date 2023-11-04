@@ -203,3 +203,4 @@ def parse_val_archive(
 
     for wnid, img_file in zip(wnids, images):
         shutil.move(img_file, os.path.join(val_root, wnid, os.path.basename(img_file)))
+
