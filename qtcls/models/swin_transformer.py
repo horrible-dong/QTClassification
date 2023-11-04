@@ -3,7 +3,7 @@
 # https://github.com/microsoft/Swin-Transformer/blob/main/models/swin_transformer.py
 # https://github.com/WZMIAOMIAO/deep-learning-for-image-processing
 # timm
-# by QIU, Tian
+# by QIU Tian
 # FIXME 384
 # ------------------------------------------------------------------------------------------
 

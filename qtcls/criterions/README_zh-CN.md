@@ -1,6 +1,6 @@
 # 如何注册你的损失函数
 
-> 作者: QIU, Tian  
+> 作者: QIU Tian  
 > 机构: 浙江大学  
 > [English](README.md) | 简体中文
 
@@ -75,7 +75,7 @@ def build_criterion(args):
 
 ```python
 # _demo_.py
-# Copyright (c) QIU, Tian. All rights reserved.
+# Copyright (c) QIU Tian. All rights reserved.
 
 __all__ = ['DemoCriterion']
 

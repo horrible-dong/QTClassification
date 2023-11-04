@@ -1,5 +1,5 @@
 # ---------------------------------------
-# Modified from torchvision by Qiu, Tian
+# Modified from torchvision by QIU Tian
 # ---------------------------------------
 
 __all__ = [

@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------------
-# Modified by QIU, Tian
-# Copyright (c) QIU, Tian. All rights reserved.
+# Modified by QIU Tian
+# Copyright (c) QIU Tian. All rights reserved.
 # -------------------------------------------------------------------------
 # https://github.com/facebookresearch/detr/blob/main/util/plot_utils.py
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved

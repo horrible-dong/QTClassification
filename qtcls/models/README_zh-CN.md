@@ -1,6 +1,6 @@
 # 如何注册你的模型
 
-> 作者: QIU, Tian  
+> 作者: QIU Tian  
 > 机构: 浙江大学  
 > [English](README.md) | 简体中文
 

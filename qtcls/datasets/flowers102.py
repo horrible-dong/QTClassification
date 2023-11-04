@@ -1,5 +1,5 @@
 # ---------------------------------------
-# Modified from torchvision by QIU, Tian
+# Modified from torchvision by QIU Tian
 # ---------------------------------------
 
 __all__ = ['Flowers102']

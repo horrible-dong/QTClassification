@@ -1,4 +1,4 @@
-# Copyright (c) QIU, Tian. All rights reserved.
+# Copyright (c) QIU Tian. All rights reserved.
 
 import timm.scheduler as timm_scheduler
 import torch.optim.lr_scheduler as tv_scheduler

@@ -7,7 +7,7 @@ QTClassification
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
-> Author: QIU, Tian  
+> Author: QIU Tian  
 > Affiliate: Zhejiang University  
 > <a href="#installation">🛠️ Installation</a> | <a href="#getting_started">📘
 > Documentation </a> | <a href="#dataset_zoo">🌱 Dataset Zoo</a> | <a href="#model_zoo">👀 Model Zoo</a>  
@@ -303,7 +303,7 @@ All supported. Please refer to `timm` for the specific model name.
 
 QTClassification is released under the Apache 2.0 license. Please see the [LICENSE](LICENSE) file for more information.
 
-Copyright (c) QIU, Tian. All rights reserved.
+Copyright (c) QIU Tian. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use these files except in compliance with
 the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0

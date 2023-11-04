@@ -2,7 +2,7 @@
 # Modified from
 # timm
 # https://github.com/WZMIAOMIAO/deep-learning-for-image-processing
-# by QIU, Tian
+# by QIU Tian
 # -------------------------------------------------------------------------------
 
 """ Vision Transformer (ViT) in PyTorch

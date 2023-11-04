@@ -1,6 +1,6 @@
 # How to register your evaluators
 
-> Author: QIU, Tian  
+> Author: QIU Tian  
 > Affiliate: Zhejiang University  
 > English | [简体中文](README_zh-CN.md)
 

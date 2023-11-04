@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------------
-# Modified and extended by QIU, Tian
-# Copyright (c) QIU, Tian. All rights reserved.
+# Modified and extended by QIU Tian
+# Copyright (c) QIU Tian. All rights reserved.
 # -------------------------------------------------------------------------
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
 # -------------------------------------------------------------------------

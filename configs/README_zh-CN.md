@@ -1,6 +1,6 @@
 # 如何编写和导入你的配置文件
 
-> 作者: QIU, Tian  
+> 作者: QIU Tian  
 > 机构: 浙江大学  
 > [English](README.md) | 简体中文
 

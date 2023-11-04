@@ -1,5 +1,5 @@
 # --------------------------------
-# Modified from timm by QIU, Tian
+# Modified from timm by QIU Tian
 # --------------------------------
 
 """ Class-Attention in Image Transformers (CaiT)

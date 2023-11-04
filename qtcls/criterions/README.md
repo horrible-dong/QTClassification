@@ -1,6 +1,6 @@
 # How to register your criterions
 
-> Author: QIU, Tian  
+> Author: QIU Tian  
 > Affiliate: Zhejiang University  
 > English | [简体中文](README_zh-CN.md)
 
@@ -77,7 +77,7 @@ We've provided a demo criterion code in [`_demo_.py`](_demo_.py).
 
 ```python
 # _demo_.py
-# Copyright (c) QIU, Tian. All rights reserved.
+# Copyright (c) QIU Tian. All rights reserved.
 
 __all__ = ['DemoCriterion']
 

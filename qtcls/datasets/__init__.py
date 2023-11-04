@@ -1,4 +1,4 @@
-# Copyright (c) QIU, Tian. All rights reserved.
+# Copyright (c) QIU Tian. All rights reserved.
 
 from .cifar import CIFAR10, CIFAR100
 from .fakedata import FakeData

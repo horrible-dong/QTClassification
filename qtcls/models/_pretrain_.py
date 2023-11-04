@@ -1,4 +1,4 @@
-# Copyright (c) QIU, Tian. All rights reserved.
+# Copyright (c) QIU Tian. All rights reserved.
 
 """
 To temporarily use a pre-trained weight path,

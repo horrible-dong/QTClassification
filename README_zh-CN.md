@@ -7,7 +7,7 @@ QTClassification
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README_zh-CN.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
-> 作者: QIU, Tian  
+> 作者: QIU Tian  
 > 机构: 浙江大学  
 > <a href="#安装教程">🛠️ 安装教程</a> | <a href="#使用教程">📘 使用教程</a> | <a href="#数据集">🌱
 > 数据集</a> | <a href="#模型库">
@@ -298,7 +298,7 @@ python main.py -c configs/_demo_.py
 
 QTClassification 基于 Apache 2.0 开源许可证. 具体请看[开源许可证](LICENSE)。
 
-版权属于 QIU, Tian，并保留所有权利。
+版权属于 QIU Tian，并保留所有权利。
 
 ## 引用
 

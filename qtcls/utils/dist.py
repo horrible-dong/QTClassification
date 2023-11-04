@@ -45,7 +45,7 @@ def is_main_process():
 
 
 def init_distributed_mode(args):
-    if args.no_dist:
+    if args.no_dist:  # qt +
         args.distributed = False
         return
 

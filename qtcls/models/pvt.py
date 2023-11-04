@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------------------
-# Modified from https://github.com/whai362/PVT/blob/v2/classification/pvt.py by QIU, Tian
+# Modified from https://github.com/whai362/PVT/blob/v2/classification/pvt.py by QIU Tian
 # ----------------------------------------------------------------------------------------
 
 __all__ = [

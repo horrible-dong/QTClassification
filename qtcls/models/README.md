@@ -1,6 +1,6 @@
 # How to register your models
 
-> Author: QIU, Tian  
+> Author: QIU Tian  
 > Affiliate: Zhejiang University  
 > English | [简体中文](README_zh-CN.md)
 
