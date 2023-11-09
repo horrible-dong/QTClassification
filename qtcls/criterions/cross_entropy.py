@@ -55,7 +55,7 @@ class LabelSmoothingCrossEntropy(BaseCriterion):
         return losses
 
 
-class SoftTargetCrossEntropy(BaseCriterion):  # Compatible with 'CrossEntropy'
+class SoftTargetCrossEntropy(BaseCriterion):  # backward compatible with 'CrossEntropy'
     def __init__(self, losses: List[str], weight_dict: Dict[str, float]):
         super().__init__(losses, weight_dict)
 

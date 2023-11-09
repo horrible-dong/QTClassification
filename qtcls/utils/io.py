@@ -37,11 +37,11 @@ def pil_saver(image, path, mode=0o777, overwrite=True):
 def cv2_loader(path, format=None):
     if format is None:  # default: BGR
         image = cv2.imread(path, flags=cv2.IMREAD_COLOR)
-    elif format == "RGB":
-        image = np.array(pil_loader(path, format="RGB"))
-    elif format == "L":
+    elif format == 'RGB':
+        image = np.array(pil_loader(path, format='RGB'))
+    elif format == 'L':
         image = cv2.imread(path, flags=cv2.IMREAD_GRAYSCALE)
-    elif format == "UNCHANGED":
+    elif format == 'UNCHANGED':
         image = cv2.imread(path, flags=cv2.IMREAD_UNCHANGED)
     else:
         raise ValueError
@@ -60,7 +60,7 @@ def cv2_saver(image, path, mode=0o777, overwrite=True):
 
 
 def json_loader(path):
-    with open(path, "r") as f:
+    with open(path, 'r') as f:
         obj = json.load(f)
     return obj
 
@@ -72,7 +72,7 @@ def json_saver(obj, path, mode=0o777, overwrite=True, **kwargs):
             os.remove(path)
         else:
             raise FileExistsError
-    with open(path, "w", encoding="utf-8") as f:
+    with open(path, 'w', encoding='utf-8') as f:
         json.dump(obj, f, **kwargs)
     os.chmod(path, mode)
 
@@ -84,7 +84,7 @@ def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=Fal
     for k, v in checkpoint.items():
         if k in obj_state_dict.keys():
             if not hasattr(v, 'shape') or (hasattr(v, 'shape') and v.shape == obj_state_dict[k].shape):
-                new_checkpoint[k.replace("module.", "")] = v
+                new_checkpoint[k.replace('module.', '')] = v
             else:
                 incompatible_value_shape.append(k)
     checkpoint = new_checkpoint
@@ -106,8 +106,9 @@ def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=Fal
         if str(load_info) == '<All keys matched successfully>':
             cprint(load_info, 'light_green')
         else:
+            # if len(incompatible_value_shape) > 0:
+            #     cprint(f'Warning: _IncompatibleValueShape({incompatible_value_shape})', 'light_yellow')
             cprint(f'Warning: {load_info}', 'light_yellow')
-            # cprint(f"Warning: _IncompatibleValueShape({incompatible_value_shape})", 'light_yellow')
 
 
 @main_process_only
@@ -123,7 +124,7 @@ def checkpoint_saver(obj, save_path, mode=0o777, rename=False, overwrite=True):
         if rename:
             while os.path.exists(save_path):
                 split_path = os.path.splitext(save_path)
-                save_path = split_path[0] + "(1)" + split_path[1]
+                save_path = split_path[0] + '(1)' + split_path[1]
 
     torch.save(obj, save_path)
     os.chmod(save_path, mode)
@@ -146,7 +147,7 @@ def variables_loader(file_path):
 
     variables = {}
     for name, value in inspect.getmembers(module):
-        if not name.startswith("__") and not inspect.ismodule(value):
+        if not name.startswith('__') and not inspect.ismodule(value):
             variables[name] = value
 
     return variables
