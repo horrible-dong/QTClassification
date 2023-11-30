@@ -13,7 +13,6 @@ from PIL import Image
 from termcolor import cprint
 
 from .decorators import main_process_only
-from .misc import has_param
 
 
 def pil_loader(path, format=None):
@@ -96,6 +95,10 @@ def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=Fal
 
     if load_pos is not None:
         obj = getattr(obj, load_pos)
+
+    def has_param(func, param_name: str) -> bool:
+        signature = inspect.signature(func)
+        return any(param.name == param_name for param in signature.parameters.values())
 
     if has_param(obj.load_state_dict, 'strict'):
         load_info = obj.load_state_dict(checkpoint, strict=strict)
