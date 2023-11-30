@@ -185,6 +185,8 @@ def main(args):
     n_params = get_n_params(model)
     print(f'#Params: {n_params / 1e6} M', end='')
     if args.flops:
+        if args.distributed:
+            raise RuntimeError('FLOPs can only be computed in non-distributed mode.')
         flops = get_flops(model, dataset_val[0][0][None].to(device))
         print(f' | FLOPs: {flops / 1e9} G', end='')
 
@@ -258,8 +260,7 @@ def main(args):
         log_stats = {**{f'train_{k}': v for k, v in train_stats.items()},
                      **{f'test_{k}': v for k, v in test_stats.items()},
                      'epoch': epoch,
-                     'n_params': n_params,
-                     'flops': flops if args.flops else None}
+                     'n_params': n_params}
 
         if args.output_dir:
             log_writer(os.path.join(args.output_dir, 'log.txt'), json.dumps(log_stats))
