@@ -3,7 +3,6 @@
 from .cifar import CIFAR10, CIFAR100
 from .fakedata import FakeData
 from .flowers102 import Flowers102
-from .folder import ImageFolder
 from .food import Food101
 from .imagenet import ImageNet
 from .mnist import MNIST, FashionMNIST
@@ -12,8 +11,8 @@ from .stanford_cars import StanfordCars
 from .stl10 import STL10
 from .svhn import SVHN
 
-num_classes = {
-    # all in lowercase !!!
+_num_classes = {
+    # Dataset names must be all in lowercase.
     'mnist': 10,
     'fashion_mnist': 10,
     'cifar10': 10,
@@ -31,6 +30,25 @@ num_classes = {
     'fake_data': 1000,
 }
 
+_image_size = {
+    # Dataset names must be all in lowercase.
+    'mnist': 28,
+    'fashion_mnist': 28,
+    'cifar10': 32,
+    'cifar100': 32,
+    'imagenet1k': 224,
+    'imagenet21k': 224,
+    'imagenet22k': 224,
+    'stl10': 96,
+    'svhn': 32,
+    'pets': 224,
+    'flowers': 224,
+    'cars': 224,
+    'food': 224,
+
+    'fake_data': 224,
+}
+
 
 def build_dataset(args, split, download=True):
     """
@@ -41,14 +59,15 @@ def build_dataset(args, split, download=True):
     from timm.data import create_transform, Mixup
 
     split = split.lower()
-    dataset_name = args.dataset.lower()
+    dataset_name = args.dataset.lower() if not args.dummy else args.dataset.lower() + '(fakedata)'
     dataset_path = os.path.join(args.data_root, dataset_name)
+    image_size = (_image_size[dataset_name] if not args.dummy
+                  else _image_size[dataset_name[:dataset_name.find('(fakedata)')]]) \
+        if args.image_size is None else args.image_size
 
-    if dataset_name == 'mnist':  # 28 x 28, ** 1 channel, set 'in_chans=1' in 'args.model_kwargs' **
+    if dataset_name == 'mnist':  # ** 1 channel, set 'in_chans=1' in 'args.model_kwargs' **
         if split == 'val':
             split = 'test'
-
-        image_size = 28 if args.image_size is None else args.image_size
 
         transform = {
             'train': tfs.Compose([
@@ -68,11 +87,9 @@ def build_dataset(args, split, download=True):
                      transform=transform,
                      download=download)
 
-    if dataset_name == 'fashion_mnist':  # 28 x 28, ** 1 channel, set 'in_chans=1' in 'args.model_kwargs' **
+    if dataset_name == 'fashion_mnist':  # ** 1 channel, set 'in_chans=1' in 'args.model_kwargs' **
         if split == 'val':
             split = 'test'
-
-        image_size = 28 if args.image_size is None else args.image_size
 
         transform = {
             'train': tfs.Compose([
@@ -92,15 +109,12 @@ def build_dataset(args, split, download=True):
                             transform=transform,
                             download=download)
 
-    if dataset_name == 'cifar10':  # 32 x 32
+    if dataset_name == 'cifar10':
         if split == 'val':
             split = 'test'
 
-        image_size = 32 if args.image_size is None else args.image_size
         mean, std = (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)
-
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
-
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -112,15 +126,12 @@ def build_dataset(args, split, download=True):
                        batch_transform=None,
                        download=download)
 
-    if dataset_name == 'cifar100':  # 32 x 32
+    if dataset_name == 'cifar100':
         if split == 'val':
             split = 'test'
 
-        image_size = 32 if args.image_size is None else args.image_size
         mean, std = (0.5071, 0.4865, 0.4409), (0.2673, 0.2564, 0.2762)
-
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
-
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -133,40 +144,28 @@ def build_dataset(args, split, download=True):
                         download=download)
 
     if dataset_name in ['imagenet1k', 'imagenet21k', 'imagenet22k']:
-        image_size = 224 if args.image_size is None else args.image_size
         mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
-
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
-
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'val': create_transform(**aug_kwargs['eval_aug_kwargs']),
         }
-
         batch_transform = {
             'train': Mixup(**aug_kwargs['train_batch_aug_kwargs']),
             'val': None
         }
 
-        return ImageFolder(root=dataset_path,
-                           split=split,
-                           transform=transform,
-                           batch_transform=batch_transform)
+        return ImageNet(root=dataset_path,
+                        split=split,
+                        transform=transform,
+                        batch_transform=batch_transform)
 
-        # return ImageNet(root=dataset_path,
-        #                 split=split,
-        #                 transform=transform,
-        #                 batch_transform=batch_transform)
-
-    if dataset_name == 'stl10':  # 96 x 96
+    if dataset_name == 'stl10':
         if split == 'val':
             split = 'test'
 
-        image_size = 96 if args.image_size is None else args.image_size
         mean, std = (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)
-
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
-
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -178,11 +177,9 @@ def build_dataset(args, split, download=True):
                      batch_transform=None,
                      download=download)
 
-    if dataset_name == 'svhn':  # 32 x 32
+    if dataset_name == 'svhn':
         if split == 'val':
             split = 'test'
-
-        image_size = 32 if args.image_size is None else args.image_size
 
         transform = {
             'train': tfs.Compose([
@@ -209,11 +206,8 @@ def build_dataset(args, split, download=True):
         if split == 'val':
             split = 'test'
 
-        image_size = 224 if args.image_size is None else args.image_size
         mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
-
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
-
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'trainval': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -226,11 +220,8 @@ def build_dataset(args, split, download=True):
                              download=download)
 
     if dataset_name == 'flowers':
-        image_size = 224 if args.image_size is None else args.image_size
         mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
-
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
-
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'val': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -247,11 +238,8 @@ def build_dataset(args, split, download=True):
         if split == 'val':
             split = 'test'
 
-        image_size = 224 if args.image_size is None else args.image_size
         mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
-
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
-
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -267,11 +255,8 @@ def build_dataset(args, split, download=True):
         if split == 'val':
             split = 'test'
 
-        image_size = 224 if args.image_size is None else args.image_size
         mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
-
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, num_classes[dataset_name])
-
+        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -283,14 +268,14 @@ def build_dataset(args, split, download=True):
                        batch_transform=None,
                        download=download)
 
-    if dataset_name == 'fake_data':
-        in_chans = 3
-        image_size = 224 if args.image_size is None else args.image_size
+    if args.dummy or dataset_name == 'fake_data':
+        if dataset_name != 'fake_data':
+            dataset_name = dataset_name[:dataset_name.find('(fakedata)')]
 
-        return FakeData(size=800 if split == 'train' else 200,
+        return FakeData(size=5000 if split == 'train' else 1000,
                         split=split,
-                        image_size=(in_chans, image_size, image_size),
-                        num_classes=num_classes[dataset_name],
+                        image_size=(3, image_size, image_size),
+                        num_classes=_num_classes[dataset_name],
                         transform=tfs.ToTensor(),
                         batch_transform=None)
 

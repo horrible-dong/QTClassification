@@ -32,7 +32,8 @@ class YourDataset(BaseDataset):
 
 3. In [`__init__.py`](__init__.py),
     - Import your dataset.
-    - Add your dataset's num_classes.
+    - Add your dataset's `num_classes` and target `image_size`. (During data preprocessing, images will be automatically
+      scaled to the target `image size`.)
     - Register your dataset and its data transform (augmentation) in `build_dataset()`. We recommend that the transform
       be in `{'train': Optional[Callable], 'val': Optional[Callable], ...}` format, where the keys
       `'train'`, `'val'`, `...` correspond to the argument `split`. For example, when building the training dataset,
@@ -45,10 +46,16 @@ class YourDataset(BaseDataset):
 
 from .your_dataset import YourDataset
 
-num_classes = {
-    # all in lowercase !!!
+_num_classes = {
+    # Dataset names must be all in lowercase.
     ...,
-    'your_dataset': your_num_classes
+    'your_dataset': num_classes
+}
+
+_image_size = {
+    # Dataset names must be all in lowercase.
+    ...,
+    'your_dataset': image_size
 }
 
 def build_dataset(args, split, download=True):
