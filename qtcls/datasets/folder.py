@@ -124,18 +124,18 @@ class ImageFolder(BaseDataset):
             index (int): Index
 
         Returns:
-            tuple: (sample, target) where target is class_index of the target class.
+            tuple: (image, target) where target is class_index of the target class.
         """
         path, target = self.samples[index]
-        sample = self.loader(path, format="RGB")
+        image = self.loader(path, format="RGB")
 
         if self.transform is not None:
-            sample = self.transform(sample)
+            image = self.transform(image)
 
         if self.target_transform is not None:
             target = self.target_transform(target)
 
-        return sample, target
+        return image, target
 
     def __len__(self) -> int:
         return len(self.samples)
