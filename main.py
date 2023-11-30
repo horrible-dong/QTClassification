@@ -17,8 +17,8 @@ from engine import evaluate, train_one_epoch
 from qtcls import __info__, build_criterion, build_dataset, build_model, build_optimizer, build_scheduler
 from qtcls.utils.dist import init_distributed_mode
 from qtcls.utils.io import checkpoint_saver, checkpoint_loader, variables_loader, variables_saver, log_writer
-from qtcls.utils.misc import init_seeds
-from qtcls.utils.os import makedirs
+from qtcls.utils.misc import init_seeds, get_n_params, get_flops
+from qtcls.utils.os import makedirs, rmtree
 
 
 def get_args_parser():
@@ -45,10 +45,10 @@ def get_args_parser():
     parser.add_argument('--dist_backend', default='nccl', help='backend used to set up distributed training')
     parser.add_argument('--no_dist', action='store_true', help='forcibly disable distributed mode')
     parser.add_argument('--print_freq', type=int, default=50)
-    parser.add_argument('--need_targets', action='store_true', help='need targets for training')
     parser.add_argument('--drop_lr_now', action='store_true')
     parser.add_argument('--drop_last', action='store_true')
     parser.add_argument('--amp', action='store_true', help='automatic mixed precision training')
+    parser.add_argument('--flops', action='store_true', help='compute and show flops')
 
     # dataset
     parser.add_argument('--data_root', type=str, default='./data')
@@ -98,6 +98,7 @@ def get_args_parser():
     # saving
     parser.add_argument('--output_dir', '-o', type=str, default='./runs/__tmp__', help='path to save checkpoints, etc')
     parser.add_argument('--save_interval', type=int, default=1)
+    parser.add_argument('--clear_output_dir', '-co', action='store_true', help='clear output dir first')
 
     # remarks
     parser.add_argument('--note', type=str)
@@ -122,10 +123,10 @@ def main(args):
         args.pretrain = None
     if args.note is None:
         args.note = f'dataset: {args.dataset} | model: {args.model} | output_dir: {args.output_dir}'
-    if args.dummy:
-        args.dataset = 'fake_data'
     if args.data_root:
         makedirs(args.data_root, exist_ok=True)
+    if args.clear_output_dir:
+        rmtree(args.output_dir, not_exist_ok=True)
     if args.output_dir:
         makedirs(args.output_dir, exist_ok=True)
 
@@ -181,8 +182,11 @@ def main(args):
                                                           find_unused_parameters=args.find_unused_params)
         model_without_ddp = model.module
 
-    n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    print(f'Number of params: {n_parameters}')
+    n_params = get_n_params(model)
+    print(f'#Params: {n_params / 1e6} M', end='')
+    if args.flops:
+        flops = get_flops(model, dataset_val[0][0][None].to(device))
+        print(f' | FLOPs: {flops / 1e9} G', end='')
 
     # ** optimizer **
     param_dicts = [
@@ -213,13 +217,13 @@ def main(args):
             checkpoint_loader(scaler, checkpoint["scaler"])
 
     if args.eval:
-        print()
+        print('\n')
         test_stats, evaluator = evaluate(
-            model, data_loader_val, criterion, device, args, args.print_freq, args.need_targets, args.amp
+            model, data_loader_val, criterion, device, args, args.print_freq, args.amp
         )
         return
 
-    print('\n' + 'Start training:')
+    print('\n\n' + 'Start training:')
     start_time = time.time()
 
     for epoch in range(args.start_epoch, args.epochs):
@@ -227,7 +231,7 @@ def main(args):
             sampler_train.set_epoch(epoch)
         train_stats = train_one_epoch(
             model, criterion, data_loader_train, optimizer, scheduler, device, epoch, args.clip_max_norm, scaler,
-            args.print_freq, args.need_targets
+            args.print_freq
         )
         if args.output_dir and (epoch + 1) % args.save_interval == 0:
             # TODO?: Create symbolic link instead of saving 'checkpoint.pth'
@@ -248,13 +252,14 @@ def main(args):
                 checkpoint_saver(checkpoint, checkpoint_path)
 
         test_stats, evaluator = evaluate(
-            model, data_loader_val, criterion, device, args, args.print_freq, args.need_targets, args.amp
+            model, data_loader_val, criterion, device, args, args.print_freq, args.amp
         )
 
         log_stats = {**{f'train_{k}': v for k, v in train_stats.items()},
                      **{f'test_{k}': v for k, v in test_stats.items()},
                      'epoch': epoch,
-                     'n_parameters': n_parameters}
+                     'n_params': n_params,
+                     'flops': flops if args.flops else None}
 
         if args.output_dir:
             log_writer(os.path.join(args.output_dir, 'log.txt'), json.dumps(log_stats))
