@@ -354,7 +354,7 @@ def update(optimizer, loss, model, max_norm, scaler=None):
 
 
 def get_n_params(model):
-    """
+    """Number of Parameters
     from qtcls.models import resnet18
     p = get_n_params(resnet18())
     print(f'#Params: {p / 1e6} M')
@@ -363,7 +363,7 @@ def get_n_params(model):
 
 
 def get_flops(model, input_data, verbose=False, ret_layer_info=False, report_missing=False):
-    """
+    """FLOPs
     from qtcls.models import resnet18
     f = get_flops(resnet18(), torch.randn(1, 3, 224, 224), verbose=False)
     print(f"FLOPs: {f / 1e9} G")
