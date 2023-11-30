@@ -35,8 +35,7 @@ conda activate qtcls
 pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-or you can refer to [PyTorch](https://pytorch.org/) to install newer or older versions. We strongly recommend you
-use `pytorch >= 1.11.0` for its less GPU memory consumption.
+or you can refer to [PyTorch](https://pytorch.org/get-started/previous-versions/) to install newer or older versions.
 
 4. Install the necessary dependencies.
 
