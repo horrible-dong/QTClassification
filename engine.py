@@ -10,7 +10,7 @@ from qtcls.utils.misc import update, reduce_dict, MetricLogger, SmoothedValue
 
 
 def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device, epoch: int, max_norm: float = 0,
-                    scaler=None, print_freq: int = 10, need_targets: bool = False):
+                    scaler=None, print_freq: int = 10):
     model.train()
     criterion.train()
     n_steps = len(data_loader)
@@ -25,11 +25,7 @@ def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device,
         targets = targets.to(device)
 
         with torch.cuda.amp.autocast(enabled=scaler is not None):
-            if need_targets:
-                outputs = model(samples, targets)
-            else:
-                outputs = model(samples)
-
+            outputs = model(samples)
             loss_dict = criterion(outputs, targets)
             weight_dict = criterion.weight_dict
             losses = sum(loss_dict[k] * weight_dict[k] for k in loss_dict.keys() if k in weight_dict)
@@ -67,7 +63,7 @@ def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device,
 
 
 @torch.no_grad()
-def evaluate(model, data_loader, criterion, device, args, print_freq=10, need_targets=False, amp=False):
+def evaluate(model, data_loader, criterion, device, args, print_freq=10, amp=False):
     model.eval()
     criterion.eval()
 
@@ -82,11 +78,7 @@ def evaluate(model, data_loader, criterion, device, args, print_freq=10, need_ta
         targets = targets.to(device)
 
         with torch.cuda.amp.autocast(enabled=amp):
-            if need_targets:
-                outputs = model(samples, targets)
-            else:
-                outputs = model(samples)
-
+            outputs = model(samples)
             loss_dict = criterion(outputs, targets)
 
         weight_dict = criterion.weight_dict
