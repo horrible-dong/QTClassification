@@ -1,6 +1,7 @@
 # Copyright (c) QIU Tian. All rights reserved.
 
 import os
+import shutil
 
 
 def mkdir(path, mode=0o777):
@@ -33,3 +34,9 @@ def makedirs(path, mode=0o777, exist_ok=False):  # CANNOT be decorated by '@main
 def symlink(src_path, symlink_path, mode=0o777):
     os.symlink(src_path, symlink_path)
     os.chmod(symlink_path, mode)
+
+
+def rmtree(path, not_exist_ok=False):
+    if not_exist_ok and not os.path.exists(path):
+        return
+    shutil.rmtree(path)
