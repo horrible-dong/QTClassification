@@ -6,17 +6,16 @@
 # -------------------------------------------------------------------------
 
 import datetime
-import inspect
 import os
 import pickle
 import random
 import subprocess
-import threading
 import time
 from collections import defaultdict, deque
-from typing import Optional, List, Tuple
+from typing import Optional, List
 
 import numpy as np
+import thop
 import torch
 import torch.distributed as dist
 # needed due to empty tensor bug in pytorch and torchvision 0.5
@@ -25,7 +24,6 @@ from packaging import version
 from torch import Tensor
 from torch.backends import cudnn
 
-from .decorators import warning
 from .dist import is_dist_avail_and_initialized, get_world_size, get_rank
 
 if version.parse(torchvision.__version__) < version.parse('0.7'):
@@ -325,10 +323,18 @@ def interpolate(input, size=None, scale_factor=None, mode="nearest", align_corne
         return torchvision.ops.misc.interpolate(input, size, scale_factor, mode, align_corners)
 
 
-def async_exec(target, args=(), kwargs=None):
-    if kwargs is None:
-        kwargs = {}
-    threading.Thread(target=target, args=args, kwargs=kwargs).start()
+def init_seeds(seed=42, cuda_deterministic=True):
+    seed = seed + get_rank()
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    # Speed-reproducibility tradeoff https://pytorch.org/docs/stable/notes/randomness.html
+    if cuda_deterministic:  # slower, more reproducible
+        cudnn.deterministic = True
+        cudnn.benchmark = False
+    else:  # faster, less reproducible
+        cudnn.deterministic = False
+        cudnn.benchmark = True
 
 
 def update(optimizer, loss, model, max_norm, scaler=None):
@@ -347,95 +353,20 @@ def update(optimizer, loss, model, max_norm, scaler=None):
         optimizer.step()
 
 
-def init_seeds(seed=42, cuda_deterministic=True):
-    seed = seed + get_rank()
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    # Speed-reproducibility tradeoff https://pytorch.org/docs/stable/notes/randomness.html
-    if cuda_deterministic:  # slower, more reproducible
-        cudnn.deterministic = True
-        cudnn.benchmark = False
-    else:  # faster, less reproducible
-        cudnn.deterministic = False
-        cudnn.benchmark = True
-
-
-def has_param(func, param_name: str) -> bool:
-    signature = inspect.signature(func)
-    return any(param.name == param_name for param in signature.parameters.values())
-
-
-def flatten_list(lst):
+def get_n_params(model):
     """
-    e.g.
-        lst = [1, [2, 3], [4, [[5, 6], 7]], 8, [9, [10]]]
-        flatten_list(lst) => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    from qtcls.models import resnet18
+    p = get_n_params(resnet18())
+    print(f'#Params: {p / 1e6} M')
     """
-    return [ele for sublst in lst for ele in flatten_list(sublst)] if isinstance(lst, list) else [lst]
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
-@warning("It's an experimental function.")
-def partial_class_init(cls, *partial_init_args, **partial_init_kwargs):
-    class PartialClassInit(cls):
-        def __init__(self, *init_args, **init_kwargs):
-            super().__init__(*partial_init_args, *init_args, **partial_init_kwargs, **init_kwargs)
-
-    return PartialClassInit
-
-
-@warning("It's an experimental function.")
-def partial_class_call(cls, *partial_call_args, **partial_call_kwargs):
-    class PartialClassCall(cls):
-        def __init__(self, *init_args, **init_kwargs):
-            super().__init__(*init_args, **init_kwargs)
-            self.partial_call_args = partial_call_args
-            self.partial_call_kwargs = partial_call_kwargs
-
-        def __call__(self, *call_args, **call_kwargs):
-            return super().__call__(*self.partial_call_args, *call_args, **self.partial_call_kwargs, **call_kwargs)
-
-    return PartialClassCall
-
-
-def inverse_sigmoid(x, eps=1e-3):
-    x = x.clamp(min=0, max=1)
-    x1 = x.clamp(min=eps)
-    x2 = (1 - x).clamp(min=eps)
-    return torch.log(x1 / x2)
-
-
-def current_time() -> str:
-    date_time = datetime.datetime.now()
-    return f'{date_time.year:04d}-{date_time.month:02d}-{date_time.day:02d}_' \
-           f'{date_time.hour:02d}-{date_time.minute:02d}-{date_time.second:02d}'
-
-
-def gaussian_vector(size: int, center: int, std: float):
+def get_flops(model, input_data, verbose=False, ret_layer_info=False, report_missing=False):
     """
-    gaussian_tensor = gaussian_vector(size=100, center=30, std=10)
-    gaussian_tensor = gaussian_tensor[None].expand(10, -1)
-    plt.imshow(gaussian_tensor, cmap='viridis')
-    plt.yticks([])
-    plt.colorbar()
-    plt.show()
+    from qtcls.models import resnet18
+    f = get_flops(resnet18(), torch.randn(1, 3, 224, 224), verbose=False)
+    print(f"FLOPs: {f / 1e9} G")
     """
-    cx = center
-    x = torch.linspace(0, size - 1, size)
-    gaussian_tensor = torch.exp(-(x - cx) ** 2 / (2 * std ** 2)) / (std * (2 * torch.pi) ** 0.5)
-    return gaussian_tensor
-
-
-def gaussian_matrix(size: Tuple[int, int], center: Tuple[int, int], std: float):
-    """
-    gaussian_tensor = gaussian_matrix(size=(100, 100), center=(30, 70), std=10)
-    plt.imshow(gaussian_tensor, cmap='viridis')
-    plt.colorbar()
-    plt.show()
-    """
-    cx, cy = center
-    x = torch.linspace(0, size[0] - 1, size[0])
-    y = torch.linspace(0, size[1] - 1, size[1])
-    x, y = torch.meshgrid(x, y)
-    gaussian_tensor = torch.exp(-((x - cx) ** 2 + (y - cy) ** 2) / (2 * std ** 2)) / (2 * torch.pi * std ** 2)
-    return gaussian_tensor
+    return int(thop.profile(model, inputs=(input_data,), verbose=verbose, ret_layer_info=ret_layer_info,
+                            report_missing=report_missing)[0])
