@@ -46,7 +46,7 @@ def build_model(args):
                f"Now fetching the 'num_classes' registered in 'qtcls/datasets/__init__.py'.", 'light_yellow')
 
     try:
-        num_classes = datasets.num_classes[args.dataset.lower()]
+        num_classes = datasets._num_classes[args.dataset.lower()]
     except KeyError:
         print(f"KeyError: 'num_classes' for the dataset '{args.dataset.lower()}' is not found. "
               f"Please register your dataset's 'num_classes' in 'qtcls/datasets/__init__.py'.")
@@ -88,8 +88,20 @@ def build_model(args):
         return model
 
     if model_lib == 'timm':
+        found_specified_path = args.pretrain
+        found_local_path = search_pretrained_from_local_paths(model_name)
+
         import timm
-        return timm.create_model(model_name=model_name, pretrained=pretrained, **args.model_kwargs)
+        model = timm.create_model(model_name=model_name, pretrained=not (found_local_path or found_specified_path),
+                                  **args.model_kwargs)
+
+        if found_specified_path or found_local_path:
+            state_dict = torch.load(found_specified_path) if found_specified_path else torch.load(found_local_path)
+            if 'model' in state_dict.keys():
+                state_dict = state_dict['model']
+            checkpoint_loader(model, state_dict, strict=False)
+
+        return model
 
     raise ValueError(f"Model lib '{model_lib}' is not found.")
 
