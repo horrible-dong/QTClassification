@@ -46,7 +46,7 @@ class YourDataset(BaseDataset):
 
 from .your_dataset import YourDataset
 
-num_classes = {
+_num_classes = {
     # 数据集名称须全部小写
     ...,
     'your_dataset': num_classes
