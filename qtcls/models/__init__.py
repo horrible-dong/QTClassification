@@ -63,12 +63,11 @@ def build_model(args):
             print(f"KeyError: Model '{model_name}' is not found.")
             exit(1)
 
-        if pretrained:
+        if pretrained:  # Loading Priority: `--pretrain path` > `local path` > `url`
             found_specified_path = args.pretrain
             found_local_path = search_pretrained_from_local_paths(model_name)
             found_url = search_pretrained_from_urls(model_name)
 
-            # priority: high -> low
             if found_specified_path:
                 state_dict = torch.load(found_specified_path)
             elif found_local_path:
@@ -90,7 +89,7 @@ def build_model(args):
     if model_lib == 'timm':
         import timm
 
-        if pretrained:
+        if pretrained:  # Loading Priority: `--pretrain path` > `local path` > `url`
             found_specified_path = args.pretrain
             found_local_path = search_pretrained_from_local_paths(model_name)
 
