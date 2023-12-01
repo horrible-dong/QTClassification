@@ -187,8 +187,12 @@ def main(args):
     if args.flops:
         if args.distributed:
             raise RuntimeError('FLOPs can only be computed in non-distributed mode.')
-        flops = get_flops(model, dataset_val[0][0][None].to(device))
+        _model = copy.deepcopy(model).eval()
+        flops = get_flops(_model, dataset_val[0][0][None].to(device))
         print(f' | FLOPs: {flops / 1e9} G', end='')
+        _model.to('cpu')
+        del _model
+    print()
 
     # ** optimizer **
     param_dicts = [
@@ -225,7 +229,7 @@ def main(args):
         )
         return
 
-    print('\n\n' + 'Start training:')
+    print('\n' + 'Start training:')
     start_time = time.time()
 
     for epoch in range(args.start_epoch, args.epochs):
