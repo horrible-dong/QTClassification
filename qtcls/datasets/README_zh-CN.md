@@ -32,7 +32,8 @@ class YourDataset(BaseDataset):
 
 3. 在 [`__init__.py`](__init__.py) 中，
     - 导入你的数据集。
-    - 添加你的数据集的类别数（`num_classes`）与目标图像尺寸（`image_size`
+    - 添加你的数据集的类别数（`num_classes`，必需）与默认目标图像尺寸（`image_size`
+      ，非必需，优先级：`--image_size` > `_image_size[dataset_name]`
       ）。（数据预处理时，图像会自动缩放至设定的目标图像尺寸 `image_size`。）
     - 在 `build_dataset()`
       中注册你的数据集及其对应的数据增强方式（augmentation / transform）。我们推荐的数据增强定义格式为
@@ -46,13 +47,13 @@ class YourDataset(BaseDataset):
 
 from .your_dataset import YourDataset
 
-num_classes = {
+_num_classes = {  # 必需
     # 数据集名称须全部小写
     ...,
     'your_dataset': num_classes
 }
 
-_image_size = {
+_image_size = {  # 非必需（优先级：`--image_size` > `_image_size[dataset_name]`）
     # 数据集名称须全部小写
     ...,
     'your_dataset': image_size

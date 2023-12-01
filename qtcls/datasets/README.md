@@ -32,7 +32,8 @@ class YourDataset(BaseDataset):
 
 3. In [`__init__.py`](__init__.py),
     - Import your dataset.
-    - Add your dataset's `num_classes` and target `image_size`. (During data preprocessing, images will be automatically
+    - Add your dataset's `num_classes` (required) and target `image_size` (optional,
+      priority: `--image_size` > `_image_size[dataset_name]`). (During data preprocessing, images will be automatically
       scaled to the target `image size`.)
     - Register your dataset and its data transform (augmentation) in `build_dataset()`. We recommend that the transform
       be in `{'train': Optional[Callable], 'val': Optional[Callable], ...}` format, where the keys
@@ -46,13 +47,13 @@ class YourDataset(BaseDataset):
 
 from .your_dataset import YourDataset
 
-_num_classes = {
+_num_classes = {  # Required
     # Dataset names must be all in lowercase.
     ...,
     'your_dataset': num_classes
 }
 
-_image_size = {
+_image_size = {  # Optional (Priority: `--image_size` > `_image_size[dataset_name]`)
     # Dataset names must be all in lowercase.
     ...,
     'your_dataset': image_size
