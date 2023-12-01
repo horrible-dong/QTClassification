@@ -11,7 +11,7 @@ from .stanford_cars import StanfordCars
 from .stl10 import STL10
 from .svhn import SVHN
 
-_num_classes = {
+_num_classes = {  # Required
     # Dataset names must be all in lowercase.
     'mnist': 10,
     'fashion_mnist': 10,
@@ -30,7 +30,7 @@ _num_classes = {
     'fake_data': 1000,
 }
 
-_image_size = {
+_image_size = {  # Optional (Priority: `--image_size` > `_image_size[dataset_name]`)
     # Dataset names must be all in lowercase.
     'mnist': 28,
     'fashion_mnist': 28,
