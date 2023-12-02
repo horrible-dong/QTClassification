@@ -127,11 +127,9 @@ def main(args):
         rmtree(args.output_dir, not_exist_ok=True)
     if args.output_dir:
         makedirs(args.output_dir, exist_ok=True)
+        variables_saver(dict(sorted(vars(args).items())), os.path.join(args.output_dir, 'config.py'))
 
     print(args)
-
-    if args.output_dir:
-        variables_saver(dict(sorted(vars(args).items())), os.path.join(args.output_dir, 'config.py'))
 
     # ** dataset **
     dataset_train = build_dataset(args, split='train')

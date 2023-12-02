@@ -3,6 +3,7 @@
 from .cifar import CIFAR10, CIFAR100
 from .fakedata import FakeData
 from .flowers102 import Flowers102
+from .folder import ImageFolder
 from .food import Food101
 from .imagenet import ImageNet
 from .mnist import MNIST, FashionMNIST

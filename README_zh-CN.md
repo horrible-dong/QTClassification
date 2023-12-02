@@ -36,7 +36,8 @@ conda activate qtcls
 pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-或者你可以参考[PyTorch官网](https://pytorch.org/get-started/previous-versions/)来安装其他版本。请注意，如果使用 PyTorch ≥ 1.13，则需要 Python ≥ 3.8。
+或者你可以参考[PyTorch官网](https://pytorch.org/get-started/previous-versions/)来安装其他版本。请注意，如果使用 pytorch ≥
+1.13，则需要 python ≥ 3.8。
 
 4. 安装必要的依赖。
 

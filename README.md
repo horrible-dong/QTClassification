@@ -36,7 +36,7 @@ pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url http
 ```
 
 or you can refer to [PyTorch](https://pytorch.org/get-started/previous-versions/) to install newer or older versions.
-Please note that if PyTorch ≥ 1.13, Python ≥ 3.8 is required.
+Please note that if pytorch ≥ 1.13, python ≥ 3.8 is required.
 
 4. Install the necessary dependencies.
 
