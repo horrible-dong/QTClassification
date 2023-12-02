@@ -36,7 +36,7 @@ conda activate qtcls
 pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-或者你可以参考[PyTorch官网](https://pytorch.org/get-started/previous-versions/)来安装其他版本。
+或者你可以参考[PyTorch官网](https://pytorch.org/get-started/previous-versions/)来安装其他版本。请注意，如果使用 PyTorch ≥ 1.13，则需要 Python ≥ 3.8。
 
 4. 安装必要的依赖。
 
@@ -64,7 +64,7 @@ torchrun --nproc_per_node=2 main.py \
   
 # 多gpu（适用于任何pytorch版本）
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
-python -m torch.distributed.launch --nproc_per_node=2 main.py \
+python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
@@ -103,7 +103,7 @@ torchrun --nproc_per_node=2 main.py \
   
 # 多gpu（适用于任何pytorch版本）
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
-python -m torch.distributed.launch --nproc_per_node=2 main.py \
+python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \

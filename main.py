@@ -39,8 +39,6 @@ def get_args_parser():
     parser.add_argument('--pin_memory', type=bool, default=True)
     parser.add_argument('--sync_bn', type=bool, default=False)
     parser.add_argument('--find_unused_params', action='store_true')
-    parser.add_argument('--world_size', default=1, type=int, help='number of distributed processes')
-    parser.add_argument('--local_rank', type=int, default=-1, help='process rank on the local machine')
     parser.add_argument('--dist_url', default='env://', help='url used to set up distributed training')
     parser.add_argument('--dist_backend', default='nccl', help='backend used to set up distributed training')
     parser.add_argument('--no_dist', action='store_true', help='forcibly disable distributed mode')
@@ -131,17 +129,9 @@ def main(args):
         makedirs(args.output_dir, exist_ok=True)
 
     print(args)
-    __args__ = copy.deepcopy(vars(args))
-    ignored_args = ['config', 'eval', 'local_rank', 'start_epoch']
-    if args.distributed:
-        ignored_args += ['rank', 'gpu']
-    for ignored_arg in ignored_args:
-        pop_info = __args__.pop(ignored_arg, KeyError)
-        if pop_info is KeyError:
-            cprint(f"Warning: The argument '{ignored_arg}' to be ignored is not in 'args'.", 'light_yellow')
-    __args__ = {k: v for k, v in sorted(__args__.items(), key=lambda item: item[0])}
+
     if args.output_dir:
-        variables_saver(__args__, os.path.join(args.output_dir, 'config.py'))
+        variables_saver(dict(sorted(vars(args).items())), os.path.join(args.output_dir, 'config.py'))
 
     # ** dataset **
     dataset_train = build_dataset(args, split='train')

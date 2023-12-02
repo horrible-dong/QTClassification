@@ -36,6 +36,7 @@ pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url http
 ```
 
 or you can refer to [PyTorch](https://pytorch.org/get-started/previous-versions/) to install newer or older versions.
+Please note that if PyTorch ≥ 1.13, Python ≥ 3.8 is required.
 
 4. Install the necessary dependencies.
 
@@ -63,7 +64,7 @@ torchrun --nproc_per_node=2 main.py \
   
 # multi-gpu (for any pytorch version)
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
-python -m torch.distributed.launch --nproc_per_node=2 main.py \
+python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
@@ -103,7 +104,7 @@ torchrun --nproc_per_node=2 main.py \
   
 # multi-gpu (for any pytorch version)
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
-python -m torch.distributed.launch --nproc_per_node=2 main.py \
+python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
