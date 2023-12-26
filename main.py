@@ -276,15 +276,13 @@ if __name__ == '__main__':
     if idx not in [-1, len(argv) - 1] and not argv[idx + 1].startswith('-'):
         idx += 1
 
-    sys.argv[1:] = argv[:idx + 1]
-    args = parser.parse_args()
+    args = parser.parse_args(argv[:idx + 1])
 
     if args.config:
         cfg = variables_loader(args.config)
         for k, v in cfg.items():
             setattr(args, k, v)
 
-    sys.argv[1:] = argv[idx + 1:]
-    args = parser.parse_args(namespace=args)
+    args = parser.parse_args(argv[idx + 1:], args)
 
     main(args)
