@@ -65,8 +65,8 @@ def build_model(args):
 
         if pretrained:  # Loading Priority: `--pretrain path` > `local path` > `url`
             found_specified_path = args.pretrain
-            found_local_path = search_pretrained_from_local_paths(model_name)
-            found_url = search_pretrained_from_urls(model_name)
+            found_local_path = _search_pretrained_from_local_paths(model_name)
+            found_url = _search_pretrained_from_urls(model_name)
 
             if found_specified_path:
                 state_dict = torch.load(found_specified_path)
@@ -91,7 +91,7 @@ def build_model(args):
 
         if pretrained:  # Loading Priority: `--pretrain path` > `local path` > `url`
             found_specified_path = args.pretrain
-            found_local_path = search_pretrained_from_local_paths(model_name)
+            found_local_path = _search_pretrained_from_local_paths(model_name)
 
             model = timm.create_model(model_name=model_name, pretrained=not (found_local_path or found_specified_path),
                                       **args.model_kwargs)
@@ -110,7 +110,7 @@ def build_model(args):
     raise ValueError(f"Model lib '{model_lib}' is not found.")
 
 
-def search_pretrained_from_local_paths(model_name):
+def _search_pretrained_from_local_paths(model_name):
     import os
     from ._pretrain_ import model_local_paths
     found_local_path = None
@@ -125,7 +125,7 @@ def search_pretrained_from_local_paths(model_name):
     return found_local_path
 
 
-def search_pretrained_from_urls(model_name):
+def _search_pretrained_from_urls(model_name):
     from ._pretrain_ import model_urls
     found_url = None
     if model_urls.get(model_name):

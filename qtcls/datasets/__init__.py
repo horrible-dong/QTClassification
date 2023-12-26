@@ -115,7 +115,7 @@ def build_dataset(args, split, download=True):
             split = 'test'
 
         mean, std = (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
+        aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -132,7 +132,7 @@ def build_dataset(args, split, download=True):
             split = 'test'
 
         mean, std = (0.5071, 0.4865, 0.4409), (0.2673, 0.2564, 0.2762)
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
+        aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -146,7 +146,7 @@ def build_dataset(args, split, download=True):
 
     if dataset_name in ['imagenet1k', 'imagenet21k', 'imagenet22k']:
         mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
+        aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'val': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -166,7 +166,7 @@ def build_dataset(args, split, download=True):
             split = 'test'
 
         mean, std = (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
+        aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -208,7 +208,7 @@ def build_dataset(args, split, download=True):
             split = 'test'
 
         mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
+        aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'trainval': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -222,7 +222,7 @@ def build_dataset(args, split, download=True):
 
     if dataset_name == 'flowers':
         mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
+        aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'val': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -240,7 +240,7 @@ def build_dataset(args, split, download=True):
             split = 'test'
 
         mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
+        aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -257,7 +257,7 @@ def build_dataset(args, split, download=True):
             split = 'test'
 
         mean, std = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
-        aug_kwargs = build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
+        aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
@@ -283,8 +283,8 @@ def build_dataset(args, split, download=True):
     raise ValueError(f"Dataset '{dataset_name}' is not found.")
 
 
-def build_timm_aug_kwargs(args, image_size=224, mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225),
-                          num_classes=1000):
+def _build_timm_aug_kwargs(args, image_size=224, mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225),
+                           num_classes=1000):
     train_aug_kwargs = dict(input_size=image_size, is_training=True, use_prefetcher=False, no_aug=False,
                             scale=(0.08, 1.0), ratio=(3. / 4., 4. / 3.), hflip=0.5, vflip=0., color_jitter=0.4,
                             auto_augment='rand-m9-mstd0.5-inc1', interpolation='random', mean=mean, std=std,
