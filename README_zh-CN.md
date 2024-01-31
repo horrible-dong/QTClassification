@@ -24,7 +24,7 @@ QTClassification
 conda create -n qtcls python==3.7 -y
 ```
 
-2. 进入你的conda虚拟环境。
+2. 进入你的conda环境。
 
 ```bash
 conda activate qtcls

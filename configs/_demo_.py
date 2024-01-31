@@ -15,7 +15,6 @@ sync_bn = True
 find_unused_params = False
 dist_url = 'env://'
 print_freq = 20
-need_targets = False
 amp = True
 
 # dataset
