@@ -33,7 +33,7 @@ _num_classes = {  # Required
 
 _image_size = {  # Optional (Priority: `--image_size` > `_image_size[dataset_name]`)
     # Dataset names must be all in lowercase.
-    'mnist': 28,
+    'mnist': 28,  # (28, 28) is also acceptable
     'fashion_mnist': 28,
     'cifar10': 32,
     'cifar100': 32,
