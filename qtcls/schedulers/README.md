@@ -1,7 +1,7 @@
 # How to register your schedulers
 
 > Author: QIU Tian  
-> Affiliate: Zhejiang University  
+> Affiliation: Zhejiang University  
 > English | [简体中文](README_zh-CN.md)
 
 1. Create `your_scheduler.py`.

@@ -1,7 +1,7 @@
 # How to put your dataset
 
 > Author: QIU Tian  
-> Affiliate: Zhejiang University  
+> Affiliation: Zhejiang University  
 > English | [简体中文](README_zh-CN.md)
 
 **The default `--data_root` is `./data`. Put your dataset in this directory.**

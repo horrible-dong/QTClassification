@@ -8,7 +8,7 @@ QTClassification
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
 > Author: QIU Tian  
-> Affiliate: Zhejiang University  
+> Affiliation: Zhejiang University  
 > <a href="#installation">🛠️ Installation</a> | <a href="#getting_started">📘
 > Documentation </a> | <a href="#dataset_zoo">🌱 Dataset Zoo</a> | <a href="#model_zoo">👀 Model Zoo</a>  
 > English | [简体中文](README_zh-CN.md)

@@ -1,7 +1,7 @@
 # How to write and import your configs
 
 > Author: QIU Tian  
-> Affiliate: Zhejiang University  
+> Affiliation: Zhejiang University  
 > English | [简体中文](README_zh-CN.md)
 
 If needed, refer to [`_demo_.py`](_demo_.py) and write your arguments in a config file (.py).
