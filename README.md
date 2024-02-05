@@ -299,7 +299,7 @@ Set the argument `--model_lib` to `timm`.
 Currently supported argument `--model` / `-m`:  
 All supported. Please refer to `timm` for the specific model name.
 
-## LICENSE
+## License
 
 QTClassification is released under the Apache 2.0 license. Please see the [LICENSE](LICENSE) file for more information.
 
