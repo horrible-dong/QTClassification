@@ -3,7 +3,7 @@ QTClassification
 
 **轻量可扩展的图像分类工具箱**
 
-[![version](https://img.shields.io/badge/Version-0.8.1-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.9.0--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README_zh-CN.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -36,8 +36,7 @@ conda activate qtcls
 pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-或者你可以参考[PyTorch官网](https://pytorch.org/get-started/previous-versions/)来安装其他版本。请注意，如果使用 pytorch ≥
-1.13，则需要 python ≥ 3.8。
+或者你可以参考[PyTorch官网](https://pytorch.org/get-started/previous-versions/)来安装其他版本。请注意，如果使用 pytorch ≥ 1.13，则需要 python ≥ 3.8。
 
 4. 安装必要的依赖。
 
@@ -272,7 +271,7 @@ python main.py -c configs/_demo_.py
 `swinv2_tiny_window8_256`, `swinv2_tiny_window16_256`, `swinv2_small_window8_256`, `swinv2_small_window16_256`, `swinv2_base_window8_256`, `swinv2_base_window16_256`, `swinv2_base_window12_192_22k`, `swinv2_base_window12to16_192to256_22kft1k`, `swinv2_base_window12to24_192to384_22kft1k`, `swinv2_large_window12_192_22k`, `swinv2_large_window12to16_192to256_22kft1k`, `swinv2_large_window12to24_192to384_22kft1k`
 
 **TNT**  
-`tnt_s_patch4_32`, `tnt_s_patch16_224`, `tnt_b_patch16_224`
+`tnt_s_patch16_224`, `tnt_b_patch16_224`
 
 **Twins**  
 `twins_pcpvt_small`, `twins_pcpvt_base`, `twins_pcpvt_large`, `twins_svt_small`, `twins_svt_base`, `twins_svt_large`
@@ -297,7 +296,7 @@ python main.py -c configs/_demo_.py
 
 ## 开源许可证
 
-QTClassification 基于 Apache 2.0 开源许可证. 具体请看[开源许可证](LICENSE)。
+QTClassification 基于 Apache 2.0 开源许可证。具体请看[开源许可证](LICENSE)。
 
 版权属于 QIU Tian，并保留所有权利。
 
@@ -306,7 +305,7 @@ QTClassification 基于 Apache 2.0 开源许可证. 具体请看[开源许可证
 如果你觉得 “QTClassification工具箱” 对你有帮助，欢迎引用：
 
 ```bibtex
-@misc{2023QTClassification,
+@misc{qtcls,
     title={QTClassification},
     author={Qiu, Tian},
     howpublished={\url{https://github.com/horrible-dong/QTClassification}},

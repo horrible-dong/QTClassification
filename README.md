@@ -3,7 +3,7 @@ QTClassification
 
 **A lightweight and extensible toolbox for image classification**
 
-[![version](https://img.shields.io/badge/Version-0.8.1-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.9.0--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -35,10 +35,10 @@ conda activate qtcls
 pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-or you can refer to [PyTorch](https://pytorch.org/get-started/previous-versions/) to install newer or older versions.
+Or you can refer to [PyTorch](https://pytorch.org/get-started/previous-versions/) to install newer or older versions.
 Please note that if pytorch ≥ 1.13, python ≥ 3.8 is required.
 
-4. Install the necessary dependencies.
+4. Install necessary dependencies.
 
 ```bash
 pip install -r requirements.txt
@@ -278,7 +278,7 @@ Currently supported argument `--model` / `-m`:
 `swinv2_tiny_window8_256`, `swinv2_tiny_window16_256`, `swinv2_small_window8_256`, `swinv2_small_window16_256`, `swinv2_base_window8_256`, `swinv2_base_window16_256`, `swinv2_base_window12_192_22k`, `swinv2_base_window12to16_192to256_22kft1k`, `swinv2_base_window12to24_192to384_22kft1k`, `swinv2_large_window12_192_22k`, `swinv2_large_window12to16_192to256_22kft1k`, `swinv2_large_window12to24_192to384_22kft1k`
 
 **TNT**  
-`tnt_s_patch4_32`, `tnt_s_patch16_224`, `tnt_b_patch16_224`
+`tnt_s_patch16_224`, `tnt_b_patch16_224`
 
 **Twins**  
 `twins_pcpvt_small`, `twins_pcpvt_base`, `twins_pcpvt_large`, `twins_svt_small`, `twins_svt_base`, `twins_svt_large`
@@ -297,7 +297,7 @@ Currently supported argument `--model` / `-m`:
 Set the argument `--model_lib` to `timm`.
 
 Currently supported argument `--model` / `-m`:  
-All supported. Please refer to `timm` for the specific model name.
+All supported. Please refer to `timm` for the specific model names.
 
 ## License
 
@@ -317,7 +317,7 @@ language governing permissions and limitations under the License.
 If you find QTClassification Toolbox useful in your research, please consider citing:
 
 ```bibtex
-@misc{2023QTClassification,
+@misc{qtcls,
     title={QTClassification},
     author={Qiu, Tian},
     howpublished={\url{https://github.com/horrible-dong/QTClassification}},

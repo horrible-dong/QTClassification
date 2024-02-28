@@ -13,7 +13,6 @@ https://gitee.com/mindspore/mindspore/tree/master/model_zoo/research/cv/TNT
 
 __all__ = [
     'TNT',
-    'tnt_s_patch4_32',
     'tnt_s_patch16_224',
     'tnt_b_patch16_224'
 ]
@@ -218,20 +217,6 @@ class TNT(nn.Module):
         x = self.forward_features(x)
         x = self.forward_head(x)
         return x
-
-
-def tnt_s_patch4_32(**kwargs):
-    model = TNT(img_size=32,
-                in_chans=3,
-                patch_size=4,
-                embed_dim=384,
-                in_dim=24,
-                depth=12,
-                num_heads=6,
-                in_num_head=4,
-                qkv_bias=False,
-                **kwargs)
-    return model
 
 
 def tnt_s_patch16_224(**kwargs):

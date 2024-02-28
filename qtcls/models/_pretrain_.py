@@ -222,7 +222,6 @@ model_urls = {
     'vit_l_16': 'https://download.pytorch.org/models/vit_l_16-852ce7e3.pth',
     'vit_l_32': 'https://download.pytorch.org/models/vit_l_32-c7638314.pth',
 
-    'vit_tiny_patch4_32': None,
     'vit_tiny_patch16_224': None,
     'vit_tiny_patch16_384': None,
     'vit_small_patch32_224': None,
