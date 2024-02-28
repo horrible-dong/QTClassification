@@ -141,10 +141,10 @@ class TNT(nn.Module):
     """ Transformer in Transformer - https://arxiv.org/abs/2103.00112
     """
 
-    def __init__(
-            self, img_size=224, patch_size=16, in_chans=3, num_classes=1000, global_pool='token',
-            embed_dim=768, in_dim=48, depth=12, num_heads=12, in_num_head=4, mlp_ratio=4., qkv_bias=False,
-            drop_rate=0., attn_drop_rate=0., drop_path_rate=0., norm_layer=nn.LayerNorm, first_stride=4):
+    def __init__(self, img_size=224, patch_size=16, in_chans=3, num_classes=1000, global_pool='token',
+                 embed_dim=768, in_dim=48, depth=12, num_heads=12, in_num_head=4, mlp_ratio=4., qkv_bias=False,
+                 drop_rate=0., attn_drop_rate=0., drop_path_rate=0., norm_layer=nn.LayerNorm, act_layer=nn.GELU,
+                 first_stride=4):
         super().__init__()
         assert global_pool in ('', 'token', 'avg')
         self.num_classes = num_classes
@@ -173,7 +173,7 @@ class TNT(nn.Module):
             blocks.append(Block(
                 dim=embed_dim, in_dim=in_dim, num_pixel=num_pixel, num_heads=num_heads, in_num_head=in_num_head,
                 mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, drop=drop_rate, attn_drop=attn_drop_rate,
-                drop_path=dpr[i], norm_layer=norm_layer))
+                drop_path=dpr[i], act_layer=act_layer, norm_layer=norm_layer))
         self.blocks = nn.ModuleList(blocks)
         self.norm = norm_layer(embed_dim)
 

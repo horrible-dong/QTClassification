@@ -141,7 +141,7 @@ class PatchEmbed(nn.Module):
 class PyramidVisionTransformer(nn.Module):
     def __init__(self, img_size=224, patch_size=16, in_chans=3, num_classes=1000, embed_dims=[64, 128, 256, 512],
                  num_heads=[1, 2, 4, 8], mlp_ratios=[4, 4, 4, 4], qkv_bias=False, qk_scale=None, drop_rate=0.,
-                 attn_drop_rate=0., drop_path_rate=0., norm_layer=nn.LayerNorm,
+                 attn_drop_rate=0., drop_path_rate=0., norm_layer=nn.LayerNorm, act_layer=nn.GELU,
                  depths=[3, 4, 6, 3], sr_ratios=[8, 4, 2, 1], num_stages=4):
         super().__init__()
         self.num_classes = num_classes
@@ -163,7 +163,7 @@ class PyramidVisionTransformer(nn.Module):
             block = nn.ModuleList([Block(
                 dim=embed_dims[i], num_heads=num_heads[i], mlp_ratio=mlp_ratios[i], qkv_bias=qkv_bias,
                 qk_scale=qk_scale, drop=drop_rate, attn_drop=attn_drop_rate, drop_path=dpr[cur + j],
-                norm_layer=norm_layer, sr_ratio=sr_ratios[i])
+                act_layer=act_layer, norm_layer=norm_layer, sr_ratio=sr_ratios[i])
                 for j in range(depths[i])])
             cur += depths[i]
 
