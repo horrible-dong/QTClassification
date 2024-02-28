@@ -51,7 +51,18 @@ For a quick experience, you can directly run the following commands:
 **Training**
 
 ```bash
-# multi-gpu (recommended, needs pytorch>=1.9.0)
+# single-gpu
+CUDA_VISIBLE_DEVICES=0 \
+python main.py \
+  --data_root ./data \
+  --dataset cifar10 \
+  --model resnet50 \
+  --batch_size 256 \
+  --lr 1e-4 \
+  --epochs 12 \
+  --output_dir ./runs/__tmp__
+  
+# multi-gpu (needs pytorch>=1.9.0)
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 torchrun --nproc_per_node=2 main.py \
   --data_root ./data \
@@ -62,20 +73,9 @@ torchrun --nproc_per_node=2 main.py \
   --epochs 12 \
   --output_dir ./runs/__tmp__
   
-# multi-gpu (for any pytorch version)
+# multi-gpu (for any pytorch version, but with a "deprecated" warning)
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
-  --data_root ./data \
-  --dataset cifar10 \
-  --model resnet50 \
-  --batch_size 256 \
-  --lr 1e-4 \
-  --epochs 12 \
-  --output_dir ./runs/__tmp__
-  
-# single-gpu
-CUDA_VISIBLE_DEVICES=0 \
-python main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
@@ -92,7 +92,17 @@ downloaded to `./data`. During the training, the config file, checkpoints, logs 
 **Evaluation**
 
 ```bash
-# multi-gpu (recommended, needs pytorch>=1.9.0)
+# single-gpu
+CUDA_VISIBLE_DEVICES=0 \
+python main.py \
+  --data_root ./data \
+  --dataset cifar10 \
+  --model resnet50 \
+  --batch_size 256 \
+  --resume ./runs/__tmp__/checkpoint.pth \
+  --eval
+  
+# multi-gpu (needs pytorch>=1.9.0)
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 torchrun --nproc_per_node=2 main.py \
   --data_root ./data \
@@ -102,19 +112,9 @@ torchrun --nproc_per_node=2 main.py \
   --resume ./runs/__tmp__/checkpoint.pth \
   --eval
   
-# multi-gpu (for any pytorch version)
+# multi-gpu (for any pytorch version, but with a "deprecated" warning)
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
-  --data_root ./data \
-  --dataset cifar10 \
-  --model resnet50 \
-  --batch_size 256 \
-  --resume ./runs/__tmp__/checkpoint.pth \
-  --eval
-  
-# single-gpu
-CUDA_VISIBLE_DEVICES=0 \
-python main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
@@ -132,7 +132,7 @@ arguments*.
 
 |  Command-Line Argument   |                                                                                                                                           Description                                                                                                                                           |  Default Value   |
 |:------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
-|      `--data_root`       |                                                                                                                            Directory where your datasets is stored.                                                                                                                             |     `./data`     |
+|      `--data_root`       |                                                                                                                            Directory where your datasets are stored.                                                                                                                            |     `./data`     |
 |  `--dataset`<br />`-d`   |                                                                                    Dataset name defined in [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py), such as `cifar10` and `imagenet1k`.                                                                                    |        /         |
 |      `--model_lib`       |                                                         Model library where models come from. The toolbox's basic (default) model library is extended from `torchvision` and `timm`, and the toolbox also supports the original `timm`.                                                         |    `default`     |
 |   `--model`<br />`-m`    |                                              Model name defined in [qtcls/models/\_\_init\_\_.py](qtcls/models/__init__.py), such as `resnet50` and `vit_b_16`. Currently supported model names are listed in <a href="#model_zoo">Model Zoo</a>.                                               |        /         |

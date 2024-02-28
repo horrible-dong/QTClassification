@@ -18,13 +18,13 @@ QTClassification
 
 本项目的开发环境是 `python 3.7 & pytorch 1.11.0+cu113`。
 
-1. 如果需要的话，创建你的conda环境。
+1. 如果需要的话，创建你的 conda 环境。
 
 ```bash
 conda create -n qtcls python==3.7 -y
 ```
 
-2. 进入你的conda环境。
+2. 进入你的 conda 环境。
 
 ```bash
 conda activate qtcls
@@ -36,7 +36,8 @@ conda activate qtcls
 pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-或者你可以参考[PyTorch官网](https://pytorch.org/get-started/previous-versions/)来安装其他版本。请注意，如果使用 pytorch ≥ 1.13，则需要 python ≥ 3.8。
+或者你可以参考[PyTorch官网](https://pytorch.org/get-started/previous-versions/)来安装其他版本。请注意，如果使用 pytorch ≥
+1.13，则需要 python ≥ 3.8。
 
 4. 安装必要的依赖。
 
@@ -51,7 +52,18 @@ pip install -r requirements.txt
 **训练**
 
 ```bash
-# 多gpu（推荐, 需要pytorch版本>=1.9.0）
+# 单卡
+CUDA_VISIBLE_DEVICES=0 \
+python main.py \
+  --data_root ./data \
+  --dataset cifar10 \
+  --model resnet50 \
+  --batch_size 256 \
+  --lr 1e-4 \
+  --epochs 12 \
+  --output_dir ./runs/__tmp__
+  
+# 多卡（需要 pytorch>=1.9.0）
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 torchrun --nproc_per_node=2 main.py \
   --data_root ./data \
@@ -62,20 +74,9 @@ torchrun --nproc_per_node=2 main.py \
   --epochs 12 \
   --output_dir ./runs/__tmp__
   
-# 多gpu（适用于任何pytorch版本）
+# 多卡（适用于任何 pytorch 版本，但会收到 “方法已弃用” 的警告）
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
-  --data_root ./data \
-  --dataset cifar10 \
-  --model resnet50 \
-  --batch_size 256 \
-  --lr 1e-4 \
-  --epochs 12 \
-  --output_dir ./runs/__tmp__
-  
-# 单gpu
-CUDA_VISIBLE_DEVICES=0 \
-python main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
@@ -91,7 +92,17 @@ python main.py \
 **验证**
 
 ```bash
-# 多gpu（推荐, 需要pytorch版本>=1.9.0）
+# 单卡
+CUDA_VISIBLE_DEVICES=0 \
+python main.py \
+  --data_root ./data \
+  --dataset cifar10 \
+  --model resnet50 \
+  --batch_size 256 \
+  --resume ./runs/__tmp__/checkpoint.pth \
+  --eval
+  
+# 多卡（需要 pytorch>=1.9.0）
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 torchrun --nproc_per_node=2 main.py \
   --data_root ./data \
@@ -101,19 +112,9 @@ torchrun --nproc_per_node=2 main.py \
   --resume ./runs/__tmp__/checkpoint.pth \
   --eval
   
-# 多gpu（适用于任何pytorch版本）
+# 多卡（适用于任何 pytorch 版本，但会收到 “方法已弃用” 的警告）
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
-  --data_root ./data \
-  --dataset cifar10 \
-  --model resnet50 \
-  --batch_size 256 \
-  --resume ./runs/__tmp__/checkpoint.pth \
-  --eval
-  
-# 单gpu
-CUDA_VISIBLE_DEVICES=0 \
-python main.py \
   --data_root ./data \
   --dataset cifar10 \
   --model resnet50 \
