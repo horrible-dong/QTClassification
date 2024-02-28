@@ -60,6 +60,7 @@ def get_args_parser():
     parser.add_argument('--train_batch_aug_kwargs', default=dict())
     parser.add_argument('--eval_batch_aug_kwargs', default=dict())
     parser.add_argument('--label_smoothing', type=float, default=0.0, help='for LabelSmoothingCrossEntropy')
+    parser.add_argument('--simple_aug', action='store_true', help='use simple augmentations')
 
     # model
     parser.add_argument('--model_lib', default='default', type=str, choices=['default', 'timm'], help='model library')

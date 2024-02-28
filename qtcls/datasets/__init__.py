@@ -55,6 +55,7 @@ def build_dataset(args, split, download=True):
     """
     split: 'train', 'val', 'test' or others
     """
+    import math
     import os
     from torchvision import transforms as tfs
     from timm.data import create_transform, Mixup
@@ -118,7 +119,7 @@ def build_dataset(args, split, download=True):
         aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
-            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs'])
         }
 
         return CIFAR10(root=dataset_path,
@@ -135,7 +136,7 @@ def build_dataset(args, split, download=True):
         aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
-            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs'])
         }
 
         return CIFAR100(root=dataset_path,
@@ -149,12 +150,32 @@ def build_dataset(args, split, download=True):
         aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
-            'val': create_transform(**aug_kwargs['eval_aug_kwargs']),
+            'val': create_transform(**aug_kwargs['eval_aug_kwargs'])
         }
         batch_transform = {
             'train': Mixup(**aug_kwargs['train_batch_aug_kwargs']),
             'val': None
         }
+
+        if args.simple_aug:
+            transform = {
+                'train': tfs.Compose([
+                    tfs.RandomResizedCrop(image_size),
+                    tfs.RandomHorizontalFlip(),
+                    tfs.ToTensor(),
+                    tfs.Normalize(mean, std)
+                ]),
+                'val': tfs.Compose([
+                    tfs.Resize(math.floor(image_size / 0.875)),
+                    tfs.CenterCrop(image_size),
+                    tfs.ToTensor(),
+                    tfs.Normalize(mean, std)
+                ])
+            }
+            batch_transform = {
+                'train': None,
+                'val': None
+            }
 
         return ImageNet(root=dataset_path,
                         split=split,
