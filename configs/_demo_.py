@@ -14,7 +14,7 @@ pin_memory = True
 sync_bn = True
 find_unused_params = False
 dist_url = 'env://'
-print_freq = 20
+print_freq = 50
 amp = True
 
 # dataset
@@ -30,7 +30,7 @@ model = 'vit_tiny_patch4_32'
 model_kwargs = dict(in_chans=3, act_layer=nn.GELU, drop_path_rate=0.1)  # Do NOT set 'num_classes' in 'model_kwargs'.
 
 # criterion
-criterion = 'ce'
+criterion = 'default'
 
 # optimizer
 optimizer = 'adamw'
