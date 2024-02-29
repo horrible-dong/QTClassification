@@ -1,7 +1,6 @@
 # -------------------------------------------------------------------------------
 # Modified from
-# timm
-# https://github.com/WZMIAOMIAO/deep-learning-for-image-processing
+# https://github.com/WZMIAOMIAO/deep-learning-for-image-processing/blob/master/pytorch_classification/vision_transformer/vit_model.py
 # by QIU Tian
 # -------------------------------------------------------------------------------
 
