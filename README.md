@@ -17,7 +17,7 @@ QTClassification
 
 The development environment of this project is `python 3.7 & pytorch 1.11.0+cu113`.
 
-1. Create your conda environment if needed.
+1. Create your conda environment.
 
 ```bash
 conda create -n qtcls python==3.7 -y

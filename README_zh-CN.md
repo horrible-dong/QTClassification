@@ -18,7 +18,7 @@ QTClassification
 
 本项目的开发环境是 `python 3.7 & pytorch 1.11.0+cu113`。
 
-1. 如果需要的话，创建你的 conda 环境。
+1. 创建你的 conda 环境。
 
 ```bash
 conda create -n qtcls python==3.7 -y
