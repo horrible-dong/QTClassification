@@ -107,9 +107,10 @@ def get_args_parser():
 
 def main(args):
     init_distributed_mode(args)
+    init_seeds(args.seed)
+
     cprint(__info__, 'light_green', attrs=['bold'])
 
-    init_seeds(args.seed)
     device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
     meta_note = f'dataset: {args.dataset} | model: {args.model} | output_dir: {args.output_dir}'
 
