@@ -107,10 +107,12 @@ def get_args_parser():
 
 def main(args):
     init_distributed_mode(args)
+    init_seeds(args.seed)
+
     cprint(__info__, 'light_green', attrs=['bold'])
 
-    init_seeds(args.seed)
     device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
+    meta_note = f'dataset: {args.dataset} | model: {args.model} | output_dir: {args.output_dir}'
 
     if device.type == 'cpu' or args.eval:
         args.amp = False
@@ -120,8 +122,6 @@ def main(args):
         args.no_pretrain = True
     if args.no_pretrain:
         args.pretrain = None
-    if args.note is None:
-        args.note = f'dataset: {args.dataset} | model: {args.model} | output_dir: {args.output_dir}'
     if args.data_root:
         makedirs(args.data_root, exist_ok=True)
     if args.clear_output_dir:
@@ -259,7 +259,9 @@ def main(args):
             log_writer(os.path.join(args.output_dir, 'log.txt'), json.dumps(log_stats))
 
         if args.note:
-            print(f'Note: {args.note}\n')
+            print(f'{meta_note} | note: {args.note}\n')
+        else:
+            print(f'{meta_note}\n')
 
     total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
