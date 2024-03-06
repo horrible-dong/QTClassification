@@ -3,7 +3,7 @@ QTClassification
 
 **A lightweight and extensible toolbox for image classification**
 
-[![version](https://img.shields.io/badge/Version-0.9.0--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.9.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -85,9 +85,11 @@ python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
   --output_dir ./runs/__tmp__
 ```
 
-The `cifar10` dataset and `resnet50` pretrained weights will be automatically downloaded. The `cifar10` dataset will be
-downloaded to `./data`. During the training, the config file, checkpoints, logs and other outputs will be stored in
-`./runs/__tmp__`.
+The `cifar10` dataset and `resnet50` pretrained weights will be automatically downloaded. Please keep the network
+accessible. The `cifar10` dataset will be downloaded to `./data`. The `resnet50` pretrained weights will be downloaded
+to `~/.cache/torch/hub/checkpoints`.
+
+During training, the config file, checkpoints, logs, and other outputs will be stored in `./runs/__tmp__.`
 
 **Evaluation**
 
@@ -297,7 +299,7 @@ Currently supported argument `--model` / `-m`:
 Set the argument `--model_lib` to `timm`.
 
 Currently supported argument `--model` / `-m`:  
-All supported. Please refer to `timm` for the specific model names.
+All supported. Please refer to `timm` for specific model names.
 
 ## License
 

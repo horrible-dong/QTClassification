@@ -3,7 +3,7 @@ QTClassification
 
 **轻量可扩展的图像分类工具箱**
 
-[![version](https://img.shields.io/badge/Version-0.9.0--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.9.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README_zh-CN.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -36,8 +36,8 @@ conda activate qtcls
 pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-或者你可以参考[PyTorch官网](https://pytorch.org/get-started/previous-versions/)来安装其他版本。请注意，如果使用 pytorch ≥
-1.13，则需要 python ≥ 3.8。
+或者你可以参考[PyTorch官网](https://pytorch.org/get-started/previous-versions/)来安装其他版本。
+请注意，如果使用 pytorch ≥ 1.13，则需要 python ≥ 3.8。
 
 4. 安装必要的依赖。
 
@@ -86,8 +86,11 @@ python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
   --output_dir ./runs/__tmp__
 ```
 
-`cifar10` 数据集和 `resnet50` 预训练权重会自动下载。`cifar10` 数据集会被下载到 `./data` 目录下。在训练过程中，
-配置文件（config），checkpoint文件（包含模型权重、优化器权重等）、日志文件（log）和其他输出都会被存放在 `./runs/__tmp__` 目录下。
+`cifar10` 数据集和 `resnet50` 预训练权重会自动下载，请保持网络畅通。`cifar10` 数据集会被下载到 `./data` 目录下，`resnet50`
+预训练权重会被下载到 `~/.cache/torch/hub/checkpoints` 目录下。若不使用预训练模型，请添加命令行参数 `--no_pretrain`。
+
+在训练过程中，配置文件（config），checkpoint 文件（包含模型权重、优化器权重等）、日志文件（log）和其他输出都会被存放在
+`./runs/__tmp__` 目录下。
 
 **验证**
 
