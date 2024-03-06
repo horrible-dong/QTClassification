@@ -71,7 +71,7 @@ def build_criterion(args):
 4. 当使用你的损失函数时，把 `--criterion` 赋值为你的损失函数名称 `your_criterion`。注意 `your_criterion`
    不需要和你的损失函数类名 `YourCriterion` 保持一致。
 
-我们在 [`_demo_.py`](_demo_.py) 中提供了一个损失函数样例。
+我们在 [`_demo_.py`](_demo_.py) 中提供了一个损失函数样例：
 
 ```python
 # _demo_.py

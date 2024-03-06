@@ -73,7 +73,7 @@ def build_criterion(args):
 4. When using your criterion, set `--criterion` to `your_criterion`. Note that `your_criterion` does not have to be
    consistent with the criterion class name `YourCriterion`.
 
-We've provided a demo criterion code in [`_demo_.py`](_demo_.py).
+We've provided a demo criterion code in [`_demo_.py`](_demo_.py):
 
 ```python
 # _demo_.py
