@@ -229,7 +229,6 @@ def main(args):
             args.print_freq
         )
         if args.output_dir and (epoch + 1) % args.save_interval == 0:
-            # TODO?: Create symbolic link instead of saving 'checkpoint.pth'
             checkpoint_paths = [
                 os.path.join(args.output_dir, f'checkpoint.pth'),
                 os.path.join(args.output_dir, f'checkpoint{epoch:04}.pth')
