@@ -3,7 +3,7 @@ opencv-python
 packaging
 Pillow
 requests
-urllib3==1.26.14
+urllib3<=1.26.18
 scikit-learn
 scipy
 termcolor
