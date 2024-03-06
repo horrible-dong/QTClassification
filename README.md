@@ -3,7 +3,7 @@ QTClassification
 
 **A lightweight and extensible toolbox for image classification**
 
-[![version](https://img.shields.io/badge/Version-0.9.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-1.0.0--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -12,12 +12,6 @@ QTClassification
 > <a href="#installation">🛠️ Installation</a> | <a href="#getting_started">📘
 > Documentation </a> | <a href="#dataset_zoo">🌱 Dataset Zoo</a> | <a href="#model_zoo">👀 Model Zoo</a>  
 > English | [简体中文](README_zh-CN.md)
-
-### NOTICE
-
-This is the last version of 0.x.x. In the forthcoming version 1.0.0, we will include a range of model architectures
-specifically for training the CIFAR datasets. Additionally, we will also provide more advanced examples on how to manage
-configs methodically and efficiently.
 
 ## <span id="Installation">Installation</span>
 

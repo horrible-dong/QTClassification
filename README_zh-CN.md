@@ -3,7 +3,7 @@ QTClassification
 
 **轻量可扩展的图像分类工具箱**
 
-[![version](https://img.shields.io/badge/Version-0.9.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-1.0.0--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README_zh-CN.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
 
@@ -13,11 +13,6 @@ QTClassification
 > 数据集</a> | <a href="#模型库">
 > 👀 模型库</a>  
 > [English](README.md) | 简体中文
-
-### 公告
-
-这是 0.x.x 的最后一个版本。在即将发布的 1.0.0 版本中，我们将涵盖一系列专门用来训练 CIFAR
-数据集的模型架构。此外，我们还将提供更多关于如何系统高效地使用 configs 的进阶示例。
 
 ## <span id="安装教程">安装教程</span>
 
