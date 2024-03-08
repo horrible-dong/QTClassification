@@ -13,6 +13,12 @@ QTClassification
 > Documentation </a> | <a href="#dataset_zoo">🌱 Dataset Zoo</a> | <a href="#model_zoo">👀 Model Zoo</a>  
 > English | [简体中文](README_zh-CN.md)
 
+### NOTICE
+
+This is the last version of 0.x.x. In the forthcoming version 1.0.0, we will include a range of model architectures
+specifically for training the CIFAR datasets. Additionally, we will also provide more advanced examples on how to manage
+configs methodically and efficiently.
+
 ## <span id="Installation">Installation</span>
 
 The development environment of this project is `python 3.7 & pytorch 1.11.0+cu113`.
