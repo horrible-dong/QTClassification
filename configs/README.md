@@ -22,7 +22,7 @@ python main.py -c configs/_demo_.py
 ```
 
 Note that `--config` / `-c` supports any file system path, such as `configs/_demo_.py`,
-`D:\\QTClassification\\configs\\_demo_.py`, `../../other_project/cfg.py`.
+`D:\\QTClassification\\configs\\_demo_.py`, `../../another_project/cfg.py`.
 
 Then, the config arguments **override or merge with** the command-line arguments `args`
 in [`main.py`](../main.py).

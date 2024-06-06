@@ -3,9 +3,9 @@ QTClassification
 
 **A lightweight and extensible toolbox for image classification**
 
-[![version](https://img.shields.io/badge/Version-0.9.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
-&emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README.md)
-&emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
+[![version](https://img.shields.io/badge/Version-0.9.1--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
+&emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](README.md)
+&emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](LICENSE)
 
 > Author: QIU Tian  
 > Affiliation: Zhejiang University  
@@ -15,12 +15,12 @@ QTClassification
 
 ## <span id="Installation">Installation</span>
 
-The development environment of this project is `python 3.7 & pytorch 1.11.0+cu113`.
+The development environment of this project is `python 3.8 & pytorch 1.13.1+cu117`.
 
 1. Create your conda environment.
 
 ```bash
-conda create -n qtcls python==3.7 -y
+conda create -n qtcls python==3.8 -y
 ```
 
 2. Enter your conda environment.
@@ -32,11 +32,11 @@ conda activate qtcls
 3. Install PyTorch.
 
 ```bash
-pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
+pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
 ```
 
 Or you can refer to [PyTorch](https://pytorch.org/get-started/previous-versions/) to install newer or older versions.
-Please note that if pytorch ≥ 1.13, then python ≥ 3.8 is required.
+Please note that if pytorch ≥ 1.13, then python ≥ 3.7.2 is required.
 
 4. Install necessary dependencies.
 
@@ -180,7 +180,7 @@ For more details, please see ["How to write and import your configs"](configs/RE
 
 Currently, `mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars` and `food`
 datasets will be automatically downloaded to the `--data_root` directory. For other datasets, please refer
-to ["How to put your dataset"](data/README.md).
+to ["How to put your datasets"](data/README.md).
 
 ### How to customize
 
@@ -206,7 +206,7 @@ Currently supported argument `--dataset` / `-d`:
 `mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars`, `food`,
 `imagenet1k`, `imagenet21k (also called imagenet22k)`,
 and all datasets in `folder` format (consistent with `imagenet` storage format,
-see ["How to put your dataset - About folder format datasets"](data/README.md) for details).
+see ["How to put your datasets - About folder format datasets"](data/README.md) for details).
 
 ## <span id="model_zoo">Model Zoo</span>
 
@@ -308,7 +308,7 @@ QTClassification is released under the Apache 2.0 license. Please see the [LICEN
 Copyright (c) QIU Tian. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use these files except in compliance with
-the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific

@@ -1,10 +1,10 @@
-# How to put your dataset
+# How to put your datasets
 
 > Author: QIU Tian  
 > Affiliation: Zhejiang University  
 > English | [简体中文](README_zh-CN.md)
 
-**The default `--data_root` is `./data`. Put your dataset in this directory.**
+**The default `--data_root` is `./data`. Put your datasets in this directory.**
 
 Each dataset is stored in a separate directory. For example,
 

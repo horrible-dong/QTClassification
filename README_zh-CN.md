@@ -3,9 +3,9 @@ QTClassification
 
 **轻量可扩展的图像分类工具箱**
 
-[![version](https://img.shields.io/badge/Version-0.9.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
-&emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](https://github.com/horrible-dong/QTClassification/blob/main/README_zh-CN.md)
-&emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](https://github.com/horrible-dong/QTClassification/blob/main/LICENSE)
+[![version](https://img.shields.io/badge/Version-0.9.1--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
+&emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](README_zh-CN.md)
+&emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](LICENSE)
 
 > 作者: QIU Tian  
 > 机构: 浙江大学  
@@ -16,12 +16,12 @@ QTClassification
 
 ## <span id="安装教程">安装教程</span>
 
-本项目的开发环境是 `python 3.7 & pytorch 1.11.0+cu113`。
+本项目的开发环境是 `python 3.8 & pytorch 1.13.1+cu117`。
 
 1. 创建你的 conda 环境。
 
 ```bash
-conda create -n qtcls python==3.7 -y
+conda create -n qtcls python==3.8 -y
 ```
 
 2. 进入你的 conda 环境。
@@ -33,11 +33,11 @@ conda activate qtcls
 3. 安装 PyTorch。
 
 ```bash
-pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
+pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
 ```
 
 或者你可以参考[PyTorch官网](https://pytorch.org/get-started/previous-versions/)来安装其他版本。
-请注意，如果使用 pytorch ≥ 1.13，则需要 python ≥ 3.8。
+请注意，如果使用 pytorch ≥ 1.13，则需要 python ≥ 3.7.2。
 
 4. 安装必要的依赖。
 

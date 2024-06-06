@@ -136,7 +136,7 @@ def checkpoint_saver(obj, save_path, mode=0o777, rename=False, overwrite=True):
 def variables_loader(file_path):
     r"""
     The parameter 'file_path' supports any file system path.
-    E.g. configs/_demo_.py, D:\\QTClassification\\configs\\_demo_.py, ../../other_project/cfg.py
+    E.g. configs/_demo_.py, D:\\QTClassification\\configs\\_demo_.py, ../../another_project/cfg.py
     """
     if not os.path.isfile(file_path):
         raise FileNotFoundError(f"file '{file_path}' does not exist.")

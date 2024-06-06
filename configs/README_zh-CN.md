@@ -21,7 +21,7 @@ python main.py -c configs/_demo_.py
 ```
 
 值得注意的是，`--config` / `-c` 可以支持任意文件系统路径，比如
-`configs/_demo_.py`, `D:\\QTClassification\\configs\\_demo_.py`, `../../other_project/cfg.py`。
+`configs/_demo_.py`, `D:\\QTClassification\\configs\\_demo_.py`, `../../another_project/cfg.py`。
 
 然后，配置文件参数会和 [`main.py`](../main.py) 中的命令行参数 `args` 进行**覆盖或合并**。
 

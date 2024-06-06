@@ -1,7 +1,7 @@
 # Copyright (c) QIU Tian. All rights reserved.
 
 import timm.scheduler as timm_scheduler
-import torch.optim.lr_scheduler as tv_scheduler
+import torch.optim.lr_scheduler as torch_scheduler
 
 
 def build_scheduler(args, optimizer, n_iter_per_epoch):
@@ -23,7 +23,7 @@ def build_scheduler(args, optimizer, n_iter_per_epoch):
         )
 
     if scheduler_name == 'step':
-        return tv_scheduler.StepLR(optimizer, args.step_size, args.gamma)
+        return torch_scheduler.StepLR(optimizer, args.step_size, args.gamma)
 
     if scheduler_name == 'multistep':
         return timm_scheduler.MultiStepLRScheduler(
@@ -34,6 +34,6 @@ def build_scheduler(args, optimizer, n_iter_per_epoch):
             warmup_lr_init=args.warmup_lr,
             t_in_epochs=True,
         )
-        # return tv_scheduler.MultiStepLR(optimizer, args.milestones, args.gamma)
+        # return torch_scheduler.MultiStepLR(optimizer, args.milestones, args.gamma)
 
     raise ValueError(f"Scheduler '{scheduler_name}' is not found.")
