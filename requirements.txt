@@ -10,5 +10,5 @@ termcolor
 timm>=0.9.1
 matplotlib
 seaborn
-pandas
+pandas<1.4.0
 thop
