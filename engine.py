@@ -85,11 +85,15 @@ def evaluate(model, data_loader, criterion, device, args, print_freq=10, amp=Fal
         loss_dict_reduced = reduce_dict(loss_dict)
         loss_dict_reduced_unscaled = {f'{k}_unscaled': v for k, v in loss_dict_reduced.items()}
         loss_dict_reduced_scaled = {k: v * weight_dict[k] for k, v in loss_dict_reduced.items() if k in weight_dict}
+        losses_reduced_scaled = sum(loss_dict_reduced_scaled.values())
 
-        metric_logger.update(loss=sum(loss_dict_reduced_scaled.values()),
+        loss_value = losses_reduced_scaled.item()
+
+        metric_logger.update(loss=loss_value,
                              **loss_dict_reduced_scaled,
                              **loss_dict_reduced_unscaled)
-        metric_logger.update(class_error=loss_dict_reduced['class_error'])
+        if 'class_error' in loss_dict_reduced.keys():
+            metric_logger.update(class_error=loss_dict_reduced['class_error'])
 
         evaluator.update(outputs, targets)
 
