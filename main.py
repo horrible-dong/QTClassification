@@ -50,7 +50,7 @@ def get_args_parser():
 
     # dataset
     parser.add_argument('--data_root', type=str, default='./data')
-    parser.add_argument('--dataset', '-d', type=str, default='cifar10')
+    parser.add_argument('--dataset', '-d', type=str, default='cifar10', help='dataset name')
     parser.add_argument('--dummy', action='store_true', help='use fake data of --dataset')
 
     # data augmentation
