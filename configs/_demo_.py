@@ -14,6 +14,7 @@ pin_memory = True
 sync_bn = True
 find_unused_params = False
 dist_url = 'env://'
+dist_backend = 'nccl'
 print_freq = 50
 amp = True
 

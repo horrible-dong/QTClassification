@@ -27,20 +27,20 @@ def get_args_parser():
     parser.add_argument('--config', '-c', type=str)
 
     # runtime
-    parser.add_argument('--device', default='cuda', help='cuda or cpu')
+    parser.add_argument('--device', type=str, default='cuda', choices=['cuda', 'cpu'])
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--batch_size', '-b', type=int, default=8)
     parser.add_argument('--epochs', type=int, default=300)
     parser.add_argument('--start_epoch', type=int, default=0)
-    parser.add_argument('--clip_max_norm', default=1.0, type=float, help='gradient clipping max norm')
+    parser.add_argument('--clip_max_norm', type=float, default=1.0, help='gradient clipping max norm')
     parser.add_argument('--eval', action='store_true', help='evaluate only')
     parser.add_argument('--eval_interval', type=int, default=1)
     parser.add_argument('--num_workers', type=int, default=None)
     parser.add_argument('--pin_memory', type=bool, default=True)
     parser.add_argument('--sync_bn', type=bool, default=False)
     parser.add_argument('--find_unused_params', action='store_true')
-    parser.add_argument('--dist_url', default='env://', help='url used to set up distributed training')
-    parser.add_argument('--dist_backend', default='nccl', help='backend used to set up distributed training')
+    parser.add_argument('--dist_url', type=str, default='env://', help='url used to set up distributed training')
+    parser.add_argument('--dist_backend', type=str, default='nccl', help='backend used to set up distributed training')
     parser.add_argument('--no_dist', action='store_true', help='forcibly disable distributed mode')
     parser.add_argument('--print_freq', type=int, default=50)
     parser.add_argument('--drop_lr_now', action='store_true')
@@ -63,31 +63,31 @@ def get_args_parser():
     parser.add_argument('--simple_aug', action='store_true', help='use simple augmentations')
 
     # model
-    parser.add_argument('--model_lib', default='default', type=str, choices=['default', 'timm'], help='model library')
-    parser.add_argument('--model', '-m', default='resnet50', type=str, help='model name')
+    parser.add_argument('--model_lib', type=str, default='default', choices=['default', 'timm'], help='model library')
+    parser.add_argument('--model', '-m', type=str, default='resnet50', help='model name')
     parser.add_argument('--model_kwargs', default=dict(), help='model specific kwargs')
 
     # criterion
-    parser.add_argument('--criterion', default='default', type=str, help='criterion name')
+    parser.add_argument('--criterion', type=str, default='default', help='criterion name')
 
     # optimizer
-    parser.add_argument('--optimizer', default='adamw', type=str, help='optimizer name')
+    parser.add_argument('--optimizer', type=str, default='adamw', help='optimizer name')
     parser.add_argument('--lr', type=float, default=1e-4)
-    parser.add_argument('--momentum', default=0.9, type=float, help='for SGD')
-    parser.add_argument('--weight_decay', default=5e-2, type=float)
+    parser.add_argument('--momentum', type=float, default=0.9, help='for SGD')
+    parser.add_argument('--weight_decay', type=float, default=5e-2)
 
     # scheduler
-    parser.add_argument('--scheduler', default='cosine', type=str, help='scheduler name')
-    parser.add_argument('--warmup_epochs', default=0, type=int)
-    parser.add_argument('--warmup_steps', default=0, type=int)
-    parser.add_argument('--warmup_lr', default=1e-6, type=float)
-    parser.add_argument('--min_lr', default=1e-5, type=float, help='for CosineLR')
+    parser.add_argument('--scheduler', type=str, default='cosine', help='scheduler name')
+    parser.add_argument('--warmup_epochs', type=int, default=0)
+    parser.add_argument('--warmup_steps', type=int, default=0)
+    parser.add_argument('--warmup_lr', type=float, default=1e-6)
+    parser.add_argument('--min_lr', type=float, default=1e-5, help='for CosineLR')
     parser.add_argument('--step_size', type=int, help='for StepLR')
     parser.add_argument('--milestones', type=int, nargs='*', help='for MultiStepLR')
-    parser.add_argument('--gamma', default=0.1, type=float, help='for StepLR and MultiStepLR')
+    parser.add_argument('--gamma', type=float, default=0.1, help='for StepLR and MultiStepLR')
 
     # evaluator
-    parser.add_argument('--evaluator', default='default', type=str, help='evaluator name')
+    parser.add_argument('--evaluator', type=str, default='default', help='evaluator name')
 
     # loading
     parser.add_argument('--pretrain', '-p', type=str, help='path to the pre-trained weights (highest priority)')
