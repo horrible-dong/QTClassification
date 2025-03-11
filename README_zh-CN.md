@@ -5,7 +5,7 @@ QTClassification
 
 [![version](https://img.shields.io/badge/Version-0.9.2--dev-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](README_zh-CN.md)
-&emsp;[![license](https://img.shields.io/badge/License-Apache--2.0-blue)](LICENSE)
+&emsp;[![license](https://img.shields.io/badge/License-Apache_2.0-blue)](LICENSE)
 
 > 作者: QIU Tian  
 > 机构: 浙江大学  
