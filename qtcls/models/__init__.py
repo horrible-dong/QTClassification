@@ -76,7 +76,7 @@ def build_model(args):
                 state_dict = load_state_dict_from_url(found_url, progress=True)
             else:
                 raise FileNotFoundError(f"Pretrained model for '{model_name}' is not found. "
-                                        f"Please specify your pretrained path via the argument '-p' "
+                                        f"Please specify your pretrained path via the argument '--pretrain' / '-p' "
                                         f"or register it in 'qtcls/datasets/_pretrain_.py', "
                                         f"or set the argument '--no_pretrain'.")
 
