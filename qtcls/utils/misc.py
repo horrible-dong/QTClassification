@@ -337,19 +337,19 @@ def init_seeds(seed=42, cuda_deterministic=True):
         cudnn.benchmark = True
 
 
-def update(optimizer, loss, model, grad_max_norm, scaler=None):
+def update(optimizer, loss, model, clip_max_norm, scaler=None):
     optimizer.zero_grad()
     if scaler:
         scaler.scale(loss).backward()
-        if grad_max_norm > 0:
+        if clip_max_norm > 0:
             scaler.unscale_(optimizer)
-            torch.nn.utils.clip_grad_norm_(model.parameters(), grad_max_norm)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), clip_max_norm)
         scaler.step(optimizer)
         scaler.update()
     else:
         loss.backward()
-        if grad_max_norm > 0:
-            torch.nn.utils.clip_grad_norm_(model.parameters(), grad_max_norm)
+        if clip_max_norm > 0:
+            torch.nn.utils.clip_grad_norm_(model.parameters(), clip_max_norm)
         optimizer.step()
 
 

@@ -9,7 +9,7 @@ from qtcls import build_evaluator
 from qtcls.utils.misc import update, reduce_dict, MetricLogger, SmoothedValue
 
 
-def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device, epoch: int, grad_max_norm: float = 0,
+def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device, epoch: int, clip_max_norm: float = 0,
                     scaler=None, print_freq: int = 10):
     model.train()
     criterion.train()
@@ -42,7 +42,7 @@ def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device,
             print(loss_dict_reduced)
             sys.exit(1)
 
-        update(optimizer, losses, model, grad_max_norm, scaler)
+        update(optimizer, losses, model, clip_max_norm, scaler)
 
         if hasattr(scheduler, 'step_update'):
             scheduler.step_update(epoch * n_steps + batch_idx)
