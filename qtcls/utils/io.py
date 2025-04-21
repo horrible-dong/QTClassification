@@ -81,11 +81,10 @@ def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=Fal
     new_checkpoint = {}
     incompatible_value_shape = []
     for k, v in checkpoint.items():
-        if k in obj_state_dict.keys():
-            if not hasattr(v, 'shape') or (hasattr(v, 'shape') and v.shape == obj_state_dict[k].shape):
-                new_checkpoint[k.replace('module.', '')] = v
-            else:
-                incompatible_value_shape.append(k)
+        if k in obj_state_dict.keys() and hasattr(v, 'shape') and v.shape != obj_state_dict[k].shape:
+            incompatible_value_shape.append(k)
+        else:
+            new_checkpoint[k.replace('module.', '')] = v
     checkpoint = new_checkpoint
 
     for key in delete_keys:
@@ -109,8 +108,8 @@ def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=Fal
         if str(load_info) == '<All keys matched successfully>':
             cprint(load_info, 'light_green')
         else:
-            # if len(incompatible_value_shape) > 0:
-            #     cprint(f'Warning: _IncompatibleValueShape({incompatible_value_shape})', 'light_yellow')
+            if len(incompatible_value_shape) > 0:
+                cprint(f'Warning: _IncompatibleValueShape(keys={incompatible_value_shape})', 'light_yellow')
             cprint(f'Warning: {load_info}', 'light_yellow')
 
 
