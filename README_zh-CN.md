@@ -132,27 +132,29 @@ python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
 
 **常用的命令行参数**
 
-|          命令行参数           |                                                                                  描述                                                                                  |       默认值        |
-|:------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
-|      `--data_root`       |                                                                             你的数据集存放的路径。                                                                              |     `./data`     |
-|  `--dataset`<br />`-d`   |                                 数据集名称，在 [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py) 中定义，如 `cifar10` 和 `imagenet1k`。                                 |        /         |
-|      `--model_lib`       |                                           模型库，模型都取自模型库。本工具箱的基础（默认）模型库由 `torchvision` 和 `timm` 扩展而来，同时本工具箱也支持原生 `timm` 模型库。                                           |    `default`     |
-|   `--model`<br />`-m`    |                 模型名称，在 [qtcls/models/\_\_init\_\_.py ](qtcls/models/__init__.py) 中定义，如 `resnet50` 和 `vit_b_16`。目前支持的模型名称在<a href="#模型库">模型库</a>中列出。                  |        /         |
-|      `--criterion`       |                                        损失函数名称，在 [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py) 中定义，如 `ce`。                                         |    `default`     |
-|      `--optimizer`       |                                    优化器名称，在 [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py) 中定义，如 `sgd` 和 `adam`。                                    |     `adamw`      |
-|      `--scheduler`       |                                     学习率调整策略名称，在 [qtcls/schedulers/\_\_init\_\_.py](qtcls/schedulers/__init__.py) 中定义，如 `cosine`。                                     |     `cosine`     |
-|      `--evaluator`       |                               验证器名称，在 [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py) 中定义。默认的验证器会计算准确率、召回率、精确率和f1分数。                                |    `default`     |
-|  `--pretrain`<br />`-p`  | 预训练权重路径，其优先级高于存储在 [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py) 中的路径。若要长期使用某个预训练权重路径，建议将其写进 [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py)。 |        /         |
-|     `--no_pretrain`      |                                                                             强制不使用预训练权重。                                                                              |     `False`      |
-|   `--resume`<br />`-r`   |                                                                        要从中恢复的 checkpoint 路径。                                                                         |        /         |
-| `--output_dir`<br />`-o` |                                                          输出目录，用来存放 checkpoint 文件（包含模型权重、优化器权重等）、日志文件和其他输出。                                                           | `./runs/__tmp__` |
-|    `--save_interval`     |                                                                          保存 checkpoint 的间隔.                                                                          |       `1`        |
-| `--batch_size`<br />`-b` |                                                                                  /                                                                                   |       `8`        |
-|        `--epochs`        |                                                                                  /                                                                                   |      `300`       |
-|          `--lr`          |                                                                                 学习率。                                                                                 |      `1e-4`      |
-|         `--amp`          |                                                                             启用自动混合精度训练。                                                                              |     `False`      |
-|         `--eval`         |                                                                               只验证，不训练。                                                                               |     `False`      |
-|         `--note`         |                                                              备忘笔记。 笔记内容会在每个 epoch 之后打印一次，以防你记不清自己正在跑什么。                                                              |        /         |
+|              命令行参数              |                                                                                  描述                                                                                  |       默认值        |
+|:-------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
+|          `--data_root`          |                                                                             你的数据集存放的路径。                                                                              |     `./data`     |
+|      `--dataset`<br />`-d`      |                                 数据集名称，在 [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py) 中定义，如 `cifar10` 和 `imagenet1k`。                                 |        /         |
+|            `--dummy`            |                                                   模拟 `--dataset` / `-d` 的数据，而不是加载真实数据（适用于在还没有数据或数据加载慢的情况下进行快速调试）。                                                    |     `False`      |
+|          `--model_lib`          |                                           模型库，模型都取自模型库。本工具箱的基础（默认）模型库由 `torchvision` 和 `timm` 扩展而来，同时本工具箱也支持原生 `timm` 模型库。                                           |    `default`     |
+|       `--model`<br />`-m`       |                 模型名称，在 [qtcls/models/\_\_init\_\_.py ](qtcls/models/__init__.py) 中定义，如 `resnet50` 和 `vit_b_16`。目前支持的模型名称在<a href="#模型库">模型库</a>中列出。                  |        /         |
+|          `--criterion`          |                                        损失函数名称，在 [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py) 中定义，如 `ce`。                                         |    `default`     |
+|          `--optimizer`          |                                    优化器名称，在 [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py) 中定义，如 `sgd` 和 `adam`。                                    |     `adamw`      |
+|          `--scheduler`          |                                     学习率调整策略名称，在 [qtcls/schedulers/\_\_init\_\_.py](qtcls/schedulers/__init__.py) 中定义，如 `cosine`。                                     |     `cosine`     |
+|          `--evaluator`          |                               验证器名称，在 [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py) 中定义。默认的验证器会计算准确率、召回率、精确率和f1分数。                                |    `default`     |
+|     `--pretrain`<br />`-p`      | 预训练权重路径，其优先级高于存储在 [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py) 中的路径。若要长期使用某个预训练权重路径，建议将其写进 [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py)。 |        /         |
+|         `--no_pretrain`         |                                                                             强制不使用预训练权重。                                                                              |     `False`      |
+|      `--resume`<br />`-r`       |                                                                        要从中恢复的 checkpoint 路径。                                                                         |        /         |
+|    `--output_dir`<br />`-o`     |                                                          输出目录，用来存放 checkpoint 文件（包含模型权重、优化器权重等）、日志文件和其他输出。                                                           | `./runs/__tmp__` |
+|        `--save_interval`        |                                                                          保存 checkpoint 的间隔.                                                                          |       `1`        |
+| `--clear_output_dir`<br />`-co` |                                                                   预先清空输出目录（`--output_dir` / `-o`）。                                                                   |     `False`      |
+|    `--batch_size`<br />`-b`     |                                                                                  /                                                                                   |       `8`        |
+|           `--epochs`            |                                                                                  /                                                                                   |      `300`       |
+|             `--lr`              |                                                                                 学习率。                                                                                 |      `1e-4`      |
+|             `--amp`             |                                                                             启用自动混合精度训练。                                                                              |     `False`      |
+|            `--eval`             |                                                                               只验证，不训练。                                                                               |     `False`      |
+|            `--note`             |                                                              备忘笔记。 笔记内容会在每个 epoch 之后打印一次，以防你记不清自己正在跑什么。                                                              |        /         |
 
 **使用配置文件（推荐）**
 

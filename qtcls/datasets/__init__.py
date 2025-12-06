@@ -28,7 +28,7 @@ _num_classes = {  # Required
     'cars': 196,
     'food': 101,
 
-    'fake_data': 1000,
+    'fake_data': 1000
 }
 
 _image_size = {  # Optional (Priority: `--image_size` > `_image_size[dataset_name]`)
@@ -47,7 +47,7 @@ _image_size = {  # Optional (Priority: `--image_size` > `_image_size[dataset_nam
     'cars': 224,
     'food': 224,
 
-    'fake_data': 224,
+    'fake_data': 224
 }
 
 
@@ -61,11 +61,18 @@ def build_dataset(args, split, download=True):
     from timm.data import create_transform, Mixup
 
     split = split.lower()
-    dataset_name = args.dataset.lower() if not args.dummy else args.dataset.lower() + '(fakedata)'
+    dataset_name = args.dataset.lower()
     dataset_path = os.path.join(args.data_root, dataset_name)
-    image_size = (_image_size[dataset_name] if not args.dummy
-                  else _image_size[dataset_name[:dataset_name.find('(fakedata)')]]) \
-        if args.image_size is None else args.image_size
+    image_size = _image_size[dataset_name] if args.image_size is None else args.image_size
+
+    if args.dummy or dataset_name == 'fake_data':
+        return FakeData(size=5000 if split == 'train' else 1000,
+                        split=split,
+                        image_size=(3, image_size, image_size),
+                        num_classes=_num_classes[dataset_name],
+                        transform=tfs.ToTensor(),
+                        batch_transform=None,
+                        dummy_dataset=dataset_name if args.dummy else None)
 
     if dataset_name == 'mnist':  # ** 1 channel, set 'in_chans=1' in 'args.model_kwargs' **
         if split == 'val':
@@ -190,7 +197,7 @@ def build_dataset(args, split, download=True):
         aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
-            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs'])
         }
 
         return STL10(root=dataset_path,
@@ -232,7 +239,7 @@ def build_dataset(args, split, download=True):
         aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'trainval': create_transform(**aug_kwargs['train_aug_kwargs']),
-            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs'])
         }
 
         return OxfordIIITPet(root=dataset_path,
@@ -247,7 +254,7 @@ def build_dataset(args, split, download=True):
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
             'val': create_transform(**aug_kwargs['eval_aug_kwargs']),
-            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs'])
         }
 
         return Flowers102(root=dataset_path,
@@ -264,7 +271,7 @@ def build_dataset(args, split, download=True):
         aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
-            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs'])
         }
 
         return StanfordCars(root=dataset_path,
@@ -281,7 +288,7 @@ def build_dataset(args, split, download=True):
         aug_kwargs = _build_timm_aug_kwargs(args, image_size, mean, std, _num_classes[dataset_name])
         transform = {
             'train': create_transform(**aug_kwargs['train_aug_kwargs']),
-            'test': create_transform(**aug_kwargs['eval_aug_kwargs']),
+            'test': create_transform(**aug_kwargs['eval_aug_kwargs'])
         }
 
         return Food101(root=dataset_path,
@@ -289,17 +296,6 @@ def build_dataset(args, split, download=True):
                        transform=transform,
                        batch_transform=None,
                        download=download)
-
-    if args.dummy or dataset_name == 'fake_data':
-        if dataset_name != 'fake_data':
-            dataset_name = dataset_name[:dataset_name.find('(fakedata)')]
-
-        return FakeData(size=5000 if split == 'train' else 1000,
-                        split=split,
-                        image_size=(3, image_size, image_size),
-                        num_classes=_num_classes[dataset_name],
-                        transform=tfs.ToTensor(),
-                        batch_transform=None)
 
     raise ValueError(f"Dataset '{dataset_name}' is not found.")
 

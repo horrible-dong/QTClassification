@@ -129,6 +129,8 @@ def main(args):
     if args.output_dir:
         makedirs(args.output_dir, exist_ok=True)
         variables_saver(dict(sorted(vars(args).items())), os.path.join(args.output_dir, 'config.py'))
+    if args.dummy:
+        meta_note = meta_note.replace(args.dataset, f'{args.dataset} (fake data)')
 
     print(args)
 

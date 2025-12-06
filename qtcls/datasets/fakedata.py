@@ -4,6 +4,7 @@
 
 __all__ = ['FakeData']
 
+import inspect
 from typing import Any, Tuple
 
 import torch
@@ -24,17 +25,24 @@ class FakeData(BaseDataset):
         transform (callable, optional): A function/transform that takes in an PIL image and transforms it.
         target_transform (callable, optional): A function/transform that takes in the target and transforms it.
         batch_transform (callable, optional): A function/transform that takes in a batch and transforms it.
-
+        dummy_dataset (str, optional): The name (to display) of the dataset being simulated with dummy data. Default: None
     """
 
     def __init__(self, size: int, split: str = 'train', image_size: Tuple[int, int, int] = (3, 224, 224),
                  num_classes: int = 1000, random_offset: int = 0, transform=None, target_transform=None,
-                 batch_transform=None):
-        super().__init__('(no root required)', split, transform, target_transform, batch_transform)
+                 batch_transform=None, dummy_dataset: str = None):
+        super().__init__('', split, transform, target_transform, batch_transform, verbose=False)
         self.size = size
         self.num_classes = num_classes
         self.image_size = image_size
         self.random_offset = random_offset
+
+        verbose = inspect.signature(BaseDataset.__init__).parameters['verbose'].default
+        if verbose:
+            cls = self.__class__.__name__.lower()
+            if dummy_dataset:
+                cls += f'({dummy_dataset})'
+            print(f'Loading {cls}-{self.split} from generation')
 
     def __getitem__(self, index: int) -> Tuple[Any, Any]:
         """
