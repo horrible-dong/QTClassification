@@ -11,7 +11,7 @@ from torch.utils.data import Dataset
 from ..utils.io import pil_loader
 
 
-def default_loader(path, format="RGB"):
+def default_loader(path, format='RGB'):
     return pil_loader(path, format)
 
 
@@ -37,21 +37,17 @@ class BaseDataset(Dataset):
             loader: Optional[Callable] = None,
             verbose: bool = True
     ):
-        if root is None:
-            root = f'./data/{self.__class__.__name__.lower()}'
-        if loader is None:
-            loader = default_loader
         self.root = os.path.expanduser(root)
         self.split = split.lower()
         self.transform = transform
         self.target_transform = target_transform
         self.batch_transform = batch_transform
-        self.loader = loader
+        self.loader = loader if loader is not None else default_loader
 
         self.__check_transforms()
 
         if verbose:
-            print(f'Loading {self.__class__.__name__.lower()}-{split} from {self.root}')
+            print(f'Loading {self.__class__.__name__.lower()}-{self.split} from {self.root}')
 
     def __getitem__(self, index):
         raise NotImplementedError
