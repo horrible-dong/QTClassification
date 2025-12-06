@@ -54,7 +54,7 @@ def build_model(args):
 
     args.model_kwargs['num_classes'] = num_classes
 
-    pretrained = not args.no_pretrain and is_main_process()
+    load_pretrain = not args.no_pretrain and is_main_process()
 
     if model_lib == 'default':
         try:
@@ -63,7 +63,7 @@ def build_model(args):
             print(f"KeyError: Model '{model_name}' is not found.")
             exit(1)
 
-        if pretrained:  # Loading Priority: `--pretrain path` > `local path` > `url`
+        if load_pretrain:  # Loading Priority: `--pretrain path` > `local path` > `url`
             found_specified_path = args.pretrain
             found_local_path = _search_pretrained_from_local_paths(model_name)
             found_url = _search_pretrained_from_urls(model_name)
@@ -84,13 +84,15 @@ def build_model(args):
                 state_dict = state_dict['model']
 
             checkpoint_loader(model, state_dict, strict=False)
+        else:
+            cprint("No pre-training is used", 'light_green')
 
         return model
 
     if model_lib == 'timm':
         import timm
 
-        if pretrained:  # Loading Priority: `--pretrain path` > `local path` > `url`
+        if load_pretrain:  # Loading Priority: `--pretrain path` > `local path` > `url`
             found_specified_path = args.pretrain
             found_local_path = _search_pretrained_from_local_paths(model_name)
 
@@ -105,7 +107,10 @@ def build_model(args):
 
             return model
 
+        cprint("No pre-training is used", 'light_green')
+
         model = timm.create_model(model_name=model_name, pretrained=False, **args.model_kwargs)
+
         return model
 
     raise ValueError(f"Model lib '{model_lib}' is not found.")
