@@ -10,14 +10,14 @@
 ```python
 # your_model.py
 
-# 我们推荐你申明 '__all__' 变量。
+# 我们推荐你申明 `__all__` 变量。
 __all__ = ['your_model_architecture_1', 'your_model_architecture_2', 'your_model_architecture_3']
 
 from torch import nn
 
 
 class YourModel(nn.Module):
-    def __init__(self, ...):
+    def __init__(self, ..., num_classes):  # `num_classes` 是必须的参数（对于分类任务）
         super().__init__()
         ...
 
@@ -44,9 +44,9 @@ def your_model_architecture_3(...):
 
 ...
 
-from .your_dataset import *  # 通常在 '__all__' 被申明的情况下可以这么写。
+from .your_dataset import *  # 通常在 `__all__` 被申明的情况下可以这么写。
 
-# 当 '__all__' 在 your_model.py 中未被申明时，使用:
+# 当 `__all__` 在 your_model.py 中未被申明时，使用:
 # from .your_dataset import your_model_architecture_1, your_model_architecture_2, your_model_architecture_3
 
 ...

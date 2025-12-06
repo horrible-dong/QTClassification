@@ -11,14 +11,14 @@
 ```python
 # your_model.py
 
-# We recommend you to declear '__all__'.
+# We recommend you to declear `__all__`.
 __all__ = ['your_model_architecture_1', 'your_model_architecture_2', 'your_model_architecture_3']
 
 from torch import nn
 
 
 class YourModel(nn.Module):
-    def __init__(self, ...):
+    def __init__(self, ..., num_classes):  # `num_classes` is mandatory (for classification tasks)
         super().__init__()
         ...
 
@@ -45,9 +45,9 @@ def your_model_architecture_3(...):
 
 ...
 
-from .your_dataset import *  # Usually used when '__all__' has been declared in your_model.py.
+from .your_dataset import *  # Usually used when `__all__` has been declared in your_model.py.
 
-# When '__all__' has not been declared in your_model.py, use:
+# When `__all__` has not been declared in your_model.py, use:
 # from .your_dataset import your_model_architecture_1, your_model_architecture_2, your_model_architecture_3
 
 ...

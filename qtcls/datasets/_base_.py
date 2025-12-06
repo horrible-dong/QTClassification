@@ -1,6 +1,6 @@
 # Copyright (c) QIU Tian. All rights reserved.
 
-__all__ = ["BaseDataset"]
+__all__ = ['BaseDataset']
 
 import os.path
 from typing import Optional, Callable, Dict, Union

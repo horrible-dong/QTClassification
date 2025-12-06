@@ -218,19 +218,27 @@ python main.py -c configs/_demo_.py
 `alexnet`
 
 **CaiT**  
-`cait_xxs24_224`, `cait_xxs24_384`, `cait_xxs36_224`, `cait_xxs36_384`, `cait_xs24_384`, `cait_s24_224`, `cait_s24_384`, `cait_s36_384`, `cait_m36_384`, `cait_m48_448`
+`cait_xxs24_224`, `cait_xxs24_384`, `cait_xxs36_224`, `cait_xxs36_384`, `cait_xs24_384`, `cait_s24_224`, `cait_s24_384`,
+`cait_s36_384`, `cait_m36_384`, `cait_m48_448`
 
 **ConvNeXt**  
 `convnext_tiny`, `convnext_small`, `convnext_base`, `convnext_large`
 
 **DeiT**  
-`deit_tiny_patch16_224`, `deit_small_patch16_224`, `deit_base_patch16_224`, `deit_base_patch16_384`, `deit_tiny_distilled_patch16_224`, `deit_small_distilled_patch16_224`, `deit_base_distilled_patch16_224`, `deit_base_distilled_patch16_384`, `deit3_small_patch16_224`, `deit3_small_patch16_384`, `deit3_medium_patch16_224`, `deit3_base_patch16_224`, `deit3_base_patch16_384`, `deit3_large_patch16_224`, `deit3_large_patch16_384`, `deit3_huge_patch14_224`, `deit3_small_patch16_224_in21ft1k`, `deit3_small_patch16_384_in21ft1k`, `deit3_medium_patch16_224_in21ft1k`, `deit3_base_patch16_224_in21ft1k`, `deit3_base_patch16_384_in21ft1k`, `deit3_large_patch16_224_in21ft1k`, `deit3_large_patch16_384_in21ft1k`, `deit3_huge_patch14_224_in21ft1k`
+`deit_tiny_patch16_224`, `deit_small_patch16_224`, `deit_base_patch16_224`, `deit_base_patch16_384`,
+`deit_tiny_distilled_patch16_224`, `deit_small_distilled_patch16_224`, `deit_base_distilled_patch16_224`,
+`deit_base_distilled_patch16_384`, `deit3_small_patch16_224`, `deit3_small_patch16_384`, `deit3_medium_patch16_224`,
+`deit3_base_patch16_224`, `deit3_base_patch16_384`, `deit3_large_patch16_224`, `deit3_large_patch16_384`,
+`deit3_huge_patch14_224`, `deit3_small_patch16_224_in21ft1k`, `deit3_small_patch16_384_in21ft1k`,
+`deit3_medium_patch16_224_in21ft1k`, `deit3_base_patch16_224_in21ft1k`, `deit3_base_patch16_384_in21ft1k`,
+`deit3_large_patch16_224_in21ft1k`, `deit3_large_patch16_384_in21ft1k`, `deit3_huge_patch14_224_in21ft1k`
 
 **DenseNet**  
 `densenet121`, `densenet169`, `densenet201`, `densenet161`
 
 **EfficientNet**  
-`efficientnet_b0`, `efficientnet_b1`, `efficientnet_b2`, `efficientnet_b3`, `efficientnet_b4`, `efficientnet_b5`, `efficientnet_b6`, `efficientnet_b7`
+`efficientnet_b0`, `efficientnet_b1`, `efficientnet_b2`, `efficientnet_b3`, `efficientnet_b4`, `efficientnet_b5`,
+`efficientnet_b6`, `efficientnet_b7`
 
 **GoogLeNet**  
 `googlenet`
@@ -242,7 +250,11 @@ python main.py -c configs/_demo_.py
 `levit_128s`, `levit_128`, `levit_192`, `levit_256`, `levit_256d`, `levit_384`
 
 **MLP-Mixer**   
-`mixer_s32_224`, `mixer_s16_224`, `mixer_b32_224`, `mixer_b16_224`, `mixer_b16_224_in21k`, `mixer_l32_224`, `mixer_l16_224`, `mixer_l16_224_in21k`, `mixer_b16_224_miil_in21k`, `mixer_b16_224_miil`, `gmixer_12_224`, `gmixer_24_224`, `resmlp_12_224`, `resmlp_24_224`, `resmlp_36_224`, `resmlp_big_24_224`, `resmlp_12_distilled_224`, `resmlp_24_distilled_224`, `resmlp_36_distilled_224`, `resmlp_big_24_distilled_224`, `resmlp_big_24_224_in22ft1k`, `resmlp_12_224_dino`, `resmlp_24_224_dino`, `gmlp_ti16_224`, `gmlp_s16_224`, `gmlp_b16_224`
+`mixer_s32_224`, `mixer_s16_224`, `mixer_b32_224`, `mixer_b16_224`, `mixer_b16_224_in21k`, `mixer_l32_224`,
+`mixer_l16_224`, `mixer_l16_224_in21k`, `mixer_b16_224_miil_in21k`, `mixer_b16_224_miil`, `gmixer_12_224`,
+`gmixer_24_224`, `resmlp_12_224`, `resmlp_24_224`, `resmlp_36_224`, `resmlp_big_24_224`, `resmlp_12_distilled_224`,
+`resmlp_24_distilled_224`, `resmlp_36_distilled_224`, `resmlp_big_24_distilled_224`, `resmlp_big_24_224_in22ft1k`,
+`resmlp_12_224_dino`, `resmlp_24_224_dino`, `gmlp_ti16_224`, `gmlp_s16_224`, `gmlp_b16_224`
 
 **MNASNet**   
 `mnasnet0_5`, `mnasnet0_75`, `mnasnet1_0`, `mnasnet1_3`
@@ -257,10 +269,13 @@ python main.py -c configs/_demo_.py
 `pvt_tiny`, `pvt_small`, `pvt_medium`, `pvt_large`, `pvt_huge_v2`
 
 **RegNet**  
-`regnet_y_400mf`, `regnet_y_800mf`, `regnet_y_1_6gf`, `regnet_y_3_2gf`, `regnet_y_8gf`, `regnet_y_16gf`, `regnet_y_32gf`, `regnet_y_128gf`, `regnet_x_400mf`, `regnet_x_800mf`, `regnet_x_1_6gf`, `regnet_x_3_2gf`, `regnet_x_8gf`, `regnet_x_16gf`, `regnet_x_32gf`
+`regnet_y_400mf`, `regnet_y_800mf`, `regnet_y_1_6gf`, `regnet_y_3_2gf`, `regnet_y_8gf`, `regnet_y_16gf`,
+`regnet_y_32gf`, `regnet_y_128gf`, `regnet_x_400mf`, `regnet_x_800mf`, `regnet_x_1_6gf`, `regnet_x_3_2gf`,
+`regnet_x_8gf`, `regnet_x_16gf`, `regnet_x_32gf`
 
 **ResNet**     
-`resnet18`, `resnet34`, `resnet50`, `resnet101`, `resnet152`, `resnext50_32x4d`, `resnext101_32x8d`, `wide_resnet50_2`, `wide_resnet101_2`
+`resnet18`, `resnet34`, `resnet50`, `resnet101`, `resnet152`, `resnext50_32x4d`, `resnext101_32x8d`, `wide_resnet50_2`,
+`wide_resnet101_2`
 
 **ShuffleNetV2**  
 `shufflenet_v2_x0_5`, `shufflenet_v2_x1_0`, `shufflenet_v2_x1_5`, `shufflenet_v2_x2_0`
@@ -269,10 +284,17 @@ python main.py -c configs/_demo_.py
 `squeezenet1_0`, `squeezenet1_1`
 
 **Swin Transformer**  
-`swin_tiny_patch4_window7_224`, `swin_small_patch4_window7_224`, `swin_base_patch4_window7_224`, `swin_base_patch4_window12_384`, `swin_large_patch4_window7_224`, `swin_large_patch4_window12_384`, `swin_base_patch4_window7_224_in22k`, `swin_base_patch4_window12_384_in22k`, `swin_large_patch4_window7_224_in22k`, `swin_large_patch4_window12_384_in22k`
+`swin_tiny_patch4_window7_224`, `swin_small_patch4_window7_224`, `swin_base_patch4_window7_224`,
+`swin_base_patch4_window12_384`, `swin_large_patch4_window7_224`, `swin_large_patch4_window12_384`,
+`swin_base_patch4_window7_224_in22k`, `swin_base_patch4_window12_384_in22k`, `swin_large_patch4_window7_224_in22k`,
+`swin_large_patch4_window12_384_in22k`
 
 **Swin Transformer V2**  
-`swinv2_tiny_window8_256`, `swinv2_tiny_window16_256`, `swinv2_small_window8_256`, `swinv2_small_window16_256`, `swinv2_base_window8_256`, `swinv2_base_window16_256`, `swinv2_base_window12_192_22k`, `swinv2_base_window12to16_192to256_22kft1k`, `swinv2_base_window12to24_192to384_22kft1k`, `swinv2_large_window12_192_22k`, `swinv2_large_window12to16_192to256_22kft1k`, `swinv2_large_window12to24_192to384_22kft1k`
+`swinv2_tiny_window8_256`, `swinv2_tiny_window16_256`, `swinv2_small_window8_256`, `swinv2_small_window16_256`,
+`swinv2_base_window8_256`, `swinv2_base_window16_256`, `swinv2_base_window12_192_22k`,
+`swinv2_base_window12to16_192to256_22kft1k`, `swinv2_base_window12to24_192to384_22kft1k`,
+`swinv2_large_window12_192_22k`, `swinv2_large_window12to16_192to256_22kft1k`,
+`swinv2_large_window12to24_192to384_22kft1k`
 
 **TNT**  
 `tnt_s_patch16_224`, `tnt_b_patch16_224`
@@ -284,7 +306,11 @@ python main.py -c configs/_demo_.py
 `vgg11`, `vgg11_bn`, `vgg13`, `vgg13_bn`, `vgg16`, `vgg16_bn`, `vgg19`, `vgg19_bn`
 
 **Vision Transformer (timm)**   
-`vit_tiny_patch4_32`, `vit_tiny_patch16_224`, `vit_tiny_patch16_384`, `vit_small_patch32_224`, `vit_small_patch32_384`, `vit_small_patch16_224`, `vit_small_patch16_384`, `vit_small_patch8_224`, `vit_base_patch32_224`, `vit_base_patch32_384`, `vit_base_patch16_224`, `vit_base_patch16_384`, `vit_base_patch8_224`, `vit_large_patch32_224`, `vit_large_patch32_384`, `vit_large_patch16_224`, `vit_large_patch16_384`, `vit_large_patch14_224`, `vit_huge_patch14_224`, `vit_giant_patch14_224`
+`vit_tiny_patch4_32`, `vit_tiny_patch16_224`, `vit_tiny_patch16_384`, `vit_small_patch32_224`, `vit_small_patch32_384`,
+`vit_small_patch16_224`, `vit_small_patch16_384`, `vit_small_patch8_224`, `vit_base_patch32_224`,
+`vit_base_patch32_384`, `vit_base_patch16_224`, `vit_base_patch16_384`, `vit_base_patch8_224`, `vit_large_patch32_224`,
+`vit_large_patch32_384`, `vit_large_patch16_224`, `vit_large_patch16_384`, `vit_large_patch14_224`,
+`vit_huge_patch14_224`, `vit_giant_patch14_224`
 
 **Vision Transformer (torchvision)**  
 `vit_b_16`, `vit_b_32`, `vit_l_16`, `vit_l_32`

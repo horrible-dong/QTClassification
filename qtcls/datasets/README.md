@@ -86,8 +86,8 @@ def build_dataset(args, split, download=True):
 
         return YourDataset(root=dataset_path,
                            split=split,
-                           transform=transform,  # Can also be written explicitly as 'transform=transform[split]'.
-                           batch_transform=batch_transform)  # Can also be written explicitly as 'batch_transform=batch_transform[split]'.
+                           transform=transform,  # Can also be written explicitly as `transform=transform[split]`.
+                           batch_transform=batch_transform)  # Can also be written explicitly as `batch_transform=batch_transform[split]`.
     ...
 ```
 

@@ -1,8 +1,7 @@
 # Copyright (c) QIU Tian. All rights reserved.
 
-import warnings
-
 import torch.distributed as dist
+from termcolor import cprint
 
 from .dist import is_main_process, is_dist_avail_and_initialized
 
@@ -44,12 +43,12 @@ def info(msg):
     """
     @info("This is an information.")
     def example_function():
-        print("This is the decorated function.")
+        print("This is a decorated function.")
     """
 
     def decorator(func):
         def wrapper(*args, **kwargs):
-            print(msg)
+            cprint(f'Info: {msg}', 'light_green')
             ret = func(*args, **kwargs)
             return ret
 
@@ -62,12 +61,12 @@ def warning(msg):
     """
     @warning("This is a warning.")
     def example_function():
-        print("This is the decorated function.")
+        print("This is a decorated function.")
     """
 
     def decorator(func):
         def wrapper(*args, **kwargs):
-            warnings.warn(msg, Warning)
+            cprint(f'Warning: {msg}', 'light_yellow')
             ret = func(*args, **kwargs)
             return ret
 

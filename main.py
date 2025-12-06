@@ -97,7 +97,7 @@ def get_args_parser():
     # saving
     parser.add_argument('--output_dir', '-o', type=str, default='./runs/__tmp__', help='path to save checkpoints, etc')
     parser.add_argument('--save_interval', type=int, default=1)
-    parser.add_argument('--clear_output_dir', '-co', action='store_true', help='clear output dir first')
+    parser.add_argument('--clear_output_dir', '-co', action='store_true', help='clear the output dir first')
 
     # remarks
     parser.add_argument('--note', type=str)
@@ -257,10 +257,7 @@ def main(args):
         if args.output_dir:
             log_writer(os.path.join(args.output_dir, 'log.txt'), json.dumps(log_stats))
 
-        if args.note:
-            print(f'{meta_note} | note: {args.note}\n')
-        else:
-            print(f'{meta_note}\n')
+        print(f'{meta_note} | note: {args.note}\n') if args.note else print(f'{meta_note}\n')
 
     total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))

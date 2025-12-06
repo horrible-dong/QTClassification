@@ -25,8 +25,8 @@ class DefaultEvaluator:
             assert 'logits' in outputs.keys(), \
                 f"When using 'update(self, outputs, targets)' in '{self.__class__.__name__}', " \
                 f"if 'outputs' is a dict, 'logits' MUST be the key."
-            outputs = outputs['logits']
-        outputs = outputs.max(1)[1].tolist()
+            outputs = outputs['logits']  # [batch_size, num_classes]
+        outputs = outputs.argmax(-1).tolist()
         targets = targets.tolist()
         self.outputs += outputs
         self.targets += targets

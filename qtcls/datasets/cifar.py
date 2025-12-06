@@ -2,7 +2,7 @@
 # Modified from torchvision by QIU Tian
 # ---------------------------------------
 
-__all__ = ["CIFAR10", "CIFAR100"]
+__all__ = ['CIFAR10', 'CIFAR100']
 
 import os
 import pickle
