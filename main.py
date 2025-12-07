@@ -41,7 +41,6 @@ def get_args_parser():
     parser.add_argument('--find_unused_params', action='store_true')
     parser.add_argument('--dist_url', type=str, default='env://', help='url used to set up distributed training')
     parser.add_argument('--dist_backend', type=str, default='nccl', help='backend used to set up distributed training')
-    parser.add_argument('--no_dist', action='store_true', help='forcibly disable distributed mode')
     parser.add_argument('--print_freq', type=int, default=50)
     parser.add_argument('--drop_lr_now', action='store_true')
     parser.add_argument('--drop_last', action='store_true')
