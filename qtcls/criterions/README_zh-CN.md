@@ -115,4 +115,9 @@ if __name__ == '__main__':
     loss = criterion(outputs, targets)
 
     print(loss)  # {'loss_ce': tensor(2.3039), 'class_error': tensor(100.), 'loss_boxes': tensor(1.1626)}
+
+    weight_dict = criterion.weight_dict
+    loss_scaled = {k: v * weight_dict[k] for k, v in loss.items() if k in weight_dict}
+
+    print(loss_scaled)  # {'loss_ce': tensor(2.3039), 'loss_boxes': tensor(2.3253)}
 ```
