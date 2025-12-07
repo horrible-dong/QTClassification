@@ -13,7 +13,7 @@ def setup_for_distributed(is_main):
     builtin_print = __builtin__.print
 
     def print(*args, **kwargs):
-        force = kwargs.pop("force", False)
+        force = kwargs.pop('force', False)
         if is_main or force:
             builtin_print(*args, **kwargs)
 
@@ -45,17 +45,14 @@ def is_main_process():
 
 
 def init_distributed_mode(args):
-    if args.no_dist:  # qt +
-        args.distributed = False
-        return
-
-    if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
-        args.rank = int(os.environ["RANK"])
+    if 'RANK' in os.environ and 'LOCAL_RANK' in os.environ and 'WORLD_SIZE' in os.environ:
+        args.rank = int(os.environ['RANK'])
+        args.local_rank = int(os.environ['LOCAL_RANK'])
         args.world_size = int(os.environ['WORLD_SIZE'])
-        args.gpu = int(os.environ['LOCAL_RANK'])
     elif 'SLURM_PROCID' in os.environ:
         args.rank = int(os.environ['SLURM_PROCID'])
-        args.gpu = args.rank % torch.cuda.device_count()
+        args.local_rank = args.rank % torch.cuda.device_count()
+        # TODO: world_size
     else:
         print('Not using distributed mode')
         args.distributed = False
@@ -63,7 +60,7 @@ def init_distributed_mode(args):
 
     args.distributed = True
 
-    torch.cuda.set_device(args.gpu)
+    torch.cuda.set_device(args.local_rank)
     print('Distributed init (rank {}): {}'.format(args.rank, args.dist_url), flush=True)
 
     dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url,

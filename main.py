@@ -169,7 +169,7 @@ def main(args):
 
     model_without_ddp = model
     if args.distributed:
-        model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.gpu],
+        model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.local_rank],
                                                           find_unused_parameters=args.find_unused_params)
         model_without_ddp = model.module
 
