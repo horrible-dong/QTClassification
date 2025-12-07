@@ -3,8 +3,8 @@
 # ********************************************
 # Copyright (c) QIU Tian. All rights reserved.
 
-__version__ = "v0.9.3"
-__git_url__ = "https://github.com/horrible-dong/QTClassification"
+__version__ = '0.10.0'
+__git_url__ = 'https://github.com/horrible-dong/QTClassification'
 
 from .criterions import build_criterion
 from .datasets import build_dataset
@@ -15,7 +15,7 @@ from .schedulers import build_scheduler
 
 
 def _get_info() -> str:
-    __name_version__ = f'QTClassification Toolkit {__version__}'
+    __name_version__ = f"QTClassification Toolkit v{__version__}"
     max_len = max(len(__name_version__), len(__git_url__))
     edge = '*' * int(max_len * 0.15 + 1)
     return f"\n" \
