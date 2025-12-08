@@ -44,10 +44,10 @@ def your_model_architecture_3(...):
 
 ...
 
-from .your_dataset import *  # 通常在 `__all__` 被申明的情况下可以这么写。
+from .your_model import *  # 通常在 `__all__` 被申明的情况下可以这么写。
 
 # 当 `__all__` 在 your_model.py 中未被申明时，使用:
-# from .your_dataset import your_model_architecture_1, your_model_architecture_2, your_model_architecture_3
+# from .your_model import your_model_architecture_1, your_model_architecture_2, your_model_architecture_3
 
 ...
 ```

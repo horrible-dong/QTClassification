@@ -45,10 +45,10 @@ def your_model_architecture_3(...):
 
 ...
 
-from .your_dataset import *  # Usually used when `__all__` has been declared in your_model.py.
+from .your_model import *  # Usually used when `__all__` has been declared in your_model.py.
 
 # When `__all__` has not been declared in your_model.py, use:
-# from .your_dataset import your_model_architecture_1, your_model_architecture_2, your_model_architecture_3
+# from .your_model import your_model_architecture_1, your_model_architecture_2, your_model_architecture_3
 
 ...
 ```
