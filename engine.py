@@ -107,5 +107,4 @@ def evaluate(model, data_loader, criterion, device, args, print_freq=10, amp=Fal
 
     stats['eval'] = list(evaluator.eval.values())
 
-
     return stats, evaluator
