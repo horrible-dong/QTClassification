@@ -36,4 +36,18 @@ def build_scheduler(args, optimizer, n_iter_per_epoch):
         )
         # return torch_scheduler.MultiStepLR(optimizer, args.milestones, args.gamma)
 
+    if scheduler_name == 'plateau':
+        return torch_scheduler.ReduceLROnPlateau(
+            optimizer,
+
+            # -- Method 1 --
+            # Specify `scheduler_kwargs` in the config, e.g., `scheduler_kwargs=dict(mode='min', factor=0.5, patience=5)`
+            **args.scheduler_kwargs
+
+            # -- Method 2 --
+            # mode='min',
+            # factor=args.factor,  # e.g., 0.5
+            # patience=args.patience,  # e.g., 5
+        )
+
     raise ValueError(f"Scheduler '{scheduler_name}' is not found.")
