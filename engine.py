@@ -103,7 +103,7 @@ def evaluate(model, data_loader, criterion, device, args, print_freq=10, amp=Fal
     evaluator.synchronize_between_processes()
     evaluator.summarize()
 
-    stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}
+    stats = {k: meter.global_avg for k, meter in metric_logger.meters.items() if meter.count > 0}
 
     stats['eval'] = list(evaluator.eval.values())
 
