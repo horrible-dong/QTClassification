@@ -8,6 +8,7 @@ import sys
 
 import cv2
 import numpy as np
+import pandas as pd
 import torch
 from PIL import Image
 from termcolor import cprint
@@ -73,6 +74,21 @@ def json_saver(obj, path, mode=0o777, overwrite=True, **kwargs):
             raise FileExistsError
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(obj, f, **kwargs)
+    os.chmod(path, mode)
+
+
+def csv_loader(path, **kwargs):
+    df = pd.read_csv(path, **kwargs)
+    return df
+
+
+def csv_saver(df, path, mode=0o777, overwrite=True, **kwargs):
+    if os.path.exists(path):
+        if overwrite:
+            os.remove(path)
+        else:
+            raise FileExistsError
+    df.to_csv(path, **kwargs)
     os.chmod(path, mode)
 
 
