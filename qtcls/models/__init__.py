@@ -84,8 +84,6 @@ def build_model(args):
                 state_dict = state_dict['model']
 
             checkpoint_loader(model, state_dict, strict=False)
-        else:
-            cprint("No pre-training is used", 'light_green')
 
         return model
 
@@ -106,8 +104,6 @@ def build_model(args):
                 checkpoint_loader(model, state_dict, strict=False)
 
             return model
-
-        cprint("No pre-training is used", 'light_green')
 
         model = timm.create_model(model_name=model_name, pretrained=False, **args.model_kwargs)
 
