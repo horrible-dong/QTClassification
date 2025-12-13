@@ -42,7 +42,7 @@ class BaseDataset(Dataset):
         self.transform = transform
         self.target_transform = target_transform
         self.batch_transform = batch_transform
-        self.loader = loader if loader is not None else default_loader
+        self.loader = loader or default_loader
 
         self.__check_transforms()
 

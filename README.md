@@ -62,7 +62,7 @@ python main.py \
   --epochs 12 \
   --output_dir ./runs/__tmp__
   
-# multi-gpu (needs pytorch>=1.9.0)
+# multi-gpu (requires pytorch>=1.9.0)
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 torchrun --nproc_per_node=2 main.py \
   --data_root ./data \
@@ -104,7 +104,7 @@ python main.py \
   --resume ./runs/__tmp__/checkpoint.pth \
   --eval
   
-# multi-gpu (needs pytorch>=1.9.0)
+# multi-gpu (requires pytorch>=1.9.0)
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1 \
 torchrun --nproc_per_node=2 main.py \
   --data_root ./data \

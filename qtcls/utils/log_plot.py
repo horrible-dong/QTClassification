@@ -8,7 +8,7 @@
 
 """
 Plotting utilities to visualize training logs.
-Needs pandas<1.4.0.
+Requires pandas<1.4.0.
 """
 
 import math
