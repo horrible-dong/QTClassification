@@ -16,6 +16,11 @@ def build_optimizer(args, params):
         return AdamW(params, lr=args.lr, weight_decay=args.weight_decay, eps=1e-8)
 
     if optimizer_name == 'rmsprop':
-        return RMSprop(params, lr=args.lr, weight_decay=args.weight_decay, momentum=args.momentum)
+        # -- Method 1 --
+        # Specify `optimizer_kwargs` in the config, e.g., `optimizer_kwargs=dict(lr=1e-4, weight_decay=5e-2, momentum=0.9)`
+        return RMSprop(params, **args.optimizer_kwargs)
+
+        # -- Method 2 --
+        # return RMSprop(params, lr=args.lr, weight_decay=args.weight_decay, momentum=args.momentum)
 
     raise ValueError(f"Optimizer '{optimizer_name}' is not found.")
