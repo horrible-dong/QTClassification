@@ -163,9 +163,6 @@ def main(args):
     model = build_model(args)
     model.to(device)
 
-    if args.no_pretrain and not args.resume:
-        cprint('No pre-training is used', 'light_green')
-
     if args.distributed and args.sync_bn:
         model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
 
