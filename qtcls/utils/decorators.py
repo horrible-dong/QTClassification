@@ -27,6 +27,16 @@ def getattr_case_insensitive(func):
 
 
 def main_process_only(func):
+    """
+    Functions decorated with @main_process_only
+    will only be called in the main process.
+
+    IMPORTANT:
+        A function decorated with @main_process_only
+        must NOT call any other functions that are
+        also decorated with @main_process_only.
+    """
+
     def wrapper(*args, **kwargs):
         if is_main_process():
             ret = func(*args, **kwargs)
