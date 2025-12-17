@@ -14,6 +14,7 @@ from PIL import Image
 from termcolor import cprint
 
 from .decorators import main_process_only
+from .os import chmod
 
 
 def pil_loader(path, format=None):
@@ -31,7 +32,7 @@ def pil_saver(image, path, mode=0o777, overwrite=True):
         else:
             raise FileExistsError
     image.save(path)
-    os.chmod(path, mode)
+    chmod(path, mode)
 
 
 def cv2_loader(path, format=None):
@@ -56,7 +57,7 @@ def cv2_saver(image, path, mode=0o777, overwrite=True):
         else:
             raise FileExistsError
     cv2.imwrite(path, image)
-    os.chmod(path, mode)
+    chmod(path, mode)
 
 
 def json_loader(path, **kwargs):
@@ -74,7 +75,7 @@ def json_saver(obj, path, mode=0o777, overwrite=True, **kwargs):
             raise FileExistsError
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(obj, f, **kwargs)
-    os.chmod(path, mode)
+    chmod(path, mode)
 
 
 def csv_loader(path, **kwargs):
@@ -89,7 +90,7 @@ def csv_saver(df, path, mode=0o777, overwrite=True, **kwargs):
         else:
             raise FileExistsError
     df.to_csv(path, **kwargs)
-    os.chmod(path, mode)
+    chmod(path, mode)
 
 
 def checkpoint_loader(obj, checkpoint, load_pos=None, delete_keys=(), strict=False, verbose=True):
@@ -145,7 +146,7 @@ def checkpoint_saver(obj, save_path, mode=0o777, rename=False, overwrite=True):
                 save_path = split_path[0] + '(1)' + split_path[1]
 
     torch.save(obj, save_path)
-    os.chmod(save_path, mode)
+    chmod(save_path, mode)
 
 
 def variables_loader(file_path):
@@ -178,7 +179,7 @@ def variables_saver(variables: dict, save_path, mode=0o777):
     with open(save_path, 'w') as f:
         for k, v in variables.items():
             f.write(f'{k} = {repr(v)}\n')
-    os.chmod(save_path, mode)
+    chmod(save_path, mode)
 
 
 @main_process_only
@@ -187,4 +188,4 @@ def log_writer(log_path, content: str, mode=0o777):
     with open(log_path, 'a') as f:
         f.write(content + '\n')
     if not log_exists:
-        os.chmod(log_path, mode)
+        chmod(log_path, mode)

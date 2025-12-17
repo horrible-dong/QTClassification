@@ -6,9 +6,17 @@ import shutil
 from qtcls.utils.decorators import main_process_only
 
 
+def chmod(path, mode, **kwargs):
+    try:
+        os.chmod(path, mode, **kwargs)
+    except PermissionError:
+        pass
+        # cprint(f"PermissionError: 'chmod' operation not permitted: '{path}'", 'light_yellow')
+
+
 def mkdir(path, mode=0o777):
     os.mkdir(path)
-    os.chmod(path, mode)
+    chmod(path, mode)
 
 
 def makedirs(path, mode=0o777, exist_ok=False):  # FIXME: cannot be decorated by '@main_process_only'
@@ -35,7 +43,7 @@ def makedirs(path, mode=0o777, exist_ok=False):  # FIXME: cannot be decorated by
 @main_process_only
 def symlink(src_path, symlink_path, mode=0o777):
     os.symlink(src_path, symlink_path)
-    os.chmod(symlink_path, mode)
+    chmod(symlink_path, mode)
 
 
 @main_process_only
