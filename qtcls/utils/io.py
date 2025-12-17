@@ -59,9 +59,9 @@ def cv2_saver(image, path, mode=0o777, overwrite=True):
     os.chmod(path, mode)
 
 
-def json_loader(path):
-    with open(path, 'r') as f:
-        obj = json.load(f)
+def json_loader(path, **kwargs):
+    with open(path, 'r', encoding='utf-8') as f:
+        obj = json.load(f, **kwargs)
     return obj
 
 
