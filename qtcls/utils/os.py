@@ -7,9 +7,8 @@ from qtcls.utils.decorators import main_process_only
 
 
 def mkdir(path, mode=0o777):
-    if not os.path.exists(path):
-        os.mkdir(path)
-        os.chmod(path, mode)
+    os.mkdir(path)
+    os.chmod(path, mode)
 
 
 def makedirs(path, mode=0o777, exist_ok=False):  # FIXME: cannot be decorated by '@main_process_only'
