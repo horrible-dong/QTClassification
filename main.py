@@ -43,7 +43,7 @@ def get_args_parser():
     parser.add_argument('--dist_backend', type=str, default='nccl', help='backend used to set up distributed training')
     parser.add_argument('--print_freq', type=int, default=50)
     parser.add_argument('--drop_lr_now', action='store_true')
-    parser.add_argument('--drop_last', action='store_true')
+    parser.add_argument('--drop_last', action='store_true', help='drop incomplete last batch')
     parser.add_argument('--amp', action='store_true', help='automatic mixed precision training')
     parser.add_argument('--flops', action='store_true', help='compute and show flops')
 
@@ -58,6 +58,7 @@ def get_args_parser():
     parser.add_argument('--eval_aug_kwargs', default=dict())
     parser.add_argument('--train_batch_aug_kwargs', default=dict())
     parser.add_argument('--eval_batch_aug_kwargs', default=dict())
+    parser.add_argument('--mixup', action='store_true')
     parser.add_argument('--label_smoothing', type=float, default=0.0, help='for LabelSmoothingCrossEntropy')
     parser.add_argument('--simple_aug', action='store_true', help='use simple augmentations')
 
@@ -123,13 +124,15 @@ def main(args):
         args.pretrain = None
     if args.data_root:
         makedirs(args.data_root, exist_ok=True)
+    if args.dummy:
+        meta_note = meta_note.replace(args.dataset, f'{args.dataset} (fake data)')
+    if args.mixup:
+        cprint('When using MixUp, please ensure an even --batch_size and set --drop_last if necessary.', 'light_yellow')
     if args.clear_output_dir:
         rmtree(args.output_dir, not_exist_ok=True)
     if args.output_dir:
         makedirs(args.output_dir, exist_ok=True)
         variables_saver(dict(sorted(vars(args).items())), os.path.join(args.output_dir, 'config.py'))
-    if args.dummy:
-        meta_note = meta_note.replace(args.dataset, f'{args.dataset} (fake data)')
 
     print(args)
 
@@ -147,7 +150,7 @@ def main(args):
     data_loader_train = Data.DataLoader(dataset=dataset_train,
                                         sampler=sampler_train,
                                         batch_size=args.batch_size,
-                                        drop_last=bool(args.drop_last or len(dataset_train) % 2 or args.batch_size % 2),
+                                        drop_last=args.drop_last,
                                         pin_memory=args.pin_memory,
                                         num_workers=args.num_workers,
                                         collate_fn=dataset_train.collate_fn)

@@ -160,7 +160,7 @@ def build_dataset(args, split, download=True):
             'val': create_transform(**aug_kwargs['eval_aug_kwargs'])
         }
         batch_transform = {
-            'train': Mixup(**aug_kwargs['train_batch_aug_kwargs']),
+            'train': Mixup(**aug_kwargs['train_batch_aug_kwargs']) if args.mixup else None,
             'val': None
         }
 
