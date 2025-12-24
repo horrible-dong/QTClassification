@@ -44,7 +44,7 @@ def get_args_parser():
     parser.add_argument('--print_freq', type=int, default=50)
     parser.add_argument('--drop_lr_now', action='store_true')
     parser.add_argument('--drop_last', action='store_true', help='drop incomplete last batch')
-    parser.add_argument('--amp', action='store_true', help='automatic mixed precision training')
+    parser.add_argument('--amp', action='store_true', help='automatic mixed precision')
     parser.add_argument('--flops', action='store_true', help='compute and show flops')
 
     # dataset
@@ -216,9 +216,9 @@ def main(args):
             checkpoint_loader(scaler, checkpoint["scaler"])
 
     if args.eval:
-        print('\n')
+        print()
         test_stats, evaluator = evaluate(
-            model, data_loader_val, criterion, device, args, args.print_freq, args.amp
+            model, data_loader_val, criterion, device, args, args.amp, args.print_freq
         )
         return
 
@@ -229,7 +229,7 @@ def main(args):
         if args.distributed:
             sampler_train.set_epoch(epoch)
         train_stats = train_one_epoch(
-            model, criterion, data_loader_train, optimizer, scheduler, device, epoch, args.clip_max_norm, scaler,
+            model, data_loader_train, criterion, optimizer, scheduler, device, epoch, args.clip_max_norm, scaler,
             args.print_freq
         )
         if args.output_dir and (epoch + 1) % args.save_interval == 0:
@@ -250,7 +250,7 @@ def main(args):
                 checkpoint_saver(checkpoint, checkpoint_path)
 
         test_stats, evaluator = evaluate(
-            model, data_loader_val, criterion, device, args, args.print_freq, args.amp
+            model, data_loader_val, criterion, device, args, args.amp, args.print_freq
         )
 
         log_stats = {**{f'train_{k}': v for k, v in train_stats.items()},
@@ -264,8 +264,7 @@ def main(args):
         print(f'{meta_note} | note: {args.note}\n') if args.note else print(f'{meta_note}\n')
 
     total_time = time.time() - start_time
-    total_time_str = str(datetime.timedelta(seconds=int(total_time)))
-    print('Training time {}'.format(total_time_str))
+    print(f'Training time: {datetime.timedelta(seconds=int(total_time))}')
 
     if args.distributed:
         dist.destroy_process_group()

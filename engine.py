@@ -9,7 +9,7 @@ from qtcls import build_evaluator
 from qtcls.utils.misc import update, reduce_dict, MetricLogger, SmoothedValue
 
 
-def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device, epoch: int, clip_max_norm: float = 0,
+def train_one_epoch(model, data_loader, criterion, optimizer, scheduler, device, epoch: int, clip_max_norm: float = 0,
                     scaler=None, print_freq: int = 10):
     model.train()
     criterion.train()
@@ -18,7 +18,7 @@ def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device,
     metric_logger = MetricLogger(delimiter='  ')
     metric_logger.add_meter('lr', SmoothedValue(window_size=1, fmt='{value:.6f}'))
     metric_logger.add_meter('class_error', SmoothedValue(window_size=1, fmt='{value:.2f}'))
-    header = 'Epoch: [{}]'.format(epoch)
+    header = f'Epoch: [{epoch}]'
 
     for batch_idx, (samples, targets) in enumerate(metric_logger.log_every(data_loader, print_freq, header)):
         samples = samples.to(device)
@@ -38,7 +38,7 @@ def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device,
         loss_value = losses_reduced_scaled.item()
 
         if not math.isfinite(loss_value):
-            print('Loss is {}, stopping training'.format(loss_value))
+            print(f'Loss is {loss_value}. Stop training.')
             print(loss_dict_reduced)
             sys.exit(1)
 
@@ -62,7 +62,7 @@ def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device,
 
 
 @torch.no_grad()
-def evaluate(model, data_loader, criterion, device, args, print_freq=10, amp=False):
+def evaluate(model, data_loader, criterion, device, args, amp=False, print_freq=10):
     model.eval()
     criterion.eval()
 
