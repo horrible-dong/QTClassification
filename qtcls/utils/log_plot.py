@@ -22,8 +22,8 @@ from matplotlib import pyplot as plt
 
 
 def plot_logs(logs,
-              fields=('loss', 'loss_ce_unscaled',
-                      'Accuracy', 'Recall', 'Precision', 'F1-Score'),
+              loss_fields=('loss', 'loss_ce_unscaled'),
+              metric_fields=('Accuracy', 'Recall', 'Precision', 'F1-Score'),
               ewm_col=0,
               log_name='log.txt',
               n_cols=3,
@@ -69,18 +69,19 @@ def plot_logs(logs,
     # load log file(s) and plot
     dfs = [pd.read_json(Path(p) / log_name, lines=True) for p in logs]
 
+    fields = loss_fields + metric_fields
+
     n_rows = math.ceil(len(fields) / n_cols)
     fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(6 * n_cols, 5 * n_rows))
 
-    cls_fields = fields[-4:]
-    cls_metrics = {field: i for i, field in enumerate(cls_fields)}
+    metrics = {field: i for i, field in enumerate(metric_fields)}
 
     for df, color in zip(dfs, sns.color_palette(n_colors=len(logs))):
         for n, field in enumerate(fields):
             i, j = n // n_cols, n % n_cols
-            if field in cls_fields:
+            if field in metric_fields:
                 coco_eval = pd.DataFrame(
-                    np.stack(df.test_eval.dropna().values)[:, cls_metrics[field]]
+                    np.stack(df.test_eval.dropna().values)[:, metrics[field]]
                 ).ewm(com=ewm_col).mean()
                 axs[i, j].plot(coco_eval, c=color, )
             else:
@@ -92,7 +93,7 @@ def plot_logs(logs,
                 )
 
     for ax, field in zip(axs.ravel(), fields):
-        if field in cls_fields:
+        if field in metric_fields:
             ax.legend([Path(p).name for p in logs], loc=4)
         else:
             legend = []
