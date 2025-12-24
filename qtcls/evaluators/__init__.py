@@ -9,4 +9,4 @@ def build_evaluator(args):
     if evaluator_name in ['default']:
         return DefaultEvaluator(metrics=['acc', 'recall', 'precision', 'f1'])
 
-    raise ValueError(f"Evaluator '{evaluator_name}' is not found.")
+    raise ValueError(f"Evaluator '{evaluator_name}' is not found. Please register it in qtcls/evaluators/__init__.py.")

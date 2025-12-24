@@ -23,4 +23,4 @@ def build_optimizer(args, params):
         # -- Method 2 --
         # return RMSprop(params, lr=args.lr, weight_decay=args.weight_decay, momentum=args.momentum)
 
-    raise ValueError(f"Optimizer '{optimizer_name}' is not found.")
+    raise ValueError(f"Optimizer '{optimizer_name}' is not found. Please register it in qtcls/optimizers/__init__.py.")

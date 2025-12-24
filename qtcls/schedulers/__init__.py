@@ -51,4 +51,4 @@ def build_scheduler(args, optimizer, n_iter_per_epoch):
 
         )
 
-    raise ValueError(f"Scheduler '{scheduler_name}' is not found.")
+    raise ValueError(f"Scheduler '{scheduler_name}' is not found. Please register it in qtcls/schedulers/__init__.py.")

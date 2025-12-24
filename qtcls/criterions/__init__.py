@@ -15,4 +15,4 @@ def build_criterion(args):
     if criterion_name in ['soft_target_ce', 'default']:
         return SoftTargetCrossEntropy(losses=['labels'], weight_dict={'loss_ce': 1})
 
-    raise ValueError(f"Criterion '{criterion_name}' is not found.")
+    raise ValueError(f"Criterion '{criterion_name}' is not found. Please register it in qtcls/criterions/__init__.py.")

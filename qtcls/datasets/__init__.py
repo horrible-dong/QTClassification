@@ -297,7 +297,7 @@ def build_dataset(args, split, download=True):
                        batch_transform=None,
                        download=download)
 
-    raise ValueError(f"Dataset '{dataset_name}' is not found.")
+    raise ValueError(f"Dataset '{dataset_name}' is not found. Please register it in qtcls/datasets/__init__.py.")
 
 
 def _build_timm_aug_kwargs(args, image_size=224, mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225),

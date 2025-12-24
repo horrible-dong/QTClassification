@@ -43,13 +43,13 @@ def build_model(args):
 
     if 'num_classes' in args.model_kwargs.keys():
         cprint(f"Warning: Do NOT set 'num_classes' in 'args.model_kwargs'. "
-               f"Now fetching the 'num_classes' registered in 'qtcls/datasets/__init__.py'.", 'light_yellow')
+               f"Now fetching the 'num_classes' registered in qtcls/datasets/__init__.py.", 'light_yellow')
 
     try:
         num_classes = datasets._num_classes[args.dataset.lower()]
     except KeyError:
         print(f"KeyError: 'num_classes' for the dataset '{args.dataset.lower()}' is not found. "
-              f"Please register your dataset's 'num_classes' in 'qtcls/datasets/__init__.py'.")
+              f"Please register your dataset's 'num_classes' in qtcls/datasets/__init__.py.")
         exit(1)
 
     args.model_kwargs['num_classes'] = num_classes
@@ -60,7 +60,7 @@ def build_model(args):
         try:
             model = __vars__[model_name](**args.model_kwargs)
         except KeyError:
-            print(f"KeyError: Model '{model_name}' is not found.")
+            print(f"KeyError: Model '{model_name}' is not found. Please register it in qtcls/models.")
             exit(1)
 
         if load_pretrain:  # Loading Priority: `--pretrain path` > `local path` > `url`
@@ -77,7 +77,7 @@ def build_model(args):
             else:
                 raise FileNotFoundError(f"Pretrained model for '{model_name}' is not found. "
                                         f"Please specify your pretrained path via the argument '--pretrain' / '-p' "
-                                        f"or register it in 'qtcls/datasets/_pretrain_.py', "
+                                        f"or register it in qtcls/models/_pretrain_.py, "
                                         f"or set the argument '--no_pretrain'.")
 
             if 'model' in state_dict.keys():
@@ -109,7 +109,7 @@ def build_model(args):
 
         return model
 
-    raise ValueError(f"Model lib '{model_lib}' is not found.")
+    raise ValueError(f"Model lib '{model_lib}' is not found. Please register it in qtcls/models/__init__.py.")
 
 
 def _search_pretrained_from_local_paths(model_name):
