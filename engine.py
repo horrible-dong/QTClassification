@@ -55,7 +55,6 @@ def train_one_epoch(model, criterion, data_loader, optimizer, scheduler, device,
     scheduler.step(epoch)
 
     metric_logger.synchronize_between_processes()
-    print('Averaged stats:', metric_logger)
 
     stats = {k: meter.global_avg for k, meter in metric_logger.meters.items() if meter.count > 0}
 
@@ -98,7 +97,6 @@ def evaluate(model, data_loader, criterion, device, args, print_freq=10, amp=Fal
         evaluator.update(outputs, targets)
 
     metric_logger.synchronize_between_processes()
-    print('Averaged stats:', metric_logger)
 
     evaluator.synchronize_between_processes()
     evaluator.summarize()
