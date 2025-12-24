@@ -118,10 +118,10 @@ def main(args):
         args.amp = False
     if args.num_workers is None:
         args.num_workers = min([os.cpu_count(), args.batch_size if args.batch_size > 1 else 0, 8])
-    if args.resume:
-        args.no_pretrain = True
-    if args.no_pretrain:
+    if args.pretrain and args.no_pretrain:
         args.pretrain = None
+        cprint('You set both --pretrain and --no_pretrain. '
+               'Since --no_pretrain has the highest priority, --pretrain will be ignored.', 'light_yellow')
     if args.data_root:
         makedirs(args.data_root, exist_ok=True)
     if args.dummy:
