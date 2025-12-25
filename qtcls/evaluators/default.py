@@ -4,7 +4,6 @@ __all__ = ['DefaultEvaluator']
 
 import itertools
 import warnings
-from collections import OrderedDict
 from typing import List
 
 from sklearn import metrics as sklearn_metrics
@@ -19,7 +18,7 @@ class DefaultEvaluator:
         self.metrics = metrics
         self.outputs = []
         self.targets = []
-        self.eval = OrderedDict({metric: None for metric in metrics})
+        self.eval = {metric: None for metric in metrics}
 
     def update(self, outputs, targets, **kwargs):
         if isinstance(outputs, dict):
