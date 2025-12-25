@@ -242,8 +242,12 @@ def reduce_dict(input_dict, average=True):
     with torch.no_grad():
         names = []
         values = []
-        # sort the keys so that they are consistent across processes
-        for k in sorted(input_dict.keys()):
+        # -- ORIGINAL --
+        # NOTE: Sort the keys so that they are consistent across processes.
+        # for k in sorted(input_dict.keys()):
+        # -- qt UPDATED --
+        # NOTE: Since python 3.7, keys are maintained in insertion order, so there's no need to sort.
+        for k in input_dict.keys():
             names.append(k)
             values.append(input_dict[k])
         values = torch.stack(values, dim=0)
