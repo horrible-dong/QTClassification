@@ -52,7 +52,7 @@ no_pretrain = True
 
 # saving
 save_interval = 5
-output_dir = f'./runs/{model}-{dataset}'
+output_dir = f'./runs/{dataset}/{model}'
 
 # remarks
 note = f"using the demo config in 'configs/_demo_.py'"
