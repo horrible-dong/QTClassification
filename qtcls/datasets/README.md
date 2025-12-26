@@ -93,5 +93,5 @@ def build_dataset(args, split, download=True):
 
 4. When using your dataset, set `--dataset` / `-d` to `your_dataset`. Note that `your_dataset` does not have to be
    consistent with the dataset class name `YourDataset`.
-5. Put your dataset into the `--data_root` directory (default is `./data`). Please
-   follow [this instruction](../../data/README.md). 
+5. Put your dataset into the `--data_root` directory (default is `./data`).
+   Please follow [this instruction](../../data/README.md). 

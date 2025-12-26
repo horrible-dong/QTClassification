@@ -1,7 +1,7 @@
 QTClassification
 ========
 
-**轻量可扩展的图像分类工具箱**
+**轻量可扩展的图像分类工具箱，但不止于图像分类**
 
 [![version](https://img.shields.io/badge/Version-0.11.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](README_zh-CN.md)
@@ -9,9 +9,8 @@ QTClassification
 
 > 作者: QIU Tian  
 > 机构: 浙江大学  
-> <a href="#安装教程">🛠️ 安装教程</a> | <a href="#使用教程">📘 使用教程</a> | <a href="#数据集">🌱
-> 数据集</a> | <a href="#模型库">
-> 👀 模型库</a>  
+> <a href="#安装教程">🛠️ 安装教程</a> | <a href="#快速开始">📘 使用文档</a> | <a href="#数据集">🌱
+> 数据集</a> | <a href="#模型库">👀 模型库</a>  
 > [English](README.md) | 简体中文
 
 ## <span id="安装教程">安装教程</span>
@@ -45,7 +44,7 @@ pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 --extra-index-url http
 pip install -r requirements.txt
 ```
 
-## <span id="使用教程">使用教程</span>
+## <span id="快速开始">快速开始</span>
 
 想要快速体验，你可以直接执行以下命令：
 
@@ -126,15 +125,57 @@ python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
   --eval
 ```
 
-### 如何使用
+### 使用配置文件（推荐）
 
-使用本工具箱进行训练和验证时，你可以参照上述命令执行，不过你需要根据具体任务来修改命令行参数。
+你也可以把参数写进配置文件（.py）中，并使用 `--config` / `-c` 来导入配置文件。见 [configs](configs)。
+
+**训练**
+
+```bash
+# 全写
+python main.py --config /path/to/config.py
+
+# 简写
+python main.py -c /path/to/config.py
+
+# 样例
+python main.py -c configs/_demo_.py
+```
+
+**验证**
+
+```bash
+# 全写
+python main.py --config /path/to/config.py --resume /path/to/checkpoint.pth --eval
+
+# 简写
+python main.py -c /path/to/config.py -r /path/to/checkpoint.pth --eval
+
+# 样例
+python main.py -c configs/_demo_.py -r ./runs/cifar10/vit_tiny_patch4_32/checkpoint.pth --eval
+```
+
+配置文件参数会覆盖或合并 [`main.py`](main.py) 中预定义的命令行参数 `args`。
+
+**其他样例**
+
+```bash
+python main.py -c configs/_demo_.py -co  # 预先清空输出目录
+python main.py -c configs/_demo_.py --batch_size 100 --print_freq 200 --note bs100
+python main.py -c configs/_demo_.py --save_interval 5555  # 不保存
+python main.py -c configs/_demo_.py --dataset food --dummy  # 使用假数据
+python main.py -c configs/_demo_.py -d cifar100 -b 400 --note cifar100-bs400
+```
+
+`--config xxx` / `-c xxx` 之后的命令行参数会覆盖配置文件参数（参数名相同时）。
+
+关于配置文件的更多细节和进阶用法请参考 [“如何编写和导入你的配置文件”](configs/README_zh-CN.md) 。
 
 **常用的命令行参数**
 
 |              命令行参数              |                                                                                  描述                                                                                  |       默认值        |
 |:-------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
-|          `--data_root`          |                                                                             你的数据集存放的路径。                                                                              |     `./data`     |
+|          `--data_root`          |                                                                              数据集存放的根目录。                                                                              |     `./data`     |
 |      `--dataset`<br />`-d`      |                                 数据集名称，在 [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py) 中定义，如 `cifar10` 和 `imagenet1k`。                                 |        /         |
 |            `--dummy`            |                                                   模拟 `--dataset` / `-d` 的数据，而不是加载真实数据（适用于在还没有数据或数据加载慢的情况下进行快速调试）。                                                    |     `False`      |
 |          `--model_lib`          |                                           模型库，模型都取自模型库。本工具箱的基础（默认）模型库由 `torchvision` 和 `timm` 扩展而来，同时本工具箱也支持原生 `timm` 模型库。                                           |    `default`     |
@@ -142,7 +183,7 @@ python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
 |          `--criterion`          |                                        损失函数名称，在 [qtcls/criterions/\_\_init\_\_.py](qtcls/criterions/__init__.py) 中定义，如 `ce`。                                         |    `default`     |
 |          `--optimizer`          |                                    优化器名称，在 [qtcls/optimizers/\_\_init\_\_.py](qtcls/optimizers/__init__.py) 中定义，如 `sgd` 和 `adam`。                                    |     `adamw`      |
 |          `--scheduler`          |                                     学习率调整策略名称，在 [qtcls/schedulers/\_\_init\_\_.py](qtcls/schedulers/__init__.py) 中定义，如 `cosine`。                                     |     `cosine`     |
-|          `--evaluator`          |                               验证器名称，在 [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py) 中定义。默认的验证器会计算准确率、召回率、精确率和f1分数。                                |    `default`     |
+|          `--evaluator`          |                               评估器名称，在 [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py) 中定义。默认的评估器会计算准确率、召回率、精确率和f1分数。                                |    `default`     |
 |     `--pretrain`<br />`-p`      | 预训练权重路径，其优先级高于存储在 [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py) 中的路径。若要长期使用某个预训练权重路径，建议将其写进 [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py)。 |        /         |
 |         `--no_pretrain`         |                                                                             强制不使用预训练权重。                                                                              |     `False`      |
 |      `--resume`<br />`-r`       |                                                                        要从中恢复的 checkpoint 路径。                                                                         |        /         |
@@ -152,38 +193,23 @@ python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
 |    `--batch_size`<br />`-b`     |                                                                                  /                                                                                   |       `8`        |
 |           `--epochs`            |                                                                                  /                                                                                   |      `300`       |
 |             `--lr`              |                                                                                 学习率。                                                                                 |      `1e-4`      |
-|             `--amp`             |                                                                             启用自动混合精度训练。                                                                              |     `False`      |
+|             `--amp`             |                                                                     启用自动混合精度训练（速度更快，GPU显存占用更少）。                                                                      |     `False`      |
 |            `--eval`             |                                                                               只验证，不训练。                                                                               |     `False`      |
-|            `--note`             |                                                              备忘笔记。 笔记内容会在每个 epoch 之后打印一次，以防你记不清自己正在跑什么。                                                              |        /         |
+|            `--note`             |                                                              备忘笔记。笔记内容会在每个 epoch 之后打印一次，以防你记不清自己正在跑什么。                                                               |        /         |
+|         `--print_freq`          |                                                                              控制终端输出的频率。                                                                              |       `50`       |
 
-**使用配置文件（推荐）**
-
-或者你可以把参数写进配置文件（.py）中，并直接使用 `--config` / `-c` 来导入配置文件。
-
-`--config` / `-c`: 配置文件路径。详见 [configs](configs)。配置文件中的参数会合并或覆盖命令行参数 `args`。
-
-例如：
-
-```bash
-python main.py --config configs/_demo_.py
-```
-
-或
-
-```bash
-python main.py -c configs/_demo_.py
-```
-
-更多细节请看 [“如何编写和导入你的配置文件”](configs/README_zh-CN.md) 。
-
-**数据集放置**
+### 如何准备数据
 
 目前，`mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars` 和 `food`
-数据集会自动下载到 `--data_root` 目录下。其余数据集请参考 [“如何放置你的数据集”](data/README_zh-CN.md) 。
+数据集会自动下载到 `--data_root` 目录下。其他数据集请参考 [“如何放置你的数据集”](data/README_zh-CN.md) 。
 
 ### 如何自定义
 
 你可以很轻松地对本工具箱进行扩展，请参考以下文档：
+
+[如何编写和导入你的配置文件](configs/README_zh-CN.md)
+
+[如何放置你的数据集](data/README_zh-CN.md)
 
 [如何注册你的数据集](qtcls/datasets/README_zh-CN.md)
 
@@ -195,13 +221,12 @@ python main.py -c configs/_demo_.py
 
 [如何注册你的学习率调整策略](qtcls/schedulers/README_zh-CN.md)
 
-[如何注册你的验证器](qtcls/evaluators/README_zh-CN.md)
-
-[如何编写和导入你的配置文件](configs/README_zh-CN.md)
+[如何注册你的评估器](qtcls/evaluators/README_zh-CN.md)
 
 ## <span id="数据集">数据集</span>
 
-目前支持的 `--dataset` 参数：  
+目前支持的 `--dataset` 参数：
+
 `mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars`, `food`,
 `imagenet1k`, `imagenet21k (也叫做 imagenet22k)` 以及所有 `folder` 格式的数据集（与 `imagenet`
 存储格式一致，详见 [“如何放置你的数据集 - 关于 folder 格式数据集”](data/README_zh-CN.md) ）。

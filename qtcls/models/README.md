@@ -54,8 +54,8 @@ from .your_model import *  # Usually used when `__all__` has been declared in yo
 ```
 
 4. If you have pretrained weights, add its path/url into [`_pretrain_.py`](_pretrain_.py). When loading pretrained
-   weights, `model_local_paths` will be searched first, and then `model_urls`. For the same model architecture, you can
-   store multiple local weight paths in a list, and the system will automatically search from them.
+   weights, `model_local_paths` will be searched first, and then `model_urls`. For the same model architecture,
+   you can store multiple local weight paths in a list, and the system will automatically search from them.
 
 ```python
 # _pretrain_.py
@@ -76,8 +76,8 @@ model_urls = {
 ```
 
 **Note:**
-To temporarily use a pre-trained weight path, you can specify it by command-line argument `--pretrain` / `-p`. For
-long-term use of a pre-trained weight path, it is preferable to write it in [`_pretrain_.py`](_pretrain_.py).
+To temporarily use a pre-trained weight path, you can specify it by command-line argument `--pretrain` / `-p`.
+For long-term use of a pre-trained weight path, it is preferable to write it in [`_pretrain_.py`](_pretrain_.py).
 Priority: `--pretrain` > `model_local_paths` > `model_urls`.
 
 5. When using your model, set `--model` / `-m` to `your_model_architecture_{1/2/3}`. 

@@ -1,7 +1,7 @@
 QTClassification
 ========
 
-**A lightweight and extensible toolbox for image classification**
+**A lightweight and extensible toolbox for image classification and MORE**
 
 [![version](https://img.shields.io/badge/Version-0.11.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](README.md)
@@ -89,7 +89,7 @@ The `cifar10` dataset and `resnet50` pretrained weights will be automatically do
 accessible. The `cifar10` dataset will be downloaded to `./data`. The `resnet50` pretrained weights will be downloaded
 to `~/.cache/torch/hub/checkpoints`.
 
-During training, the config file, checkpoints, logs, and other outputs will be stored in `./runs/__tmp__.`
+During training, the config file, checkpoints, logs, and other outputs will be stored in `./runs/__tmp__`.
 
 **Evaluation**
 
@@ -125,16 +125,59 @@ python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py \
   --eval
 ```
 
-### How to use
+### Using a config file (Recommended)
 
-When using the toolbox for training and evaluation, you may run the commands we provided above *with your own
-arguments*.
+You can also write the arguments into a config file (.py) and use `--config` / `-c` to import it.
+See [configs](configs).
+
+**Training**
+
+```bash
+# full command
+python main.py --config /path/to/config.py
+
+# short command
+python main.py -c /path/to/config.py
+
+# example
+python main.py -c configs/_demo_.py
+```
+
+**Evaluation**
+
+```bash
+# full command
+python main.py --config /path/to/config.py --resume /path/to/checkpoint.pth --eval
+
+# short command
+python main.py -c /path/to/config.py -r /path/to/checkpoint.pth --eval
+
+# example
+python main.py -c configs/_demo_.py -r ./runs/cifar10/vit_tiny_patch4_32/checkpoint.pth --eval
+```
+
+The config arguments override or merge with the command-line arguments `args` pre-defined in [`main.py`](main.py).
+
+**Other examples**
+
+```bash
+python main.py -c configs/_demo_.py -co  # clear the output dir first
+python main.py -c configs/_demo_.py --batch_size 100 --print_freq 200 --note bs100
+python main.py -c configs/_demo_.py --save_interval 5555  # do not save
+python main.py -c configs/_demo_.py --dataset food --dummy  # use fake data
+python main.py -c configs/_demo_.py -d cifar100 -b 400 --note cifar100-bs400
+```
+
+Command-line arguments after `--config xxx` / `-c xxx` override the config arguments if the name is duplicated.
+
+For more details and advanced usage of config files,
+please refer to ["How to write and import your configs"](configs/README.md).
 
 **Frequently-used command-line arguments**
 
 |      Command-Line Argument      |                                                                                                                                           Description                                                                                                                                           |  Default Value   |
 |:-------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------:|
-|          `--data_root`          |                                                                                                                            Directory where your datasets are stored.                                                                                                                            |     `./data`     |
+|          `--data_root`          |                                                                                                                            Root directory where datasets are stored.                                                                                                                            |     `./data`     |
 |      `--dataset`<br />`-d`      |                                                                                    Dataset name defined in [qtcls/datasets/\_\_init\_\_.py](qtcls/datasets/__init__.py), such as `cifar10` and `imagenet1k`.                                                                                    |        /         |
 |            `--dummy`            |                                                                            Use fake data of `--dataset` / `-d` instead of loading real data (for fast debugging when no data is available or data loading is slow).                                                                             |     `False`      |
 |          `--model_lib`          |                                                         Model library where models come from. The toolbox's basic (default) model library is extended from `torchvision` and `timm`, and the toolbox also supports the original `timm`.                                                         |    `default`     |
@@ -152,41 +195,24 @@ arguments*.
 |    `--batch_size`<br />`-b`     |                                                                                                                                                /                                                                                                                                                |       `8`        |
 |           `--epochs`            |                                                                                                                                                /                                                                                                                                                |      `300`       |
 |             `--lr`              |                                                                                                                                         Learning rate.                                                                                                                                          |      `1e-4`      |
-|             `--amp`             |                                                                                                                           Enable automatic mixed precision training.                                                                                                                            |     `False`      |
+|             `--amp`             |                                                                                                              Enable automatic mixed precision training (faster, less GPU memory).                                                                                                               |     `False`      |
 |            `--eval`             |                                                                                                                                         Evaluate only.                                                                                                                                          |     `False`      |
 |            `--note`             |                                                                                                    Note. The note content prints after each epoch, in case you forget what you are running.                                                                                                     |        /         |
+|         `--print_freq`          |                                                                                                                            Print to the terminal every N iterations.                                                                                                                            |       `50`       |
 
-**Using the config file (Recommended)**
-
-Or you can write the arguments into a config file (.py) and directly use `--config` / `-c`
-to import it.
-
-`--config` / `-c`: Config file path. See [configs](configs). Arguments in the config file merge or override command-line
-arguments `args`.
-
-For example,
-
-```bash
-python main.py --config configs/_demo_.py
-```
-
-or
-
-```bash
-python main.py -c configs/_demo_.py
-```
-
-For more details, please see ["How to write and import your configs"](configs/README.md).
-
-**Dataset placement**
+### How to prepare data
 
 Currently, `mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars` and `food`
-datasets will be automatically downloaded to the `--data_root` directory. For other datasets, please refer
-to ["How to put your datasets"](data/README.md).
+datasets will be automatically downloaded to the `--data_root` directory. For other datasets, please refer to
+["How to put your datasets"](data/README.md).
 
 ### How to customize
 
 The toolbox is flexible enough to be extended. Please follow the instructions below:
+
+[How to write and import your configs](configs/README.md)
+
+[How to put your datasets](data/README.md)
 
 [How to register your datasets](qtcls/datasets/README.md)
 
@@ -200,11 +226,10 @@ The toolbox is flexible enough to be extended. Please follow the instructions be
 
 [How to register your evaluators](qtcls/evaluators/README.md)
 
-[How to write and import your configs](configs/README.md)
-
 ## <span id="dataset_zoo">Dataset Zoo</span>
 
-Currently supported argument `--dataset` / `-d`:  
+Currently supported argument `--dataset` / `-d`:
+
 `mnist`, `fashion_mnist`, `cifar10`, `cifar100`, `stl10`, `svhn`, `pets`, `flowers`, `cars`, `food`,
 `imagenet1k`, `imagenet21k (also called imagenet22k)`,
 and all datasets in `folder` format (consistent with `imagenet` storage format,
@@ -212,8 +237,8 @@ see ["How to put your datasets - About folder format datasets"](data/README.md) 
 
 ## <span id="model_zoo">Model Zoo</span>
 
-The toolbox's basic (default) model library is extended from `torchvision` and `timm`, and the toolbox also supports the
-original `timm`.
+The toolbox's basic (default) model library is extended from `torchvision` and `timm`,
+and the toolbox also supports the original `timm`.
 
 ### default
 
