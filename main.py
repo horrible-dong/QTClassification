@@ -27,9 +27,9 @@ def get_args_parser():
     parser.add_argument('--config', '-c', type=str)
 
     # runtime
-    parser.add_argument('--device', type=str, default='cuda', choices=['cuda', 'cpu'])
+    parser.add_argument('--device', type=str, choices=['cuda', 'cpu'], default='cuda')
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--batch_size', '-b', type=int, default=8)
+    parser.add_argument('--batch_size', '-b', type=int, default=256)
     parser.add_argument('--epochs', type=int, default=300)
     parser.add_argument('--start_epoch', type=int, default=0)
     parser.add_argument('--clip_max_norm', type=float, default=1.0, help='gradient clipping max norm')
@@ -41,10 +41,10 @@ def get_args_parser():
     parser.add_argument('--find_unused_params', action='store_true')
     parser.add_argument('--dist_url', type=str, default='env://', help='url used to set up distributed training')
     parser.add_argument('--dist_backend', type=str, default='nccl', help='backend used to set up distributed training')
-    parser.add_argument('--print_freq', type=int, default=50)
+    parser.add_argument('--print_freq', type=int, default=50, help='print to the terminal every N iterations')
     parser.add_argument('--drop_lr_now', action='store_true')
     parser.add_argument('--drop_last', action='store_true', help='drop incomplete last batch')
-    parser.add_argument('--amp', action='store_true', help='automatic mixed precision')
+    parser.add_argument('--amp', action='store_true', help='automatic mixed precision training (faster, less GPU mem)')
     parser.add_argument('--flops', action='store_true', help='compute and show flops')
 
     # dataset
@@ -63,7 +63,7 @@ def get_args_parser():
     parser.add_argument('--simple_aug', action='store_true', help='use simple augmentations')
 
     # model
-    parser.add_argument('--model_lib', type=str, default='default', choices=['default', 'timm'], help='model library')
+    parser.add_argument('--model_lib', type=str, choices=['default', 'timm'], default='default', help='model library')
     parser.add_argument('--model', '-m', type=str, default='resnet50', help='model name')
     parser.add_argument('--model_kwargs', default=dict(), help='model specific kwargs')
 
@@ -218,7 +218,7 @@ def main(args):
     if args.eval:
         print()
         test_stats, evaluator = evaluate(
-            model, data_loader_val, criterion, device, args, args.amp, args.print_freq
+            data_loader_val, model, criterion, device, args, args.amp, args.print_freq
         )
         return
 
@@ -229,7 +229,7 @@ def main(args):
         if args.distributed:
             sampler_train.set_epoch(epoch)
         train_stats = train_one_epoch(
-            model, data_loader_train, criterion, optimizer, scheduler, device, epoch, args.clip_max_norm, scaler,
+            data_loader_train, model, criterion, optimizer, scheduler, device, epoch, args.clip_max_norm, scaler,
             args.print_freq
         )
         if args.output_dir and (epoch + 1) % args.save_interval == 0:
@@ -250,7 +250,7 @@ def main(args):
                 checkpoint_saver(checkpoint, checkpoint_path)
 
         test_stats, evaluator = evaluate(
-            model, data_loader_val, criterion, device, args, args.amp, args.print_freq
+            data_loader_val, model, criterion, device, args, args.amp, args.print_freq
         )
 
         log_stats = {**{f'train_{k}': v for k, v in train_stats.items()},

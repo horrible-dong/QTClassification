@@ -186,17 +186,17 @@ python main.py -c configs/_demo_.py -d cifar100 -b 400 --note cifar100-bs400
 |          `--evaluator`          |                               评估器名称，在 [qtcls/evaluators/\_\_init\_\_.py](qtcls/evaluators/__init__.py) 中定义。默认的评估器会计算准确率、召回率、精确率和f1分数。                                |    `default`     |
 |     `--pretrain`<br />`-p`      | 预训练权重路径，其优先级高于存储在 [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py) 中的路径。若要长期使用某个预训练权重路径，建议将其写进 [qtcls/models/\_pretrain\_.py](qtcls/models/_pretrain_.py)。 |        /         |
 |         `--no_pretrain`         |                                                                             强制不使用预训练权重。                                                                              |     `False`      |
-|      `--resume`<br />`-r`       |                                                                        要从中恢复的 checkpoint 路径。                                                                         |        /         |
+|      `--resume`<br />`-r`       |                                                                        要从中恢复的 checkpoint 的路径。                                                                        |        /         |
 |    `--output_dir`<br />`-o`     |                                                          输出目录，用来存放 checkpoint 文件（包含模型权重、优化器权重等）、日志文件和其他输出。                                                           | `./runs/__tmp__` |
-|        `--save_interval`        |                                                                          保存 checkpoint 的间隔.                                                                          |       `1`        |
+|        `--save_interval`        |                                                                          保存 checkpoint 的间隔。                                                                          |       `1`        |
 | `--clear_output_dir`<br />`-co` |                                                                   预先清空输出目录（`--output_dir` / `-o`）。                                                                   |     `False`      |
-|    `--batch_size`<br />`-b`     |                                                                                  /                                                                                   |       `8`        |
+|    `--batch_size`<br />`-b`     |                                                                                  /                                                                                   |      `256`       |
 |           `--epochs`            |                                                                                  /                                                                                   |      `300`       |
 |             `--lr`              |                                                                                 学习率。                                                                                 |      `1e-4`      |
 |             `--amp`             |                                                                     启用自动混合精度训练（速度更快，GPU显存占用更少）。                                                                      |     `False`      |
 |            `--eval`             |                                                                               只验证，不训练。                                                                               |     `False`      |
 |            `--note`             |                                                              备忘笔记。笔记内容会在每个 epoch 之后打印一次，以防你记不清自己正在跑什么。                                                               |        /         |
-|         `--print_freq`          |                                                                              控制终端输出的频率。                                                                              |       `50`       |
+|         `--print_freq`          |                                                                      控制终端输出的频率（每 N 次迭代输出一次信息）。                                                                       |       `50`       |
 
 ### 如何准备数据
 

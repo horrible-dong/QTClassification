@@ -9,7 +9,7 @@ from qtcls import build_evaluator
 from qtcls.utils.misc import update, reduce_dict, MetricLogger, SmoothedValue
 
 
-def train_one_epoch(model, data_loader, criterion, optimizer, scheduler, device, epoch: int, clip_max_norm: float = 0,
+def train_one_epoch(data_loader, model, criterion, optimizer, scheduler, device, epoch: int, clip_max_norm: float = 0,
                     scaler=None, print_freq: int = 10):
     model.train()
     criterion.train()
@@ -62,7 +62,7 @@ def train_one_epoch(model, data_loader, criterion, optimizer, scheduler, device,
 
 
 @torch.no_grad()
-def evaluate(model, data_loader, criterion, device, args, amp=False, print_freq=10):
+def evaluate(data_loader, model, criterion, device, args, amp=False, print_freq=10):
     model.eval()
     criterion.eval()
 
