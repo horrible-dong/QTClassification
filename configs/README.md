@@ -6,9 +6,9 @@
 
 ## Basic Tutorial
 
-If needed, refer to [`_demo_.py`](_demo_.py) and write your arguments in a config file (.py).
+Refer to [`_demo_.py`](_demo_.py) and write your arguments in a config file (.py).
 
-Starting from v0.2.0, if you want to use your config file, set `--config` / `-c` to your **_config file path_**,
+Starting from v0.2.0, when using your config file, set `--config` / `-c` to your config file path,
 like `configs/_demo_.py`:
 
 ```bash
@@ -23,15 +23,15 @@ python main.py -c configs/_demo_.py
 ```
 
 Note that `--config` / `-c` supports any file system path, such as `configs/_demo_.py`,
-`D:\\QTClassification\\configs\\_demo_.py`, `../../another_project/cfg.py`.
+`/root/QTClassification/configs/_demo_.py`, `../../another_project/cfgs/exp_name.py`.
 
 Then, the config arguments **override or merge** with the command-line arguments `args` pre-defined in
 [`main.py`](../main.py).
 
-### Important Feature
+### Important Features
 
-Starting from v0.7.0, command-line arguments **_after_** `--config xxx` / `-c xxx` **override** the config arguments if
-the name is duplicated. For example,
+Starting from v0.7.0, command-line arguments after `--config xxx` / `-c xxx` override the config arguments
+if the name is duplicated. For example,
 
 ```bash
 python main.py -c configs/_demo_.py -co  # clear the output dir first
@@ -42,6 +42,9 @@ python main.py -c configs/_demo_.py -d cifar100 -b 400 --note cifar100-bs400
 python main.py -c configs/_demo_.py --resume ./runs/cifar10/vit_tiny_patch4_32/checkpoint.pth
 python main.py -c configs/_demo_.py --resume ./runs/cifar10/vit_tiny_patch4_32/checkpoint.pth --eval
 ```
+
+Similarly, command-line arguments before `--config xxx` / `-c xxx` are overridden by the config arguments
+if the name is duplicated.
 
 ## Advanced Tutorial
 
