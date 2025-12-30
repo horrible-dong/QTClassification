@@ -3,7 +3,7 @@ QTClassification
 
 **A lightweight and extensible toolbox for image classification and MORE**
 
-[![version](https://img.shields.io/badge/Version-0.11.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.12.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](README.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache_2.0-blue)](LICENSE)
 

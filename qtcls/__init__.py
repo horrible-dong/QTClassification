@@ -3,7 +3,7 @@
 # ********************************************
 # Copyright (c) QIU Tian. All rights reserved.
 
-__version__ = '0.11.0'
+__version__ = '0.12.0'
 __git_url__ = 'https://github.com/horrible-dong/QTClassification'
 
 from .criterions import build_criterion
