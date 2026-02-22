@@ -23,7 +23,7 @@ class DefaultEvaluator:
     def update(self, outputs, targets, **kwargs):
         if isinstance(outputs, dict):
             assert 'logits' in outputs.keys(), \
-                f"When using 'update(self, outputs, targets)' in '{self.__class__.__name__}', " \
+                f"When using 'update(self, outputs, targets, **kwargs)' in '{self.__class__.__name__}', " \
                 f"if 'outputs' is a dict, 'logits' MUST be the key."
             outputs = outputs['logits']  # [batch_size, num_classes]
         outputs = outputs.argmax(-1).tolist()
@@ -35,26 +35,22 @@ class DefaultEvaluator:
         self.outputs = list(itertools.chain(*all_gather(self.outputs)))
         self.targets = list(itertools.chain(*all_gather(self.targets)))
 
-    @staticmethod
-    def metric_acc(outputs, targets, **kwargs):
-        return sklearn_metrics.accuracy_score(targets, outputs)
+    def metric_acc(self):
+        return sklearn_metrics.accuracy_score(self.targets, self.outputs)
 
-    @staticmethod
-    def metric_recall(outputs, targets, **kwargs):
-        return sklearn_metrics.recall_score(targets, outputs, average='macro')
+    def metric_recall(self):
+        return sklearn_metrics.recall_score(self.targets, self.outputs, average='macro')
 
-    @staticmethod
-    def metric_precision(outputs, targets, **kwargs):
-        return sklearn_metrics.precision_score(targets, outputs, average='macro')
+    def metric_precision(self):
+        return sklearn_metrics.precision_score(self.targets, self.outputs, average='macro')
 
-    @staticmethod
-    def metric_f1(outputs, targets, **kwargs):
-        return sklearn_metrics.f1_score(targets, outputs, average='macro')
+    def metric_f1(self):
+        return sklearn_metrics.f1_score(self.targets, self.outputs, average='macro')
 
     def summarize(self):
         print('Classification Metrics:')
         for metric in self.metrics:
-            value = getattr(self, f'metric_{metric}')(self.outputs, self.targets)
+            value = getattr(self, f'metric_{metric}')()
             self.eval[metric] = value
             print(f'{metric}: {value:.3f}', end='    ')
         print('\n')
