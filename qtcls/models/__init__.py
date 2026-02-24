@@ -54,7 +54,7 @@ def build_model(args):
 
     args.model_kwargs['num_classes'] = num_classes
 
-    load_pretrain = not args.no_pretrain and is_main_process()
+    load_pretrain = not args.no_pretrain and is_main_process()  # `--no_pretrain` takes the highest priority
 
     if model_lib == 'default':
         try:
@@ -63,15 +63,15 @@ def build_model(args):
             print(f"KeyError: Model '{model_name}' is not found. Please register it in qtcls/models.")
             exit(1)
 
-        if load_pretrain:  # Loading Priority: `--pretrain path` > `local path` > `url`
+        if load_pretrain:  # Loading Priority: `--no_pretrain` > `--pretrain path` > `local path` > `url`
             found_specified_path = args.pretrain
             found_local_path = _search_pretrained_from_local_paths(model_name)
             found_url = _search_pretrained_from_urls(model_name)
 
             if found_specified_path:
-                state_dict = torch.load(found_specified_path)
+                state_dict = torch.load(found_specified_path, weights_only=False)
             elif found_local_path:
-                state_dict = torch.load(found_local_path)
+                state_dict = torch.load(found_local_path, weights_only=False)
             elif found_url:
                 state_dict = load_state_dict_from_url(found_url, progress=True)
             else:
@@ -90,7 +90,7 @@ def build_model(args):
     if model_lib == 'timm':
         import timm
 
-        if load_pretrain:  # Loading Priority: `--pretrain path` > `local path` > `url`
+        if load_pretrain:  # Loading Priority: `--no_pretrain` > `--pretrain path` > `local path` > `url`
             found_specified_path = args.pretrain
             found_local_path = _search_pretrained_from_local_paths(model_name)
 

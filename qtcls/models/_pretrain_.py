@@ -7,7 +7,7 @@ you can specify it by command-line argument `--pretrain` / `-p`.
 For long-term use of a pre-trained weight path,
 it is preferable to write it here in `model_local_paths` or `model_urls`.
 
-**Priority**: `--pretrain` > `model_local_paths` > `model_urls`
+**Priority**: `--no_pretrain` > `--pretrain` > `model_local_paths` > `model_urls`
 """
 
 # local paths (high priority)

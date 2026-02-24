@@ -75,9 +75,10 @@ model_urls = {
 }
 ```
 
-**Note:**
+**Tip:**
 To temporarily use a pre-trained weight path, you can specify it by command-line argument `--pretrain` / `-p`.
 For long-term use of a pre-trained weight path, it is preferable to write it in [`_pretrain_.py`](_pretrain_.py).
-Priority: `--pretrain` > `model_local_paths` > `model_urls`.
+Priority: `--no_pretrain` > `--pretrain` > `model_local_paths` > `model_urls`.
+Note that `--no_pretrain` has the highest priority.
 
 5. When using your model, set `--model` / `-m` to `your_model_architecture_{1/2/3}`. 
