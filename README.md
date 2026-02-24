@@ -3,7 +3,7 @@ QTClassification
 
 **A lightweight and extensible toolbox for image classification and MORE**
 
-[![version](https://img.shields.io/badge/Version-0.12.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
+[![version](https://img.shields.io/badge/Version-0.13.0-brightgreen)](https://github.com/horrible-dong/QTClassification)
 &emsp;[![docs](https://img.shields.io/badge/Docs-Latest-orange)](README.md)
 &emsp;[![license](https://img.shields.io/badge/License-Apache_2.0-blue)](LICENSE)
 
@@ -166,6 +166,7 @@ python main.py -c configs/_demo_.py --batch_size 100 --print_freq 200 --note bs1
 python main.py -c configs/_demo_.py --save_interval 5555  # do not save
 python main.py -c configs/_demo_.py --dataset food --dummy  # use fake data
 python main.py -c configs/_demo_.py -d cifar100 -b 400 --note cifar100-bs400
+torchrun --nproc_per_node=2 main.py -c configs/_demo_.py  # multi-gpu
 ```
 
 Command-line arguments after `--config xxx` / `-c xxx` override the config arguments if the name is duplicated.
@@ -275,26 +276,26 @@ Currently supported argument `--model` / `-m`:
 **GoogLeNet**  
 `googlenet`
 
-**Inception**    
+**Inception**  
 `inception_v3`
 
-**LeViT**    
+**LeViT**  
 `levit_128s`, `levit_128`, `levit_192`, `levit_256`, `levit_256d`, `levit_384`
 
-**MLP-Mixer**   
+**MLP-Mixer**  
 `mixer_s32_224`, `mixer_s16_224`, `mixer_b32_224`, `mixer_b16_224`, `mixer_b16_224_in21k`, `mixer_l32_224`,
 `mixer_l16_224`, `mixer_l16_224_in21k`, `mixer_b16_224_miil_in21k`, `mixer_b16_224_miil`, `gmixer_12_224`,
 `gmixer_24_224`, `resmlp_12_224`, `resmlp_24_224`, `resmlp_36_224`, `resmlp_big_24_224`, `resmlp_12_distilled_224`,
 `resmlp_24_distilled_224`, `resmlp_36_distilled_224`, `resmlp_big_24_distilled_224`, `resmlp_big_24_224_in22ft1k`,
 `resmlp_12_224_dino`, `resmlp_24_224_dino`, `gmlp_ti16_224`, `gmlp_s16_224`, `gmlp_b16_224`
 
-**MNASNet**   
+**MNASNet**  
 `mnasnet0_5`, `mnasnet0_75`, `mnasnet1_0`, `mnasnet1_3`
 
 **MobileNet**  
 `mobilenet_v2`, `mobilenetv3`, `mobilenet_v3_large`, `mobilenet_v3_small`
 
-**PoolFormer**   
+**PoolFormer**  
 `poolformer_s12`, `poolformer_s24`, `poolformer_s36`, `poolformer_m36`, `poolformer_m48`
 
 **PVT**  
@@ -305,7 +306,7 @@ Currently supported argument `--model` / `-m`:
 `regnet_y_32gf`, `regnet_y_128gf`, `regnet_x_400mf`, `regnet_x_800mf`, `regnet_x_1_6gf`, `regnet_x_3_2gf`,
 `regnet_x_8gf`, `regnet_x_16gf`, `regnet_x_32gf`
 
-**ResNet**     
+**ResNet**  
 `resnet18`, `resnet34`, `resnet50`, `resnet101`, `resnet152`, `resnext50_32x4d`, `resnext101_32x8d`, `wide_resnet50_2`,
 `wide_resnet101_2`
 
@@ -337,7 +338,7 @@ Currently supported argument `--model` / `-m`:
 **VGG**  
 `vgg11`, `vgg11_bn`, `vgg13`, `vgg13_bn`, `vgg16`, `vgg16_bn`, `vgg19`, `vgg19_bn`
 
-**Vision Transformer (timm)**   
+**Vision Transformer (timm)**  
 `vit_tiny_patch4_32`, `vit_tiny_patch16_224`, `vit_tiny_patch16_384`, `vit_small_patch32_224`, `vit_small_patch32_384`,
 `vit_small_patch16_224`, `vit_small_patch16_384`, `vit_small_patch8_224`, `vit_base_patch32_224`,
 `vit_base_patch32_384`, `vit_base_patch16_224`, `vit_base_patch16_384`, `vit_base_patch8_224`, `vit_large_patch32_224`,
