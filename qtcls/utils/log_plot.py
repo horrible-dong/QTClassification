@@ -60,7 +60,6 @@ def plot_logs(logs,
         if not os.path.exists(fn):
             print(f"--> missing log file: {fn}")
 
-    # load log file(s) and plot
     dfs = [pd.read_json(os.path.join(p, log_name), lines=True) for p in logs]
 
     fields = loss_fields + metric_fields
@@ -97,8 +96,7 @@ def plot_logs(logs,
         ax.set_title(field)
 
     plt.savefig(output_file)
-    # plt.close()
-    # plt.show()
+    plt.close(fig)
 
 
 if __name__ == '__main__':
