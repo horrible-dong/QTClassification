@@ -17,6 +17,7 @@ from engine import evaluate, train_one_epoch
 from qtcls import __info__, build_criterion, build_dataset, build_model, build_optimizer, build_scheduler
 from qtcls.utils.dist import init_distributed_mode
 from qtcls.utils.io import checkpoint_saver, checkpoint_loader, variables_loader, variables_saver, log_writer
+from qtcls.utils.log_plot import plot_logs
 from qtcls.utils.misc import init_seeds, get_n_params, get_flops
 from qtcls.utils.os import makedirs, rmtree
 
@@ -260,6 +261,7 @@ def main(args):
 
         if args.output_dir:
             log_writer(os.path.join(args.output_dir, 'log.txt'), json.dumps(log_stats))
+            plot_logs(args.output_dir, output_file=os.path.join(args.output_dir, 'plot_logs.png'))
 
         print(f'{meta_note} | note: {args.note}\n') if args.note else print(f'{meta_note}\n')
 
