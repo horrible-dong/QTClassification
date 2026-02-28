@@ -103,6 +103,6 @@ def evaluate(data_loader, model, criterion, device, args, amp=False, print_freq=
 
     stats = {k: meter.global_avg for k, meter in metric_logger.meters.items() if meter.count > 0}
 
-    stats['eval'] = list(evaluator.eval.values())
+    stats.update(evaluator.eval)
 
     return stats, evaluator
