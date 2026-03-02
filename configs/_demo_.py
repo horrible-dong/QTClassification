@@ -28,7 +28,12 @@ image_size = 32
 # model
 model_lib = 'default'
 model = 'vit_tiny_patch4_32'
-model_kwargs = dict(in_chans=3, act_layer=nn.GELU, drop_path_rate=0.1)  # Do NOT set 'num_classes' in 'model_kwargs'.
+model_kwargs = dict(
+    # Do NOT set 'num_classes' in 'model_kwargs'.
+    in_chans=3,
+    act_layer=nn.GELU,
+    drop_path_rate=0.1
+)
 
 # criterion
 criterion = 'default'
@@ -53,6 +58,12 @@ no_pretrain = True
 # saving
 save_interval = 5
 output_dir = f'./runs/{dataset}/{model}'
+comp_dirs = [
+    # Each dir contains a log file.
+    # r'/path/to/dir_1',
+    # r'/path/to/dir_2',
+    # r'/path/to/dir_3',
+]
 
 # remarks
 note = f"using the demo config in 'configs/_demo_.py'"

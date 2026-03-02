@@ -99,6 +99,7 @@ def get_args_parser():
     parser.add_argument('--output_dir', '-o', type=str, default='./runs/__tmp__', help='path to save checkpoints, etc')
     parser.add_argument('--save_interval', type=int, default=1)
     parser.add_argument('--clear_output_dir', '-co', action='store_true', help='clear the output dir first')
+    parser.add_argument('--comp_dirs', type=str, nargs='*', default=list(), help='log/output dir paths to compare')
 
     # remarks
     parser.add_argument('--note', type=str)
@@ -261,7 +262,7 @@ def main(args):
 
         if args.output_dir:
             log_writer(os.path.join(args.output_dir, 'log.txt'), json.dumps(log_stats))
-            plot_logs(args.output_dir, output_file=os.path.join(args.output_dir, 'plot_logs.png'))
+            plot_logs([*args.comp_dirs, args.output_dir], output_file=os.path.join(args.output_dir, 'plot_logs.png'))
 
         print(f'{meta_note} | note: {args.note}\n') if args.note else print(f'{meta_note}\n')
 
