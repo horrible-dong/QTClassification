@@ -205,7 +205,7 @@ def main(args):
     scaler = torch.cuda.amp.GradScaler() if args.amp else None
 
     if args.resume:
-        checkpoint = torch.load(args.resume, map_location='cpu')
+        checkpoint = torch.load(args.resume, map_location='cpu', weights_only=False)
         checkpoint_loader(model_without_ddp, checkpoint['model'], delete_keys=())
         if not args.eval and 'optimizer' in checkpoint and 'scheduler' in checkpoint and 'epoch' in checkpoint:
             checkpoint_loader(optimizer, checkpoint['optimizer'])

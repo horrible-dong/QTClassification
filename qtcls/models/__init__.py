@@ -69,11 +69,11 @@ def build_model(args):
             found_url = _search_pretrained_from_urls(model_name)
 
             if found_specified_path:
-                state_dict = torch.load(found_specified_path, weights_only=False)
+                state_dict = torch.load(found_specified_path, map_location='cpu', weights_only=False)
             elif found_local_path:
-                state_dict = torch.load(found_local_path, weights_only=False)
+                state_dict = torch.load(found_local_path, map_location='cpu', weights_only=False)
             elif found_url:
-                state_dict = load_state_dict_from_url(found_url, progress=True)
+                state_dict = load_state_dict_from_url(found_url, map_location='cpu', progress=True)
             else:
                 raise FileNotFoundError(f"Pretrained model for '{model_name}' is not found. "
                                         f"Please specify your pretrained path via the argument '--pretrain' / '-p' "
@@ -94,18 +94,19 @@ def build_model(args):
             found_specified_path = args.pretrain
             found_local_path = _search_pretrained_from_local_paths(model_name)
 
-            model = timm.create_model(model_name=model_name, pretrained=not (found_local_path or found_specified_path),
-                                      **args.model_kwargs)
-
             if found_specified_path or found_local_path:
-                state_dict = torch.load(found_specified_path) if found_specified_path else torch.load(found_local_path)
+                model = timm.create_model(model_name, pretrained=False, **args.model_kwargs)
+                load_path = found_specified_path or found_local_path
+                state_dict = torch.load(load_path, map_location='cpu', weights_only=False)
                 if 'model' in state_dict.keys():
                     state_dict = state_dict['model']
                 checkpoint_loader(model, state_dict, strict=False)
+            else:
+                model = timm.create_model(model_name, pretrained=True, **args.model_kwargs)
 
             return model
 
-        model = timm.create_model(model_name=model_name, pretrained=False, **args.model_kwargs)
+        model = timm.create_model(model_name, pretrained=False, **args.model_kwargs)
 
         return model
 
