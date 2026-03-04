@@ -135,6 +135,8 @@ def main(args):
     if args.output_dir:
         makedirs(args.output_dir, exist_ok=True)
         variables_saver(dict(sorted(vars(args).items())), os.path.join(args.output_dir, 'config.py'))
+    if isinstance(args.comp_dirs, str):
+        args.comp_dirs = [args.comp_dirs]
 
     print(args)
 
