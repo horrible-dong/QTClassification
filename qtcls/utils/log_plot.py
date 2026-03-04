@@ -16,6 +16,7 @@ import os
 import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
+from termcolor import cprint
 
 from qtcls.utils.decorators import main_process_only
 
@@ -23,14 +24,14 @@ from qtcls.utils.decorators import main_process_only
 @main_process_only
 def plot_logs(logs,
               n_cols=4,
-              ewm_com=2,
+              ewm_com=0,
               drop_cols=('epoch', 'n_params'),
               log_name='log.txt',
               output_file='./plot_logs.pdf'):
     """
     Function to plot specific fields from training log(s). Plots both training and test results.
 
-    :: Inputs - logs = list of paths, each pointing to individual dir with a log file, or a single path.
+    :: Inputs - logs = list of paths, each pointing to an individual dir with a log file, or a single path.
               - n_cols = number of columns in the plots.
               - ewm_com = specify the degree of the exponential weighted smoothing of the plots.
               - drop_cols = columns to drop from the plots.
@@ -50,16 +51,20 @@ def plot_logs(logs,
             raise TypeError(f'{func_name} - invalid argument for logs parameter.\n \
             Expect list[str] or single str, received {type(logs)}')
 
-    if len(logs) == 0:
-        return
-
+    _logs = []
     for dir in logs:
+        file = os.path.join(dir, log_name)
         if not os.path.exists(dir):
-            print(f'--> missing directory: {dir}')
-            continue
-        fn = os.path.join(dir, log_name)
-        if not os.path.exists(fn):
-            print(f'--> missing log file: {fn}')
+            cprint(f'{func_name} - missing log dir: {dir}', 'light_yellow')
+        elif not os.path.exists(file):
+            cprint(f'{func_name} - missing log file: {file}', 'light_yellow')
+        else:
+            _logs.append(dir)
+    logs = _logs
+
+    if len(logs) == 0:
+        cprint(f'{func_name} - no log files found', 'light_yellow')
+        return
 
     dfs = [pd.read_json(os.path.join(p, log_name), lines=True).drop(list(drop_cols), axis=1, errors='ignore')
            for p in logs]
@@ -111,11 +116,11 @@ def _merge_train_test_fields(fields):
 
 
 if __name__ == '__main__':
-    # Each path points to individual dir with a log file
+    # Each path points to an individual dir with a log file.
     plot_logs([
 
-        # r'/path/to/your/dir_1',
-        # r'/path/to/your/dir_2',
-        # r'/path/to/your/dir_3',
+        # r'/path/to/dir_1',
+        # r'/path/to/dir_2',
+        # r'/path/to/dir_3',
 
     ], output_file='./plot_logs.pdf')
