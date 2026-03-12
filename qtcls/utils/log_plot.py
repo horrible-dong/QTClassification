@@ -66,36 +66,38 @@ def plot_logs(log_dirs,
         cprint(f'{func_name} - no log files found', 'light_yellow')
         return
 
-    dfs = [pd.read_json(os.path.join(dir, log_name), lines=True).drop(list(drop_cols), axis=1, errors='ignore')
-           for dir in log_dirs]
+    dfs = [pd.read_json(os.path.join(log_dir, log_name), lines=True).drop(list(drop_cols), axis=1, errors='ignore')
+           for log_dir in log_dirs]
 
-    _dfs = []
     for df, log_dir in zip(dfs, log_dirs):
         if df.columns.tolist() != dfs[-1].columns.tolist():
-            cprint(f'{func_name} - inconsistent fields between {log_dir} (ignored) and {log_dirs[-1]}', 'light_yellow')
-        else:
-            _dfs.append(df)
-    dfs = _dfs
+            cprint(f'{func_name} - inconsistent fields between {log_dir} and {log_dirs[-1]} (ref.)', 'light_yellow')
 
     fields = _merge_train_test_fields(dfs[-1].columns)
 
     n_rows = math.ceil(len(fields) / n_cols)
     fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(6 * n_cols, 5 * n_rows))
 
-    for df, color in zip(dfs, sns.color_palette(n_colors=len(log_dirs))):
+    field_to_log_dirs = {tuple(field): [] for field in fields}
+
+    for log_dir, df, color in zip(log_dirs, dfs, sns.color_palette(n_colors=len(log_dirs))):
         df = df.ewm(com=ewm_com).mean()
         for n, field in enumerate(fields):
-            i, j = n // n_cols, n % n_cols
-            df.plot(y=field,
-                    ax=axs[i, j],
-                    color=[color] * len(field),
-                    style=['-', '--', '-.', ':'][:len(field)])
+            if all(f in df.columns for f in field):
+                i, j = n // n_cols, n % n_cols
+                df.plot(y=field,
+                        ax=axs[i, j],
+                        color=[color] * len(field),
+                        style=['-', '--', '-.', ':'][:len(field)])
+                field_to_log_dirs[tuple(field)].append(log_dir)
 
     for ax, field in zip(axs.ravel(), fields):
         if len(field) == 1:
-            ax.legend([os.path.basename(log_dir) for log_dir in log_dirs], loc=0)
+            ax.legend([os.path.basename(log_dir)
+                       for log_dir in field_to_log_dirs[tuple(field)]], loc=0)
         elif len(field) == 2:
-            ax.legend([f'{os.path.basename(log_dir)}_{t}' for log_dir in log_dirs for t in ['train', 'test']], loc=0)
+            ax.legend([f'{os.path.basename(log_dir)}_{t}'
+                       for log_dir in field_to_log_dirs[tuple(field)] for t in ['train', 'test']], loc=0)
         else:
             ...
         ax.set_title(field[0].replace('train_', '').replace('test_', ''))
