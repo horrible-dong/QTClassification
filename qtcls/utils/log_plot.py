@@ -76,7 +76,7 @@ def plot_logs(log_dirs,
     fields = _merge_train_test_fields(dfs[-1].columns)
 
     n_rows = math.ceil(len(fields) / n_cols)
-    fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(6 * n_cols, 5 * n_rows))
+    fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(6 * n_cols, 5 * n_rows), squeeze=False)
 
     field_to_log_dirs = {tuple(field): [] for field in fields}
 
