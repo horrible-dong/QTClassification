@@ -75,6 +75,10 @@ def plot_logs(log_dirs,
 
     fields = _merge_train_test_fields(dfs[-1].columns)
 
+    if len(fields) == 0:
+        cprint(f'{func_name} - no fields to plot', 'light_yellow')
+        return
+
     n_rows = math.ceil(len(fields) / n_cols)
     fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(6 * n_cols, 5 * n_rows), squeeze=False)
 
