@@ -34,6 +34,7 @@ def get_args_parser():
     parser.add_argument('--epochs', type=int, default=300)
     parser.add_argument('--start_epoch', type=int, default=0)
     parser.add_argument('--clip_max_norm', type=float, default=1.0, help='gradient clipping max norm')
+    parser.add_argument('--grad_accum', type=int, default=1, help='gradient accumulation steps')
     parser.add_argument('--eval', action='store_true', help='evaluate only')
     parser.add_argument('--eval_interval', type=int, default=1)
     parser.add_argument('--num_workers', type=int, default=None)
@@ -234,7 +235,7 @@ def main(args):
             sampler_train.set_epoch(epoch)
         train_stats = train_one_epoch(
             data_loader_train, model, criterion, optimizer, scheduler, device, epoch, args.clip_max_norm, scaler,
-            args.print_freq
+            args.grad_accum, args.print_freq
         )
         if args.output_dir and (epoch + 1) % args.save_interval == 0:
             checkpoint_paths = [

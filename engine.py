@@ -10,9 +10,10 @@ from qtcls.utils.misc import update, reduce_dict, MetricLogger, SmoothedValue
 
 
 def train_one_epoch(data_loader, model, criterion, optimizer, scheduler, device, epoch: int, clip_max_norm: float = 0,
-                    scaler=None, print_freq: int = 10):
+                    scaler=None, grad_accum: int = 1, print_freq: int = 10):
     model.train()
     criterion.train()
+    optimizer.zero_grad()
     n_steps = len(data_loader)
 
     metric_logger = MetricLogger(delimiter='  ')
@@ -39,7 +40,8 @@ def train_one_epoch(data_loader, model, criterion, optimizer, scheduler, device,
             print(loss_dict_reduced)
             sys.exit(1)
 
-        update(optimizer, loss, model, clip_max_norm, scaler)
+        do_step = ((batch_idx + 1) % grad_accum == 0) or (batch_idx == n_steps - 1)
+        update(optimizer, loss, model, clip_max_norm, scaler, grad_accum, do_step)
 
         if hasattr(scheduler, 'step_update'):
             scheduler.step_update(epoch * n_steps + batch_idx)
