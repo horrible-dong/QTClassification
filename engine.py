@@ -28,25 +28,23 @@ def train_one_epoch(data_loader, model, criterion, optimizer, scheduler, device,
             outputs = model(samples)
             loss_dict = criterion(outputs, targets)
             weight_dict = criterion.weight_dict
-            losses = sum(loss_dict[k] * weight_dict[k] for k in loss_dict.keys() if k in weight_dict)
+            loss = sum(v * weight_dict[k] for k, v in loss_dict.items() if k in weight_dict)
 
         loss_dict_reduced = reduce_dict(loss_dict)
         loss_dict_reduced_scaled = {k: v * weight_dict[k] for k, v in loss_dict_reduced.items() if k in weight_dict}
-        losses_reduced_scaled = sum(loss_dict_reduced_scaled.values())
+        loss_reduced_scaled = sum(loss_dict_reduced_scaled.values())
 
-        loss_value = losses_reduced_scaled.item()
-
-        if not math.isfinite(loss_value):
-            print(f'Loss is {loss_value}. Stop training.')
+        if not math.isfinite(loss_reduced_scaled.item()):
+            print(f'Loss is {loss_reduced_scaled.item()}. Stop training.')
             print(loss_dict_reduced)
             sys.exit(1)
 
-        update(optimizer, losses, model, clip_max_norm, scaler)
+        update(optimizer, loss, model, clip_max_norm, scaler)
 
         if hasattr(scheduler, 'step_update'):
             scheduler.step_update(epoch * n_steps + batch_idx)
 
-        metric_logger.update(loss=loss_value, **loss_dict_reduced_scaled)
+        metric_logger.update(loss=loss_reduced_scaled, **loss_dict_reduced_scaled)
         metric_logger.update(lr=optimizer.param_groups[0]['lr'])
         if 'class_error' in loss_dict_reduced.keys():
             metric_logger.update(class_error=loss_dict_reduced['class_error'])
@@ -82,11 +80,9 @@ def evaluate(data_loader, model, criterion, device, args, amp=False, print_freq=
         weight_dict = criterion.weight_dict
         loss_dict_reduced = reduce_dict(loss_dict)
         loss_dict_reduced_scaled = {k: v * weight_dict[k] for k, v in loss_dict_reduced.items() if k in weight_dict}
-        losses_reduced_scaled = sum(loss_dict_reduced_scaled.values())
+        loss_reduced_scaled = sum(loss_dict_reduced_scaled.values())
 
-        loss_value = losses_reduced_scaled.item()
-
-        metric_logger.update(loss=loss_value, **loss_dict_reduced_scaled)
+        metric_logger.update(loss=loss_reduced_scaled, **loss_dict_reduced_scaled)
         if 'class_error' in loss_dict_reduced.keys():
             metric_logger.update(class_error=loss_dict_reduced['class_error'])
 
